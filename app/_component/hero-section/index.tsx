@@ -5,39 +5,35 @@ import Image from 'next/image';
 const Hero = () => {
   return (
     <Box
-      className="relative flex flex-col lg:flex-row items-center text-center bg-gray-600 lg:text-left p-8 text-white space-y-4 lg:space-y-0 lg:space-x-6"
+      className="relative flex flex-col lg:flex-row items-center text-center lg:text-left p-8 text-white space-y-4 lg:space-y-0 lg:space-x-6"
     >
       {/* Left Side Text */}
       <Box className="lg:w-1/2 space-y-4">
         <Typography variant="h6" className="text-[#14C570] font-semibold">
           Pixelcore Team
         </Typography>
-        <Typography variant="h1" className="text-5xl font-bold leading-tight">
+        <h1 className="text-5xl font-bold leading-tight">
           Not Just a Team, We are Family
-        </Typography>
+        </h1>
         
-        <div>
-            <div>
+        <div className="md:absolute w-full sm:w-1/2 md:w-1/3 bg-opacity-50 backdrop-blur-lg md:right-0">
+            <div className='p-7'>
                 <Typography className="leading-relaxed">
                     Dominate the world by playing games is our goal, whatever we will play for the sake of mastering the game world. Support and join us if you want to rule the world.
                 </Typography>
             </div>
-            <Box className="flex space-x-0 mt-6">
-                <Button
-                    variant="contained"
-                    color="primary"
-                    className="bg-red-600 hover:bg-red-700 text-white"
+            <div className="flex space-x-0 mt-6 w-full">
+                <button
+                    className="bg-[#14C570] hover:bg-[#14C600] text-white w-2/3 py-5"
                 >
                     Become a member
-                </Button>
-                <Button
-                    variant="outlined"
-                    color="secondary"
-                    className="border-white text-white hover:bg-gray-700"
+                </button>
+                <button
+                    className="bg-white text-black hover:bg-gray-700 w-1/3 py-5"
                 >
                     Join Bootcamp
-                </Button>
-            </Box>
+                </button>
+            </div>
         </div>
       </Box>
 
