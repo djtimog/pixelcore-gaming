@@ -83,7 +83,7 @@ const toggleDrawer = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
           <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
             <div className="p-4 w-64 h-full">
               <div className="flex justify-between items-center mb-4">
-                <Image src={logo} alt="Logo" width={40} height={40} />
+                <Image src={logo} alt="Logo" width={50} height={50} />
                 <div className="flex items-center space-x-1">
                     <button onClick={handleLanguageClick}>
                         <ExpandMore />
