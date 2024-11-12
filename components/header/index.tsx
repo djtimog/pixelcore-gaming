@@ -49,7 +49,7 @@ const toggleDrawer = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
             <Link 
                 key={item.label} 
                 href={item.href} 
-                className={item.active ? "text-[#E84424] text-lg" : ""}
+                className={item.active ? "text-[#14C570] text-lg" : ""}
                 passHref
             >
                 {item.label}
@@ -106,7 +106,7 @@ const toggleDrawer = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
               <List>
                 {navItems.map((item) => (
                   <ListItem key={item.label} onClick={toggleDrawer(false)}>
-                    <Link href={item.href} className={item.active ? "text-[#E84424] text-lg" : ""} passHref>
+                    <Link href={item.href} className={item.active ? "text-[#14C570] text-lg" : ""} passHref>
                       <ListItemText primary={item.label} />
                     </Link>
                   </ListItem>
