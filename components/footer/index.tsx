@@ -51,7 +51,7 @@ const Footer = () => {
         </div>
         <div className='md:w-1/5'>
             <Typography variant="body2">
-            &copy;2024 Pixelcore | Design by TCR-timog with <span className="text-red-500">&hearts;</span>
+            &copy;2024 Pixelcore | Design by TCR-timog with <span className="text-[#14C570]">&hearts;</span>
             </Typography>
         </div>
       </div>

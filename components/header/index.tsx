@@ -59,7 +59,7 @@ const toggleDrawer = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
 
         <div className="hidden md:flex">
           <button
-            className="flex items-center space-x-1"
+            className="flex items-center space-x-1 hover:text-[#14C570]"
             onClick={handleLanguageClick}
           >
             <ExpandMore />
@@ -85,7 +85,7 @@ const toggleDrawer = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
               <div className="flex justify-between items-center mb-4">
                 <Image src={logo} alt="Logo" width={50} height={50} />
                 <div className="flex items-center space-x-1">
-                    <button onClick={handleLanguageClick}>
+                    <button onClick={handleLanguageClick} className="hover:text-[#14C570]">
                         <ExpandMore />
                         <span>EN</span>
                     </button>
