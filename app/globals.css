@@ -23,3 +23,7 @@ body {
 nav a:hover {
   color: #E84424; 
 }
+
+input:focus {
+  outline: none;
+}
