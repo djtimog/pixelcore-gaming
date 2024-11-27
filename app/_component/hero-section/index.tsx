@@ -10,45 +10,36 @@ import Link from 'next/link';
 const Hero = () => {
   return (
     <Box
-      className="flex flex-col lg:flex-row items-center text-center lg:text-left p-8 md:p-10 space-y-4 lg:space-y-0 lg:space-x-6"
+      className="flex flex-col md:flex-row items-center lg:text-left p-8 md:p-10 space-y-4 lg:space-y-0 lg:space-x-6"
     >
       <Box className="relative lg:w-2/3 space-y-4">
-        <Typography variant="h6" className="text-[#14C570] font-semibold">
-          Pixelcore Team
+        <Typography variant="h5" className="text-[#14C570] font-semibold">
+          Pixel Core<br/>
+          <span className="text-gray-500 font-semibold">Esport Team (Team Core)</span>
         </Typography>
-        <Typography variant="h1" className="text-6xl font-bold leading-tight w-2/3">
+        <Typography variant="h6" className=" font-semibold">
+          
+        </Typography>
+        <Typography variant="h1" className="text-6xl font-bold leading-tight">
           Not Just a Team, We are Family
         </Typography>
       </Box>
-      <Box className="relative flex space-x-4 lg:w-1/2 flex justify-center lg:justify-end">
+      <Box className="relative md:flex space-x-4 w-full lg:w-1/2 lg:justify-end ">
         <Box className="">
           <Image
             src={HeroImage}
             alt="Pixelcore Gaming Esport Team (Team Core)"
-            className="w-[50rem] max-w-md lg:max-w-lg shadow-lg md:rounded-lg"
+            className="w-[50rem] md:max-w-md lg:max-w-lg shadow-lg"
           />
         </Box>
-        <Box className="w-38">
-          <Box className="flex md:flex-col md:space-y-4 items-center">
-            <div className="flex items-center justify-center bg-gray-400 p-5 h-1/3 w-full">
-              <Image src={Logo} alt="Logo" width={100} height={80} />
-            </div>
-            <div className="flex items-center justify-center bg-gray-400 p-5 h-1/3 relative w-full">
-              <Image
-                src={captainImage}
-                alt="captain image"
-                className="object-cover w-full h-full"
-                layout="fill"
-              />
-            </div>
-          </Box>
-          <div className="md:absolute w-full sm:w-1/2 md:w-2/3 bg-opacity-50 backdrop-blur-lg md:right-0 md:bottom-0">
-              <div className='p-7'>
-                  <Typography className="leading-relaxed text-white">
+        <Box>
+          <div className="absolute w-2/3 sm:w-1/2 md:w-2/3 bg-opacity-50 backdrop-blur-lg right-0 bottom-0">
+              <div className='sm:p-5 p-3'>
+                  <Typography className="leading-relaxed text-white ">
                       Dominate the world by playing games is our goal, whatever we will play for the sake of mastering the game world. Support and join us if you want to rule the world.
                   </Typography>
               </div>
-              <div className="flex space-x-0 mt-6 w-full">
+              <div className="flex space-x-0 sm:mt-6 mt-3 w-full">
                   <button
                       className="bg-[#14C570] hover:bg-[#14C600] text-white w-2/3 py-4"
                   >
