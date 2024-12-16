@@ -2,6 +2,7 @@ import { Typography, TextField, Button } from '@mui/material';
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/public/logo.png";
+import EmailForm from "@/lib/email-form";
 
 const Footer = () => {
   return (
@@ -45,8 +46,7 @@ const Footer = () => {
       <div className="md:flex justify-between mt-8 align-center items-center">
         <div className="mb-4">
             <div className="mt-4 bg-white rounded flex items-center p-3 w-full">
-                <input type="email" placeholder="Your Email Address" className="mr-4 p-2 md:py-3 md:px-4 md:text-lg "/>
-                <button type='submit' className="md:py-4 md:px-5 p-2 bg-[#14C570] text-white">Send Email</button>
+                <EmailForm />
             </div>
         </div>
         <div className='md:w-1/5'>
