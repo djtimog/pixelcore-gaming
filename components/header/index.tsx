@@ -47,7 +47,6 @@ const Header = () => {
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
-    // Add logic to switch the theme here
   };
 
   const navItems = [
@@ -112,7 +111,7 @@ const Header = () => {
             onClose={toggleDrawer(false)}
           >
             <div className="p-4 w-75 h-full">
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex justify-between items-center mb-4 space-x-5">
                 <Image src={logo} alt="Logo" width={50} height={50} />
                 <div className="flex items-center">
                   <button
