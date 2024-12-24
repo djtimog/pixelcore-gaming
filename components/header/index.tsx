@@ -1,31 +1,54 @@
-'use client';
+"use client";
 import { MouseEvent, KeyboardEvent, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, MenuItem, Drawer, IconButton, List, ListItem, ListItemText } from "@mui/material";
-import { ExpandMore, Menu as MenuIcon, Close as CloseIcon } from "@mui/icons-material";
+import {
+  Menu,
+  MenuItem,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
+import {
+  ExpandMore,
+  Menu as MenuIcon,
+  Close as CloseIcon,
+  Brightness4,
+  Brightness7,
+} from "@mui/icons-material";
 import logo from "@/public/logo.png";
 
-
 const Header = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
-const handleLanguageClick = (event: MouseEvent<HTMLButtonElement>) => {
-  setAnchorEl(event.currentTarget);
-};
+  const handleLanguageClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-const handleLanguageClose = () => {
-  setAnchorEl(null);
-};
+  const handleLanguageClose = () => {
+    setAnchorEl(null);
+  };
 
-const toggleDrawer = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
-  if (event.type === "keydown" && ((event as KeyboardEvent).key === "Tab" || (event as KeyboardEvent).key === "Shift")) {
-    return;
-  }
-  setDrawerOpen(open);
-};
+  const toggleDrawer =
+    (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
+      if (
+        event.type === "keydown" &&
+        ((event as KeyboardEvent).key === "Tab" ||
+          (event as KeyboardEvent).key === "Shift")
+      ) {
+        return;
+      }
+      setDrawerOpen(open);
+    };
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    // Add logic to switch the theme here
+  };
 
   const navItems = [
     { label: "Home", href: "/", active: true },
@@ -39,25 +62,25 @@ const toggleDrawer = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
     <header className="p-4">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center">
-            <Link href="/">
-                <Image src={logo} alt="Logo" width={70} height={80} />
-            </Link>
+          <Link href="/">
+            <Image src={logo} alt="Logo" width={70} height={80} />
+          </Link>
         </div>
 
         <nav className="hidden md:flex space-x-6 items-center">
           {navItems.map((item) => (
-            <Link 
-                key={item.label} 
-                href={item.href} 
-                className={item.active ? "text-[#14C570] text-lg" : ""}
-                passHref
+            <Link
+              key={item.label}
+              href={item.href}
+              className={item.active ? "text-[#14C570] text-lg" : ""}
+              passHref
             >
-                {item.label}
+              {item.label}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden md:flex">
+        <div className="hidden md:flex items-center space-x-4">
           <button
             className="flex items-center space-x-1 hover:text-[#14C570]"
             onClick={handleLanguageClick}
@@ -74,30 +97,45 @@ const toggleDrawer = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
             <MenuItem onClick={handleLanguageClose}>FR</MenuItem>
             <MenuItem onClick={handleLanguageClose}>ES</MenuItem>
           </Menu>
+          <IconButton onClick={toggleDarkMode} color="inherit">
+            {darkMode ? <Brightness7 /> : <Brightness4 />}
+          </IconButton>
         </div>
 
         <div className="md:hidden">
           <IconButton color="inherit" onClick={toggleDrawer(true)}>
             <MenuIcon />
           </IconButton>
-          <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
-            <div className="p-4 w-64 h-full">
+          <Drawer
+            anchor="right"
+            open={drawerOpen}
+            onClose={toggleDrawer(false)}
+          >
+            <div className="p-4 w-75 h-full">
               <div className="flex justify-between items-center mb-4">
                 <Image src={logo} alt="Logo" width={50} height={50} />
-                <div className="flex items-center space-x-1">
-                    <button onClick={handleLanguageClick} className="hover:text-[#14C570]">
-                        <ExpandMore />
-                        <span>EN</span>
-                    </button>
-                    <Menu
-                        anchorEl={anchorEl}
-                        open={Boolean(anchorEl)}
-                        onClose={handleLanguageClose}
-                    >
-                        <MenuItem onClick={handleLanguageClose}>EN</MenuItem>
-                        <MenuItem onClick={handleLanguageClose}>FR</MenuItem>
-                        <MenuItem onClick={handleLanguageClose}>ES</MenuItem>
-                    </Menu>
+                <div className="flex items-center">
+                  <button
+                    onClick={handleLanguageClick}
+                    className="hover:text-[#14C570]"
+                  >
+                    <ExpandMore />
+                    <span>EN</span>
+                  </button>
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleLanguageClose}
+                  >
+                    <MenuItem onClick={handleLanguageClose}>EN</MenuItem>
+                    <MenuItem onClick={handleLanguageClose}>FR</MenuItem>
+                    <MenuItem onClick={handleLanguageClose}>ES</MenuItem>
+                  </Menu>
+                </div>
+                <div className="flex justify-center">
+                  <IconButton onClick={toggleDarkMode} color="inherit">
+                    {darkMode ? <Brightness7 /> : <Brightness4 />}
+                  </IconButton>
                 </div>
                 <IconButton color="inherit" onClick={toggleDrawer(false)}>
                   <CloseIcon />
@@ -106,7 +144,11 @@ const toggleDrawer = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
               <List>
                 {navItems.map((item) => (
                   <ListItem key={item.label} onClick={toggleDrawer(false)}>
-                    <Link href={item.href} className={item.active ? "text-[#14C570] text-lg" : ""} passHref>
+                    <Link
+                      href={item.href}
+                      className={item.active ? "text-[#14C570] text-lg" : ""}
+                      passHref
+                    >
                       <ListItemText primary={item.label} />
                     </Link>
                   </ListItem>

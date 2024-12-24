@@ -11,19 +11,16 @@ const Hero = () => {
     <Box
       className="flex flex-col md:flex-row items-center lg:text-left p-8 md:p-10 space-y-4 lg:space-y-0 lg:space-x-6"
     >
-      <Box className="relative lg:w-2/3 space-y-4">
+      <Box className="lg:w-2/3 space-y-4">
         <Typography variant="h5" className="text-[#14C570] font-semibold">
           Pixel Core<br/>
           <span className="text-gray-500 font-semibold">Esport Team (Team Core)</span>
         </Typography>
-        <Typography variant="h6" className=" font-semibold">
-          
-        </Typography>
-        <Typography variant="h1" className="text-6xl font-bold leading-tight">
+        <Typography variant="h1" className=" font-bold ">
           Not Just a Team, We are Family
         </Typography>
       </Box>
-      <Box className="relative md:flex space-x-4 w-full lg:w-1/2 lg:justify-end ">
+      <Box className="md:flex space-x-4 w-full lg:w-1/2 lg:justify-end ">
         <Box className="">
           <Image
             src={HeroImage}
@@ -31,7 +28,7 @@ const Hero = () => {
             className="w-[50rem] md:max-w-md lg:max-w-lg shadow-lg"
           />
         </Box>
-        <Box>
+        {/* <Box>
           <div className="absolute w-2/3 sm:w-1/2 md:w-2/3 bg-opacity-50 backdrop-blur-lg right-0 bottom-0">
               <div className='sm:p-5 p-3'>
                   <Typography className="leading-relaxed text-white ">
@@ -51,7 +48,7 @@ const Hero = () => {
                   </button>
               </div>
           </div>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );
