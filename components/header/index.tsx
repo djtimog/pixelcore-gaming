@@ -25,12 +25,15 @@ const Header = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const [currentLanguage, setCurrentLanguage] = useState('EN');
+
 
   const handleLanguageClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleLanguageClose = () => {
+  const handleLanguageClose = (language :string) => {
+    setCurrentLanguage(language)
     setAnchorEl(null);
   };
 
@@ -82,16 +85,16 @@ const Header = () => {
             onClick={handleLanguageClick}
           >
             <ExpandMore />
-            <span>EN</span>
+            <span>{currentLanguage}</span>
           </button>
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={handleLanguageClose}
           >
-            <MenuItem onClick={handleLanguageClose}>EN</MenuItem>
-            <MenuItem onClick={handleLanguageClose}>FR</MenuItem>
-            <MenuItem onClick={handleLanguageClose}>ES</MenuItem>
+            <MenuItem onClick={()=>handleLanguageClose("EN")}>EN</MenuItem>
+            <MenuItem onClick={()=>handleLanguageClose("FR")}>FR</MenuItem>
+            <MenuItem onClick={()=>handleLanguageClose("ES")}>ES</MenuItem>
           </Menu>
           <IconButton onClick={toggleTheme} color="inherit">
             {theme === "light" ? <Brightness7 /> : <Brightness4 />}
@@ -106,8 +109,9 @@ const Header = () => {
             anchor="right"
             open={drawerOpen}
             onClose={toggleDrawer(false)}
+            className=""
           >
-            <div className="p-4 w-75 h-full">
+            <div className="p-4 w-75 h-full bg-initial">
               <div className="flex justify-between items-center mb-4 space-x-5">
                 <Image src={logo} alt="Logo" width={50} height={50} />
                 <div className="flex items-center">
@@ -116,17 +120,8 @@ const Header = () => {
                     className="hover:text-[#14C570]"
                   >
                     <ExpandMore />
-                    <span>EN</span>
+                    <span>{currentLanguage}</span>
                   </button>
-                  <Menu
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={handleLanguageClose}
-                  >
-                    <MenuItem onClick={handleLanguageClose}>EN</MenuItem>
-                    <MenuItem onClick={handleLanguageClose}>FR</MenuItem>
-                    <MenuItem onClick={handleLanguageClose}>ES</MenuItem>
-                  </Menu>
                 </div>
                 <div className="flex justify-center">
                   <IconButton onClick={toggleTheme} color="inherit">
