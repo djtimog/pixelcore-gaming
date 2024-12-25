@@ -1,6 +1,7 @@
 'use client'
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+// import EventCard from "@/ui/event";
 import Image from "next/image";
 import styles from "./app.module.scss"
 import { useTheme } from "@/app/context/theme-context";
@@ -11,7 +12,7 @@ export default function Home() {
     <>
       <Header />
       <main>
-        <section>
+        <section className="home">
           <div className={`${styles.hero}`}>
             <video 
               src={theme === "light" ? "/white-bg-video.mp4"  : "/black-bg-video.mp4"} 
@@ -24,6 +25,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+        {/* <section className="events mt-10">
+          <EventCard date={"November 11th - 19th"} title={"World Esports Championship"} image={"/white-bg-image.jpg"} status={"online"} />
+        </section> */}
       </main>
       <Footer />
     </>
