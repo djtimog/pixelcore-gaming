@@ -19,11 +19,12 @@ import {
   Brightness7,
 } from "@mui/icons-material";
 import logo from "@/public/logo.png";
+import { useTheme } from "@/app/context/theme-context";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   const handleLanguageClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -44,10 +45,6 @@ const Header = () => {
       }
       setDrawerOpen(open);
     };
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
 
   const navItems = [
     { label: "Home", href: "/", active: true },
@@ -96,8 +93,8 @@ const Header = () => {
             <MenuItem onClick={handleLanguageClose}>FR</MenuItem>
             <MenuItem onClick={handleLanguageClose}>ES</MenuItem>
           </Menu>
-          <IconButton onClick={toggleDarkMode} color="inherit">
-            {darkMode ? <Brightness7 /> : <Brightness4 />}
+          <IconButton onClick={toggleTheme} color="inherit">
+            {theme === "light" ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
         </div>
 
@@ -132,8 +129,8 @@ const Header = () => {
                   </Menu>
                 </div>
                 <div className="flex justify-center">
-                  <IconButton onClick={toggleDarkMode} color="inherit">
-                    {darkMode ? <Brightness7 /> : <Brightness4 />}
+                  <IconButton onClick={toggleTheme} color="inherit">
+                    {theme === "light" ? <Brightness7 /> : <Brightness4 />}
                   </IconButton>
                 </div>
                 <IconButton color="inherit" onClick={toggleDrawer(false)}>

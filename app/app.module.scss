@@ -23,3 +23,21 @@
     background-color: rgba(0, 0, 0, 0.5);
   }
 }
+
+[data-theme="dark"] {
+  .bgImage {
+    background-image: url("../public/black-bg-image.jpg");
+  }
+  .bgImage::after {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+[data-theme="light"] {
+  .bgImage {
+    background-image: url("../public/white-bg-image.jpg");
+  }
+  .bgImage::after {
+    background-color: rgba(169, 169, 169, 0.5);
+  }
+}

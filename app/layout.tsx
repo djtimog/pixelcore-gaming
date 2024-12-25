@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Orbitron } from 'next/font/google';
+import { Orbitron } from "next/font/google";
+import { ThemeProvider } from "@/app/context/theme-context";
 
 const orbitron = Orbitron({
-  subsets: ['latin'],
-  weight: ['400', '900'],
-  variable: '--font-orbitron',
+  subsets: ["latin"],
+  weight: ["400", "900"],
+  variable: "--font-orbitron",
 });
 
 export const metadata: Metadata = {
@@ -19,12 +20,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+        <ThemeProvider>
     <html lang="en">
-      <body
-        className={`${orbitron.className} antialiased`}
-      >
-        {children}
+      <body className={`${orbitron.className} antialiased`}>
+          {children}
       </body>
     </html>
+        </ThemeProvider>
   );
 }
