@@ -96,7 +96,7 @@ const Header = () => {
             <MenuItem onClick={()=>handleLanguageClose("FR")}>FR</MenuItem>
             <MenuItem onClick={()=>handleLanguageClose("ES")}>ES</MenuItem>
           </Menu>
-          <IconButton onClick={toggleTheme} color="inherit">
+          <IconButton onClick={toggleTheme} color="inherit" className="hover:text-[#14C570]">
             {theme === "light" ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
         </div>
