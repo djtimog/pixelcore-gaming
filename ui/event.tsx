@@ -4,6 +4,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { useState , useEffect} from "react";
 
 export default function EventCard ({
   date,
@@ -16,37 +17,48 @@ export default function EventCard ({
   image: string;
   status: string;
 }){
+  const [hoverEvent, setHoverEvent] = useState<boolean>(false)
+  
+  useEffect(()=>{
+    let eventCard = document.getElementById(`event-${title}`);
+  
+    if (eventCard?.onmouseover){
+      setHoverEvent(true)
+    }
+  },[])
+
+
   return (
-    <div className="bg-gray-300 h-[15rem] w-[10rem] rounded-md shadow-lg relative">
-            <Image
-              src={image}
-              alt={title}
-              width={100}
-              height={100}
-              className="w-full h-full object-contain rounded-md"
-            />
-            <div className="absolute bottom-0 left-0 bg-gray-400 bg-opacity-70 p-2 w-full h-full rounded-md text-center flex flex-col justify-between">
-              <div className="space-y-5">
-                <h3 className="text-xl font-bold">
-                  {title}
-                </h3>
-                <p className="text-sm mt-1">{date}</p>
-              </div>
-              <div className="">
-                <div className={`${status === "Online"? "bg-[#14C570] text-white": "border border-gray-500 text-gray-500"} px-2 py-1 rounded`}>
-                  {status}
-                </div>
-                {status === "Online" &&
-                  <Link
-                    href={`/events/`}
-                    className="text-[#14C570] text-xs mt-2 inline-block"
-                  >
-                    View Details
-                  </Link>
-                }
-              </div>
-            </div>
+    <div className="bg-gray-300 h-[15rem] w-[10rem] rounded-md shadow-lg relative" id={`event-${title}`}>
+      <Image
+        src={image}
+        alt={title}
+        width={100}
+        height={100}
+        className={`w-full h-full ${hoverEvent? "object-contain": "object-none"} rounded-md`}
+      />
+      <div className="absolute bottom-0 left-0 bg-gray-400 bg-opacity-70 p-2 w-full h-full rounded-md text-center flex flex-col justify-between">
+        <div className="space-y-5">
+          <h3 className="text-xl font-bold">
+            {title}
+          </h3>
+          <p className="text-sm mt-1">{date}</p>
+        </div>
+        <div className="">
+          <div className={`${status === "Online"? "bg-[#14C570] text-white": "border border-gray-500 text-gray-500"} px-2 py-1 rounded`}>
+            {status}
           </div>
+          {status === "Online" &&
+            <Link
+              href={`/events/`}
+              className="text-[#14C570] text-xs mt-2 inline-block"
+            >
+              View Details
+            </Link>
+          }
+        </div>
+      </div>
+    </div>
   );
 };
 

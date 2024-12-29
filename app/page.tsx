@@ -35,7 +35,7 @@ export default function Home() {
           </div>
         </section>
         <section className={`${styles.event} mt-10`}>
-          {/* <EventCard date={"November 11th - 19th"} title={"World Esports Championship"} image={"/white-bg-image.jpg"} status={"Online"} /> */}
+          <EventCard date={"November 11th - 19th"} title={"World Esports Championship"} image={"/white-bg-image.jpg"} status={"Online"} />
         </section>
       </main>
       <Footer />
