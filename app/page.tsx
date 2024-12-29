@@ -1,9 +1,10 @@
-'use client'
+"use client";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-// import EventCard from "@/ui/event";
+import EventCard from "@/ui/event";
 import Image from "next/image";
-import styles from "./app.module.scss"
+import Link from "next/link";
+import styles from "./app.module.scss";
 import { useTheme } from "@/app/context/theme-context";
 
 export default function Home() {
@@ -14,20 +15,28 @@ export default function Home() {
       <main>
         <section className="home">
           <div className={`${styles.hero}`}>
-            <video 
-              src={theme === "light" ? "/white-bg-video.mp4"  : "/black-bg-video.mp4"} 
-              autoPlay 
-              muted 
-              loop 
+            <video
+              src={
+                theme === "light"
+                  ? "/white-bg-video.mp4"
+                  : "/black-bg-video.mp4"
+              }
+              autoPlay
+              muted
+              loop
             />
             <div className="flex justify-center items-center px-5 py-5">
-              <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-bold text-center"> Pixel <span className="text-[#14C570]">C</span>ore Esport <br/>Team</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-bold text-center">
+                {" "}
+                Pixel <span className="text-[#14C570]">C</span>ore Esport <br />
+                Team
+              </h1>
             </div>
           </div>
         </section>
-        {/* <section className="events mt-10">
-          <EventCard date={"November 11th - 19th"} title={"World Esports Championship"} image={"/white-bg-image.jpg"} status={"online"} />
-        </section> */}
+        <section className={`${styles.event} mt-10`}>
+          {/* <EventCard date={"November 11th - 19th"} title={"World Esports Championship"} image={"/white-bg-image.jpg"} status={"Online"} /> */}
+        </section>
       </main>
       <Footer />
     </>
