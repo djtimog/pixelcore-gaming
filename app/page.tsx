@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./app.module.scss";
 import { useTheme } from "@/app/context/theme-context";
+import africaMap from "@/public/africa-map.jpg"
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
@@ -35,10 +36,17 @@ export default function Home() {
           </div>
         </section>
         <section className={`${styles.event} mt-10`}>
-          <EventCard date={"November 11th - 19th"} title={"World Esports Championship"} image={"/white-bg-image.jpg"} status={"Online"} />
+          <div>
+            <p className="text-3xl text-center font-bold">Ev<span className="text-[#14C570]">e</span>nts</p>
+          </div>
+          {/* <div clas>
+
+          </div> */}
+          {/* <EventCard date={"November 11th - 19th"} title={"World Esports Championship"} image={"/white-bg-image.jpg"} status={"Online"} /> */}
         </section>
       </main>
       <Footer />
     </>
   );
 }
+
