@@ -6,15 +6,17 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./app.module.scss";
 import { useTheme } from "@/app/context/theme-context";
-import africaMap from "@/public/africa-map.jpg"
-import { Button } from "@mui/material"
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import africaMap from "@/public/africa-map.jpg";
+import { Button } from "@mui/material";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
 
-  const statusClass = ( status : string) => { 
-    return status === "Online" ? "bg-[#14C570] text-white" : "border border-gray-500 text-gray-500"
+  const statusClass = (status: string) => {
+    return status === "Online"
+      ? "bg-[#14C570] text-white"
+      : "border border-gray-500 text-gray-500";
   };
 
   return (
@@ -42,9 +44,9 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className={`${styles.event} mt-10`}>
+        {/* <section className={`${styles.event} mt-10`}>
           <div>
-            <p className="text-3xl sm:text-4xl md:text-5xl text-center font-bold">Ev<span className="text-[#14C570]">e</span>nts</p>
+            <p className="text-3xl sm:text-4xl md:text-5xl text-center font-bold outlined-text">Ev<span className="text-[#14C570]">e</span>nts</p>
           </div>
           <div className="flex flex-wrap gap-4 mt-8 p-4">
             {events.map((event) => (
@@ -80,6 +82,26 @@ export default function Home() {
                   <ArrowForwardIcon className="ml-2 hover:ml-4"/>
                 </Button>
               </Link>
+            </div>
+          </div>
+        </section> */}
+        <section className="mt-10 py-5 space-y-10 ">
+          <p className="uppercase outlined-text text-3xl sm:text-4xl md:text-5xl text-end me-3">
+            Achievement
+          </p>
+          <div className="bg-[#14C570] relative flex justify-between p-11">
+            <div></div>
+            <div className="flex space-x-2">
+              <span className="text-4xl font-bold">8</span>
+              <span className="leading-5">International<br/>Champ</span>
+            </div>
+            <div className="flex space-x-2">
+              <span className="text-4xl font-bold">5</span>
+              <span className="leading-5">International<br/>Runner up</span>
+            </div>
+            <div className="flex space-x-2">
+              <span className="text-4xl font-bold">12</span>
+              <span className="leading-5">National<br/>Champ</span>
             </div>
           </div>
         </section>
