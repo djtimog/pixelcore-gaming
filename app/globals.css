@@ -67,7 +67,7 @@ input:focus {
 
 .outlined-text {
   font-weight: bold;
-  color: transparent; /* Make the inside of the text transparent */
-  -webkit-text-stroke: 0.3px #ffffff; /* Outline color and thickness */
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional glow effect */
+  color: transparent; 
+  -webkit-text-stroke: 1px #aaa9a9; 
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
 }

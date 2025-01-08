@@ -9,6 +9,7 @@ import { useTheme } from "@/app/context/theme-context";
 import africaMap from "@/public/africa-map.jpg";
 import { Button } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import captain from "@/public/captain.png";
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
@@ -34,9 +35,10 @@ export default function Home() {
               autoPlay
               muted
               loop
+              className="py-10 md:py-0"
             />
             <div className="flex justify-center items-center px-5 py-5">
-              <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-bold text-center">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-center">
                 {" "}
                 Pixel <span className="text-[#14C570]">C</span>ore Esport <br />
                 Team
@@ -44,6 +46,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+
         {/* <section className={`${styles.event} mt-10`}>
           <div>
             <p className="text-3xl sm:text-4xl md:text-5xl text-center font-bold outlined-text">Ev<span className="text-[#14C570]">e</span>nts</p>
@@ -85,23 +88,28 @@ export default function Home() {
             </div>
           </div>
         </section> */}
-        <section className="mt-10 py-5 space-y-10 ">
-          <p className="uppercase outlined-text text-3xl sm:text-4xl md:text-5xl text-end me-3">
+
+        <section className="mt-10 py-5 -space-y-3">
+          <p className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-end me-3">
             Achievement
           </p>
-          <div className="bg-[#14C570] relative flex justify-between p-11">
-            <div></div>
-            <div className="flex space-x-2">
-              <span className="text-4xl font-bold">8</span>
-              <span className="leading-5">International<br/>Champ</span>
+          <div className="bg-[#14C570] relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 p-11 space-y-7 sm:space-y-0 sm:space-x-5">
+            <div className="md:h-[70px] flex justify-center items-center">
+              <Image src={captain} alt="Captain" className="object-cover sm:object-contain h-[17rem] w-[12rem] md:w-[15rem] rounded-xl"/>
             </div>
-            <div className="flex space-x-2">
-              <span className="text-4xl font-bold">5</span>
-              <span className="leading-5">International<br/>Runner up</span>
-            </div>
-            <div className="flex space-x-2">
-              <span className="text-4xl font-bold">12</span>
-              <span className="leading-5">National<br/>Champ</span>
+            <div className="grid grid-cols-1 md:grid-cols-3 md:col-span-3 space-y-5 md:space-y-0 md:space-x-5">
+              <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 space-x-2 text-center md:text-start justify-center items-center">
+                <span className="text-4xl font-bold">8</span>
+                <span className="leading-5">International<br/>Champ</span>
+              </div>
+              <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 space-x-2 text-center md:text-start justify-center items-center">
+                <span className="text-4xl font-bold">5</span>
+                <span className="leading-5">International<br/>Runner up</span>
+              </div>
+              <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 space-x-2 text-center md:text-start justify-center items-center">
+                <span className="text-4xl font-bold">12</span>
+                <span className="leading-5">National<br/>Champ</span>
+              </div>
             </div>
           </div>
         </section>
