@@ -154,12 +154,39 @@ const profiles: Profile[] = [
     rank: "Silver",
     level: 200,
   },
+  {
+    name: "Alice Johnson",
+    ign: "tcr-queen.99",
+    image: captain,
+    role: "Player",
+    igRole: "Support",
+    rank: "Gold",
+    level: 250,
+  },
+  {
+    name: "Bob Brown",
+    ign: "tcr-king.77",
+    image: captain,
+    role: "Player",
+    igRole: "Striker",
+    rank: "Silver",
+    level: 200,
+  },
+  {
+    name: "Alice Johnson",
+    ign: "tcr-queen.99",
+    image: captain,
+    role: "Player",
+    igRole: "Support",
+    rank: "Gold",
+    level: 250,
+  },
 ];
 
 const ProfileList = () => {
 
   return (
-    <div className="flex overflow-x-auto md:overflow-x-hidden md:flex-wrap gap-8 md:gap-4 px-4">
+    <div className="flex overflow-x-auto md:overflow-x-hidden md:flex-wrap gap-8 md:gap-4 px-10">
       {profiles.map((profile, index) => (
         <ProfileCard key={index} profile={profile} />
       ))}

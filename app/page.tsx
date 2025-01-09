@@ -91,32 +91,54 @@ export default function Home() {
         </section> */}
 
         <section className="my-10 py-5 -space-y-3">
-          <p className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-end me-3">
+          <p className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-end pe-3">
             Achievement
           </p>
           <div className="bg-[#14C570] relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 p-11 space-y-7 sm:space-y-0 sm:space-x-5">
             <div className="md:h-[70px] flex justify-center items-center">
-              <Image src={captain} alt="Captain" className="object-cover sm:object-contain h-[17rem] w-[12rem] md:w-[15rem] rounded-xl"/>
+              <Image
+                src={captain}
+                alt="Captain"
+                className="object-cover sm:object-contain h-[17rem] w-[12rem] md:w-[15rem] rounded-xl"
+              />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 md:col-span-3 space-y-5 md:space-y-0 md:space-x-5">
               <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 space-x-2 text-center md:text-start justify-center items-center">
                 <span className="text-4xl font-bold">8</span>
-                <span className="leading-5">International<br/>Champ</span>
+                <span className="leading-5">
+                  International
+                  <br />
+                  Champ
+                </span>
               </div>
               <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 space-x-2 text-center md:text-start justify-center items-center">
                 <span className="text-4xl font-bold">5</span>
-                <span className="leading-5">International<br/>Runner up</span>
+                <span className="leading-5">
+                  International
+                  <br />
+                  Runner up
+                </span>
               </div>
               <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 space-x-2 text-center md:text-start justify-center items-center">
                 <span className="text-4xl font-bold">12</span>
-                <span className="leading-5">National<br/>Champ</span>
+                <span className="leading-5">
+                  National
+                  <br />
+                  Champ
+                </span>
               </div>
             </div>
           </div>
         </section>
 
         <section className="my-10 py-5 -space-y-3">
-          <ProfileList/>
+          <p className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-start ps-3">
+            Team
+          </p>
+          <div className="space-y-10">
+            <ProfileList />
+            <div></div>
+          </div>
         </section>
       </main>
       <Footer />
