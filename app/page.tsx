@@ -7,9 +7,10 @@ import Link from "next/link";
 import styles from "./app.module.scss";
 import { useTheme } from "@/app/context/theme-context";
 import africaMap from "@/public/africa-map.jpg";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import captain from "@/public/captain.png";
+import ProfileList from "@/components/ui/profile-card";
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
@@ -89,7 +90,7 @@ export default function Home() {
           </div>
         </section> */}
 
-        <section className="mt-10 py-5 -space-y-3">
+        <section className="my-10 py-5 -space-y-3">
           <p className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-end me-3">
             Achievement
           </p>
@@ -112,6 +113,10 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </section>
+
+        <section className="my-10 py-5 -space-y-3">
+          <ProfileList/>
         </section>
       </main>
       <Footer />

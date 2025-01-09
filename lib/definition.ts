@@ -31,6 +31,7 @@
 //     id: string;
 //     role: string;
 //     name: string;
+//     nickname:string;
 //     age?: number;
 //     dob?: string;
 //     nationality?: string;
