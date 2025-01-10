@@ -6,12 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./app.module.scss";
 import { useTheme } from "@/app/context/theme-context";
-import africaMap from "@/public/africa-map.jpg";
 import { Button, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import captain from "@/public/captain.png";
 import { TeamList } from "@/components/ui/profile-card";
 import teamImage from "@/public/team-image.png";
+import SponsorSwiper from "@/components/ui/sponsor-swiper"
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
@@ -84,7 +84,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="my-10 py-5 -space-y-3">
+        <section className="my-12 py-5 -space-y-3">
           <p className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-start ps-3">
             Team
           </p>
@@ -123,6 +123,21 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <section className="my-10 py-5 -space-y-3">
+          <p className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-end pe-3">
+            Sponsor
+          </p>
+          <div className="bg-[#14C570] py-5 relative">
+            <SponsorSwiper />
+          </div>
+          </section>
+
+        <section className="my-10 py-5 -space-y-3">
+          <p className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-start ps-3">
+            Blog
+          </p>
+          </section>
       </main>
       <Footer />
     </>
