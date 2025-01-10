@@ -21,19 +21,51 @@ import {
 import logo from "@/public/logo.png";
 import { useTheme } from "@/app/context/theme-context";
 
+const LanguageButton = ({
+  currentLanguage,
+  handleLanguageClick,
+  anchorEl,
+  handleLanguageClose,
+}: {
+  currentLanguage: string;
+  handleLanguageClick: (event: MouseEvent<HTMLButtonElement>) => void;
+  anchorEl: HTMLElement | null;
+  handleLanguageClose: (language: string) => void;
+}) => (
+  <>
+    <button
+      className="flex items-center space-x-1 hover:text-[#14C570]"
+      onClick={handleLanguageClick}
+    >
+      <ExpandMore />
+      <span>{currentLanguage}</span>
+    </button>
+    <Menu
+      anchorEl={anchorEl}
+      open={Boolean(anchorEl)}
+      onClose={() => handleLanguageClose(currentLanguage)}
+    >
+      {["EN", "FR", "ES"].map((lang) => (
+        <MenuItem key={lang} onClick={() => handleLanguageClose(lang)}>
+          {lang}
+        </MenuItem>
+      ))}
+    </Menu>
+  </>
+);
+
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const [currentLanguage, setCurrentLanguage] = useState('EN');
-
+  const [currentLanguage, setCurrentLanguage] = useState("EN");
 
   const handleLanguageClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleLanguageClose = (language :string) => {
-    setCurrentLanguage(language)
+  const handleLanguageClose = (language: string) => {
+    setCurrentLanguage(language);
     setAnchorEl(null);
   };
 
@@ -58,7 +90,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="p-4">
+    <header className="p-4 sticky top-0 z-50 bg-inherit">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center">
           <Link href="/">
@@ -80,23 +112,17 @@ const Header = () => {
         </nav>
 
         <div className="hidden md:flex items-center space-x-4">
-          <button
-            className="flex items-center space-x-1 hover:text-[#14C570]"
-            onClick={handleLanguageClick}
-          >
-            <ExpandMore />
-            <span>{currentLanguage}</span>
-          </button>
-          <Menu
+          <LanguageButton
+            currentLanguage={currentLanguage}
+            handleLanguageClick={handleLanguageClick}
             anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleLanguageClose}
+            handleLanguageClose={handleLanguageClose}
+          />
+          <IconButton
+            onClick={toggleTheme}
+            color="inherit"
+            className="hover:text-[#14C570]"
           >
-            <MenuItem onClick={()=>handleLanguageClose("EN")}>EN</MenuItem>
-            <MenuItem onClick={()=>handleLanguageClose("FR")}>FR</MenuItem>
-            <MenuItem onClick={()=>handleLanguageClose("ES")}>ES</MenuItem>
-          </Menu>
-          <IconButton onClick={toggleTheme} color="inherit" className="hover:text-[#14C570]">
             {theme === "light" ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
         </div>
@@ -115,13 +141,12 @@ const Header = () => {
               <div className="flex justify-between items-center mb-4 space-x-5">
                 <Image src={logo} alt="Logo" width={50} height={50} />
                 <div className="flex items-center">
-                  <button
-                    onClick={handleLanguageClick}
-                    className="hover:text-[#14C570]"
-                  >
-                    <ExpandMore />
-                    <span>{currentLanguage}</span>
-                  </button>
+                  <LanguageButton
+                    currentLanguage={currentLanguage}
+                    handleLanguageClick={handleLanguageClick}
+                    anchorEl={anchorEl}
+                    handleLanguageClose={handleLanguageClose}
+                  />
                 </div>
                 <div className="flex justify-center">
                   <IconButton onClick={toggleTheme} color="inherit">

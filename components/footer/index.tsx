@@ -95,7 +95,7 @@ const Footer = () => {
                 type="submit"
                 className="md:py-3 md:px-3 p-2 bg-[#14C570] text-white rounded-lg"
               >
-                Send Email
+                Subcribe
               </button>
             </div>
           </div>
