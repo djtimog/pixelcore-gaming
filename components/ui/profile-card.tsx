@@ -40,7 +40,7 @@ const ProfileCard = ({ profile }: { profile: Profile }) => {
 
   return (
     <div className="flex flex-col items-center space-y-4 p-0 mx-auto text-white">
-      <div className="relative w-[170px] h-[17rem] sm:w-[200px] sm:h-[19rem] md:w-[230px] md:h-[21rem] rounded-lg overflow-hidden bg-white">
+      <div className="relative w-[160px] h-[16rem] sm:w-[200px] sm:h-[19rem] md:w-[230px] md:h-[21rem] rounded-lg overflow-hidden bg-white">
         <Image
           src={profile.image}
           alt="captain-image"
@@ -183,7 +183,7 @@ const team: Profile[] = [
   },
 ];
 
-export const ProfileList = () => {
+export const TeamList = () => {
 
   return (
     <div className="space-y-5 sm:space-y-7 md:space-y-9">

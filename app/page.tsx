@@ -10,17 +10,11 @@ import africaMap from "@/public/africa-map.jpg";
 import { Button, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import captain from "@/public/captain.png";
-import { ProfileList } from "@/components/ui/profile-card";
+import { TeamList } from "@/components/ui/profile-card";
 import teamImage from "@/public/team-image.png";
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
-
-  const statusClass = (status: string) => {
-    return status === "Online"
-      ? "bg-[#14C570] text-white"
-      : "border border-gray-500 text-gray-500";
-  };
 
   return (
     <>
@@ -48,48 +42,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* <section className={`${styles.event} mt-10`}>
-          <div>
-            <p className="text-3xl sm:text-4xl md:text-5xl text-center font-bold outlined-text">Ev<span className="text-[#14C570]">e</span>nts</p>
-          </div>
-          <div className="flex flex-wrap gap-4 mt-8 p-4">
-            {events.map((event) => (
-              <div key={event.title} className="mx-auto mb-5">
-                <div className="bg-gray-300 h-[15rem] w-[10rem] rounded-md shadow-lg relative">
-                  <Image
-                    src={africaMap}
-                    alt={event.title}
-                    width={100}
-                    height={100}
-                    className="w-full h-full object-contain rounded-md"
-                  />
-                  <div className="absolute bottom-0 left-0 bg-gray-400 bg-opacity-70 rounded-md h-full w-full flex flex-col justify-between text-center p-2">
-                      <div className="space-y-5">
-                        <h3 className="text-xl font-bold text-black">{event.title}</h3>
-                        <p className="text-sm font-semiboldmt-1 text-black">{event.date}</p>
-                      </div>
-                      <div>
-                        <div className={`${statusClass(event.status)} px-2 py-1 rounded`}>{event.status}</div>
-                        {event.status === "Online" && (
-                          <Link href={`/events/`} className="text-[#14C570] text-xs mt-2 inline-block">
-                            View Details
-                          </Link>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-              </div>
-            ))}
-            <div className="m-auto">
-              <Link href="/events" className=" text-center">
-                <Button variant="contained" className="bg-[#14C570] normal-case">View More
-                  <ArrowForwardIcon className="ml-2 hover:ml-4"/>
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section> */}
 
         <section className="my-10 py-5 -space-y-3">
           <p className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-end pe-3">
@@ -137,7 +89,7 @@ export default function Home() {
             Team
           </p>
           <div className="space-y-10">
-            <ProfileList />
+            <TeamList />
             <div className="relative overflow-hidden bg-white">
               <div className="py-5 sm:py-0">
                 <Image
