@@ -71,3 +71,9 @@ input:focus {
   -webkit-text-stroke: 1px #aaa9a9; 
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
 }
+
+.team-core {
+  background: linear-gradient(to bottom, white, rgb(39, 38, 38));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

@@ -138,7 +138,7 @@ export default function Home() {
           </p>
           <div className="space-y-10">
             <ProfileList />
-            <div className="relative rounded-lg overflow-hidden bg-white">
+            <div className="relative overflow-hidden bg-white">
               <div className="py-5 sm:py-0"><Image src={teamImage} alt="team image" className="object-contain w-full z-0"/></div>
               <div className="absolute top-0 bg-black w-full h-full bg-opacity-50 flex justify-center sm:justify-start items-center px-5">
                 <div className="text-center sm:text-start p-5 sm:px-11 space-y-2 sm:space-y-5 md:space-y-7 sm:w-2/3 md:w-1/2">
