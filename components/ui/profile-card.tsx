@@ -89,7 +89,7 @@ const ProfileCard = ({ profile }: { profile: Profile }) => {
                     </p>
                 </div>
               ) : null}
-              <Link href="/">
+              <Link href={`/`}>
                 <Button
                   variant="contained"
                   className="bg-[#14C570] normal-case text-black"
@@ -110,7 +110,7 @@ const ProfileCard = ({ profile }: { profile: Profile }) => {
   );
 };
 
-const profiles: Profile[] = [
+const team: Profile[] = [
   {
     name: "Bhabishya Dhakal Chhetri",
     ign: "tcr-sexy.44",
@@ -183,15 +183,26 @@ const profiles: Profile[] = [
   },
 ];
 
-const ProfileList = () => {
+export const ProfileList = () => {
 
   return (
-    <div className="flex overflow-x-auto md:overflow-x-hidden md:flex-wrap gap-8 md:gap-4 px-10">
-      {profiles.map((profile, index) => (
-        <ProfileCard key={index} profile={profile} />
-      ))}
+    <div className="space-y-5 sm:space-y-7 md:space-y-9">
+      <div className="flex overflow-x-auto md:overflow-x-hidden md:flex-wrap gap-8 md:gap-4 px-10">
+        {team.map((profile, index) => (
+          <ProfileCard key={index} profile={profile} />
+        ))}
+      </div>
+      <div className="px-5 sm:px-11 text-end mb-5">
+        <Link href={`/team`}>
+          <Button
+            variant="contained"
+            className="bg-[#14C570] normal-case text-black w-full md:w-auto"
+            size="large"
+          >
+            More Info On Our Team!
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 };
-
-export default ProfileList;

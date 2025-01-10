@@ -10,7 +10,8 @@ import africaMap from "@/public/africa-map.jpg";
 import { Button, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import captain from "@/public/captain.png";
-import ProfileList from "@/components/ui/profile-card";
+import { ProfileList } from "@/components/ui/profile-card";
+import teamImage from "@/public/team-image.png";
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
@@ -137,7 +138,24 @@ export default function Home() {
           </p>
           <div className="space-y-10">
             <ProfileList />
-            <div></div>
+            <div className="relative rounded-lg overflow-hidden bg-white">
+              <div className="py-5 sm:py-0"><Image src={teamImage} alt="team image" className="object-contain w-full z-0"/></div>
+              <div className="absolute top-0 bg-black w-full h-full bg-opacity-50 flex justify-center sm:justify-start items-center px-5">
+                <div className="text-center sm:text-start p-5 sm:px-11 space-y-2 sm:space-y-5 md:space-y-7 sm:w-2/3 md:w-1/2">
+                  <p className="text-[#14C570] text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold">Team Core</p>
+                  <h4 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-6xl">Join with our team and family</h4>
+  
+                  <div className="flex justify-center sm:justify-start md:pt-10">
+                    <Link href="/events">
+                      <Button variant="contained" className="bg-[#14C570] flex normal-case space-x-2 hover:space-x-4 text-lg">
+                        <span>Join Us</span>
+                        <ArrowForwardIcon className=""/>
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </main>
