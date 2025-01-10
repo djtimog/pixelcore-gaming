@@ -187,7 +187,7 @@ export const TeamList = () => {
 
   return (
     <div className="space-y-5 sm:space-y-7 md:space-y-9">
-      <div className="flex overflow-x-auto md:overflow-x-hidden md:flex-wrap gap-8 md:gap-4 px-10">
+      <div className="flex overflow-x-auto md:overflow-x-hidden md:flex-wrap gap-8 md:gap-4 px-10 pb-3">
         {team.map((profile, index) => (
           <ProfileCard key={index} profile={profile} />
         ))}

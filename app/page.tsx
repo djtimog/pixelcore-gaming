@@ -90,15 +90,15 @@ export default function Home() {
           <div className="space-y-10">
             <TeamList />
             <div className="relative overflow-hidden bg-white">
-              <div className="py-5 sm:py-0">
+              <div className="py-5 sm:py-0 max-h-[25rem]">
                 <Image
                   src={teamImage}
                   alt="team image"
-                  className="object-contain w-full z-0"
+                  className="object-cover w-full z-0"
                 />
               </div>
               <div className="absolute top-0 bg-black w-full h-full bg-opacity-50 flex justify-center sm:justify-start items-center px-5">
-                <div className="text-center sm:text-start p-5 sm:px-11 space-y-2 sm:space-y-5 md:space-y-7 sm:w-2/3 md:w-1/2">
+                <div className="text-center sm:text-start p-5 sm:px-11 space-y-2 sm:space-y-5 md:space-y-7 sm:w-2/3 md:w-1/2 xl:1/3">
                   <h6 className="text-[#14C570] text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">
                     Team Core
                   </h6>
