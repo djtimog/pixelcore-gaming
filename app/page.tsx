@@ -10,7 +10,8 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import captain from "@/public/captain.png";
 import { TeamList } from "@/components/ui/profile-card";
 import teamImage from "@/public/team-image.png";
-import SponsorSwiper from "@/components/ui/sponsor-swiper"
+import SponsorSwiper from "@/components/ui/sponsor-swiper";
+import activeBlog from "@/public/blog/active-blog.svg";
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
@@ -130,13 +131,49 @@ export default function Home() {
           <div className="bg-[#14C570] py-5 relative">
             <SponsorSwiper />
           </div>
-          </section>
+        </section>
 
         <section className="my-10 py-5 -space-y-3">
           <p className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-start ps-3">
             Blog
           </p>
-          </section>
+          <div className="relative px-11 space-y-10">
+            <div className="space-y-5">
+              <div className="flex justify-center items-center overflow-hidden">
+                <Image
+                  src={activeBlog}
+                  alt="active blog"
+                  width={100}
+                  height={100}
+                  className="object-contain w-full"
+                />
+              </div>
+              <div>
+                <p className="text-xs mb-2">17-12-2021</p>
+                <Link href="/blog">
+                  <h2 className="mb-5 md:mb-7 text-xl font-bold text-[#14C570]">
+                    PUBG Mobile Pro League - South Asia Spring 2022
+                  </h2>
+                </Link>
+                <p className="text-sm">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  re et dolore magna aliqua. re et dolore magna aliqua. Lorem
+                  ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                  eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua. re
+                  et dolore magna aliqua. re et dolore magnaaliqua...
+                  <Link href="/blog" className="text-[#14C570] px-2">
+                    Read more.
+                  </Link>
+                </p>
+              </div>
+            </div>
+            <div>
+              <h2 className="mb-7 text-lg font-bold">Other Blogs</h2>
+              
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </>

@@ -33,7 +33,10 @@ const sponsors = [
     link: "https://mui.com/",
   },
 ];
+
+
 const SponsorSwiper = () => {
+  
   return (
     <Swiper
       slidesPerView={2}
