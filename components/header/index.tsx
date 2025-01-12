@@ -20,6 +20,7 @@ import {
 } from "@mui/icons-material";
 import logo from "@/public/logo.png";
 import { useTheme } from "@/app/context/theme-context";
+import { usePathname } from "next/navigation";
 
 const LanguageButton = ({
   currentLanguage,
@@ -60,6 +61,8 @@ const Header = () => {
   const { theme, toggleTheme } = useTheme();
   const [currentLanguage, setCurrentLanguage] = useState("EN");
 
+  const pathname = usePathname();
+
   const handleLanguageClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -82,7 +85,7 @@ const Header = () => {
     };
 
   const navItems = [
-    { label: "Home", href: "/", active: true },
+    { label: "Home", href: "/" },
     { label: "About us", href: "/about" },
     { label: "Schedule", href: "/schedule" },
     { label: "Team", href: "/team" },
@@ -103,7 +106,7 @@ const Header = () => {
             <Link
               key={item.label}
               href={item.href}
-              className={item.active ? "text-[#14C570] text-lg" : ""}
+              className={pathname === item.href ? "text-[#14C570] text-lg" : ""}
               passHref
             >
               {item.label}
@@ -162,7 +165,7 @@ const Header = () => {
                   <ListItem key={item.label} onClick={toggleDrawer(false)}>
                     <Link
                       href={item.href}
-                      className={item.active ? "text-[#14C570] text-lg" : ""}
+                      className={pathname === item.href ? "text-[#14C570] text-lg" : ""}
                       passHref
                     >
                       <ListItemText primary={item.label} />

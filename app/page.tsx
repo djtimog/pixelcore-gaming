@@ -19,7 +19,6 @@ export default function Home() {
 
   return (
     <>
-      <Header />
       <main>
         <section className="home">
           <div className={`${styles.hero}`}>
@@ -176,7 +175,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <Footer />
     </>
   );
 }

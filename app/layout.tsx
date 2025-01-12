@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Orbitron } from "next/font/google";
 import { ThemeProvider } from "@/app/context/theme-context";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -23,7 +25,9 @@ export default function RootLayout({
         <ThemeProvider>
     <html lang="en">
       <body className={`${orbitron.className} antialiased`}>
+        <Header />
           {children}
+        <Footer />
       </body>
     </html>
         </ThemeProvider>
