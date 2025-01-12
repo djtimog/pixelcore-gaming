@@ -12,6 +12,7 @@ import { TeamList } from "@/components/ui/profile-card";
 import teamImage from "@/public/team-image.png";
 import SponsorSwiper from "@/components/ui/sponsor-swiper";
 import activeBlog from "@/public/blog/active-blog.svg";
+import OtherBlogs from "@/components/ui/other-blogs";
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
@@ -139,13 +140,13 @@ export default function Home() {
           </p>
           <div className="relative px-11 space-y-10">
             <div className="space-y-5">
-              <div className="flex justify-center items-center overflow-hidden">
+              <div className="flex justify-center items-center overflow-hidden max-h-[510px]">
                 <Image
                   src={activeBlog}
                   alt="active blog"
                   width={100}
                   height={100}
-                  className="object-contain w-full"
+                  className="object-contain w-full lg:object-cover"
                 />
               </div>
               <div>
@@ -162,7 +163,7 @@ export default function Home() {
                   ipsum dolor sit amet, consectetur adipiscing elit, sed do
                   eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua. re
                   et dolore magna aliqua. re et dolore magnaaliqua...
-                  <Link href="/blog" className="text-[#14C570] px-2">
+                  <Link href="/blog" className="text-[#14C570] px-1">
                     Read more.
                   </Link>
                 </p>
@@ -170,7 +171,7 @@ export default function Home() {
             </div>
             <div>
               <h2 className="mb-7 text-lg font-bold">Other Blogs</h2>
-              
+              <OtherBlogs />
             </div>
           </div>
         </section>

@@ -192,7 +192,7 @@ export const TeamList = () => {
           <ProfileCard key={index} profile={profile} />
         ))}
       </div>
-      <div className="px-5 sm:px-11 text-end mb-5">
+      <div className="px-11 text-end mb-5">
         <Link href={`/team`}>
           <Button
             variant="contained"
