@@ -118,8 +118,8 @@ function about() {
         <p className="uppercase outlined-text text-3xl sm:text-4xl md:text-5xl text-center mb-3">
         Core Values
         </p>
-        <div className="space-y-3 sm:space-y-4 md:space-y-5">
-        <ul>
+        <div className="space-y-3 sm:space-y-4 md:space-y-5 max-w-max mx-auto">
+        <ul className="space-y-5">
             <li>
               <strong>Innovation</strong>: Shaping the future of esports with
               creativity and cutting-edge solutions.
@@ -155,8 +155,8 @@ function about() {
         <p className="uppercase outlined-text text-3xl sm:text-4xl md:text-5xl text-center mb-3">
         Our Objectives
         </p>
-        <div className="space-y-3 sm:space-y-4 md:space-y-5">
-        <ol>
+        <div className="max-w-max mx-auto">
+        <ol className="space-y-5">
             <li>
               Establish Pixelcore as a top-tier esports organization in Africa.
             </li>
