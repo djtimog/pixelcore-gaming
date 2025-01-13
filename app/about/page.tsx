@@ -114,12 +114,12 @@ function about() {
         </div>
       </section>
 
-      <section className="my-5 p-7 sm:p-11">
+      <section className="p-7 sm:p-11">
         <p className="uppercase outlined-text text-3xl sm:text-4xl md:text-5xl text-center mb-3">
         Core Values
         </p>
         <div className="space-y-3 sm:space-y-4 md:space-y-5 max-w-max mx-auto">
-        <ul className="space-y-5">
+        <ul className="space-y-5 text-center">
             <li>
               <strong>Innovation</strong>: Shaping the future of esports with
               creativity and cutting-edge solutions.
@@ -151,12 +151,13 @@ function about() {
           </ul>
         </div>
       </section>
+      
       <section className="my-5 p-7 sm:p-11">
         <p className="uppercase outlined-text text-3xl sm:text-4xl md:text-5xl text-center mb-3">
         Our Objectives
         </p>
         <div className="max-w-max mx-auto">
-        <ol className="space-y-5">
+        <ol className="space-y-5 text-center">
             <li>
               Establish Pixelcore as a top-tier esports organization in Africa.
             </li>
@@ -167,13 +168,6 @@ function about() {
             <li>Promote esports education and training programs.</li>
             <li>Partner with key stakeholders to drive industry growth.</li>
           </ol>
-        </div>
-      </section>
-      <section id="about-us">
-        <div className="container">
-          
-          <h3></h3>
-          
         </div>
       </section>
     </main>
