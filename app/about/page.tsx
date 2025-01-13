@@ -2,6 +2,8 @@ import React from "react";
 import Image from "next/image";
 import teamImage from "@/public/about/team-image.jpg";
 import Link from "next/link";
+import TeamCard, { teamData } from "@/components/ui/about/team-card";
+
 function about() {
   return (
     <main>
@@ -53,7 +55,7 @@ function about() {
               gamers, and propels the industry into the mainstream."
             </span>
             <br />
-            <span >
+            <span>
               "To revolutionize the esports industry in Africa by building a
               thriving ecosystem where African gamers can achieve their full
               potential, be globally recognized, and inspire future generations.
@@ -70,7 +72,7 @@ function about() {
           Our Mission
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <p className="text-center md:text-start col-span-2 mt-5">
+          <p className="text-center md:text-start col-span-2 mt-5 ">
             <span>
               "Pixelcore is committed to driving the growth of esports in Africa
               by creating opportunities for gamers to showcase their talents,
@@ -89,7 +91,7 @@ function about() {
               resilience in the next generation of African gamers.
             </span>
           </p>
-          <div className="overflow-hidden flex justify-center items-center w-full">
+          <div className="overflow-hidden flex justify-center items-center w-full order-first md:order-last">
             <Image
               src={"/about/mission-image.jpeg"}
               alt="team image"
@@ -101,26 +103,16 @@ function about() {
         </div>
       </section>
 
-      <div>
-        <h2 className="text-[#00ff00] text-2xl text-center mb-4">Our Team</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-5">
-          <div className="p-5 rounded-lg">
-            <h3 className="text-[#00ff00] text-xl">John Doe</h3>
-            <p>CEO & Founder</p>
-            {/* <Image src={} alt="" /> */}
-          </div>
-          <div className=" p-5 rounded-lg">
-            <h3 className="text-[#00ff00] text-xl">Jane Doe</h3>
-            <p>COO & Co-Founder</p>
-            {/* <Image src={} alt="" /> */}
-          </div>
-          <div className=" p-5 rounded-lg">
-            <h3 className="text-[#00ff00] text-xl">Alex Smith</h3>
-            <p>CTO & Co-Founder</p>
-            {/* <Image src={} alt="" /> */}
-          </div>
+      <section className="my-5 p-7 sm:p-11">
+        <p className="uppercase outlined-text text-3xl sm:text-4xl md:text-5xl text-center mb-3">
+          Our Team
+        </p>
+        <div>
+          {teamData.map((team) => (
+            <TeamCard {...team} />
+          ))}
         </div>
-      </div>
+      </section>
 
       <section id="about-us">
         <div className="container">
