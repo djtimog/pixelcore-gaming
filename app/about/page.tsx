@@ -107,7 +107,7 @@ function about() {
         <p className="uppercase outlined-text text-3xl sm:text-4xl md:text-5xl text-center mb-3">
           Our Team
         </p>
-        <div>
+        <div className="space-y-3 sm:space-y-4 md:space-y-5">
           {teamData.map((team) => (
             <TeamCard {...team} />
           ))}

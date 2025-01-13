@@ -19,7 +19,7 @@ const TeamCard = ({
   number: string;
 }) => {
   return (
-    <div className="container mx-auto rounded-lg shadow-lg p-5 space-y-3 sm:space-y-0 sm:space-x-5 md:space-x-7 flex flex-col sm:flex-row">
+    <div className=" mx-auto rounded-lg shadow-lg p-5 space-y-3 sm:space-y-0 sm:space-x-5 md:space-x-7 flex flex-col sm:flex-row">
       <div className="w-full sm:max-w-sm h-60 overflow-hidden">
         <Image
           src="/about/team/ceo.jpeg"
