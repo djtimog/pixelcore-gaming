@@ -30,15 +30,18 @@ const TeamCard = ({
         />
       </div>
       <div className="space-y-3 flex flex-col justify-around">
-          <p className="text-lg">{name}</p>
-          <p className="text-sm">{role}</p>
-          <p className="text-md">{description}</p>
-          <Link href={`mailto:${email}`}>{email}</Link>
-          <Link href={`tel:${number}`}>
-            <Button variant="contained" className="w-full bg-[#00ff00] text-black">
-              Contact
-            </Button>
-          </Link>
+        <p className="text-lg">{name}</p>
+        <p className="text-sm">{role}</p>
+        <p className="text-md">{description}</p>
+        <Link href={`mailto:${email}`}>{email}</Link>
+        <Link href={`tel:${number}`}>
+          <Button
+            variant="contained"
+            className="w-full bg-[#00ff00] text-black"
+          >
+            Contact
+          </Button>
+        </Link>
       </div>
     </div>
   );
@@ -47,28 +50,31 @@ const TeamCard = ({
 export default TeamCard;
 
 export const teamData = [
-    {
-        image: "/about/ceo.png",
-        name: "John Doe",
-        role: "CEO",
-        description: "John is the CEO of Pixelcore Gaming with over 10 years of experience in the gaming industry.",
-        email: "john.doe@example.com",
-        number: "+1234567890",
-    },
-    {
-        image: "/about/cto.png",
-        name: "Jane Smith",
-        role: "CTO",
-        description: "Jane is the CTO, leading the tech team with her extensive knowledge in software development.",
-        email: "jane.smith@example.com",
-        number: "+0987654321",
-    },
-    {
-        image: "/about/coo.png",
-        name: "Alex Johnson",
-        role: "COO",
-        description: "Alex is the COO, overseeing the business operations and ensuring smooth workflow.",
-        email: "alex.johnson@example.com",
-        number: "+1357924680",
-    }
+  {
+    image: "/about/ceo.png",
+    name: "John Doe",
+    role: "CEO",
+    description:
+      "John is the CEO of Pixelcore Gaming with over 10 years of experience in the gaming industry.",
+    email: "john.doe@example.com",
+    number: "+1234567890",
+  },
+  {
+    image: "/about/cto.png",
+    name: "Jane Smith",
+    role: "CTO",
+    description:
+      "Jane is the CTO, leading the tech team with her extensive knowledge in software development.",
+    email: "jane.smith@example.com",
+    number: "+0987654321",
+  },
+  {
+    image: "/about/coo.png",
+    name: "Alex Johnson",
+    role: "COO",
+    description:
+      "Alex is the COO, overseeing the business operations and ensuring smooth workflow.",
+    email: "alex.johnson@example.com",
+    number: "+1357924680",
+  },
 ];

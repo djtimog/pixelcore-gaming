@@ -160,8 +160,8 @@ export default function Home() {
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                   re et dolore magna aliqua. re et dolore magna aliqua. Lorem
                   ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                  eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua. re
-                  et dolore magna aliqua. re et dolore magnaaliqua...
+                  eiusmod tempor incididunt <br /> ut labore et dolore magna
+                  aliqua. re et dolore magna aliqua. re et dolore magnaaliqua...
                   <Link href="/blog" className="text-[#14C570] px-1">
                     Read more.
                   </Link>
