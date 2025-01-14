@@ -77,3 +77,19 @@ input:focus {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border-color: #e0e3e7; 
+}
+
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #00ff00; 
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #00ff00; 
+}
+
+.MuiInputLabel-root.Mui-focused {
+  color: #00ff00; 
+}

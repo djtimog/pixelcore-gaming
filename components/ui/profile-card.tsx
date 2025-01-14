@@ -35,7 +35,7 @@ function stringAvatar(name: string) {
   };
 }
 
-const ProfileCard = ({ profile }: { profile: Profile }) => {
+export const ProfileCard = ({ profile }: { profile: Profile }) => {
   const [profileOpen, setProfileOpen] = useState(false);
 
   return (
@@ -186,23 +186,11 @@ const team: Profile[] = [
 export const TeamList = () => {
 
   return (
-    <div className="space-y-5 sm:space-y-7 md:space-y-9">
       <div className="flex overflow-x-auto md:overflow-x-hidden md:flex-wrap gap-8 md:gap-4 px-10 pb-3">
         {team.map((profile, index) => (
           <ProfileCard key={index} profile={profile} />
         ))}
       </div>
-      <div className="px-11 text-end mb-5">
-        <Link href={`/team`}>
-          <Button
-            variant="contained"
-            className="bg-[#14C570] normal-case text-black w-full md:w-auto"
-            size="large"
-          >
-            More Info On Our Team!
-          </Button>
-        </Link>
-      </div>
-    </div>
+
   );
 };
