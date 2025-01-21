@@ -22,14 +22,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-        <ThemeProvider>
-    <html lang="en">
-      <body className={`${orbitron.className} antialiased`}>
-        <Header />
+    <ThemeProvider>
+      <html lang="en">
+        <body className={`${orbitron.className} antialiased`}>
+          <Header />
           {children}
-        <Footer />
-      </body>
-    </html>
-        </ThemeProvider>
+          <Footer />
+        </body>
+      </html>
+    </ThemeProvider>
   );
 }

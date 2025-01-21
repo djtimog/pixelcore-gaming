@@ -109,7 +109,7 @@ function about() {
         </p>
         <div className="space-y-3 sm:space-y-4 md:space-y-5">
           {teamData.map((team) => (
-            <TeamCard {...team} />
+            <TeamCard {...team} key={team.name} />
           ))}
         </div>
       </section>

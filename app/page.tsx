@@ -89,20 +89,20 @@ export default function Home() {
             Team
           </p>
           <div className="space-y-10">
-          <div className="space-y-5 sm:space-y-7 md:space-y-9">
-            <TeamList />
-            <div className="px-11 text-end mb-5">
-        <Link href={`/team`}>
-          <Button
-            variant="contained"
-            className="bg-[#14C570] normal-case text-black w-full md:w-auto"
-            size="large"
-          >
-            More Info On Our Team!
-          </Button>
-        </Link>
-      </div>
-    </div>
+            <div className="space-y-5 sm:space-y-7 md:space-y-9">
+              <TeamList />
+              <div className="px-11 text-end mb-5">
+                <Link href={`/team`}>
+                  <Button
+                    variant="contained"
+                    className="bg-[#14C570] normal-case text-black w-full md:w-auto"
+                    size="large"
+                  >
+                    More Info On Our Team!
+                  </Button>
+                </Link>
+              </div>
+            </div>
             <div className="relative overflow-hidden bg-white">
               <div className="py-5 sm:py-0 max-h-[25rem]">
                 <Image

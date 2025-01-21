@@ -45,6 +45,8 @@ export const ProfileCard = ({ profile }: { profile: Profile }) => {
           src={profile.image}
           alt="captain-image"
           className="z-0 object-cover rounded-lg h-full w-full"
+          width={1000}
+          height={500}
         />
         <div
           className="absolute backdrop-blur-lg bg-[#14C570] bg-opacity-30 backdrop-opacity-60 bottom-0 z-10 rounded-lg w-full hover:h-full py-2 sm:py-3 md:py-4 space-y-1 flex flex-col items-center justify-around"

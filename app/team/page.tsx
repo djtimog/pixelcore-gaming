@@ -4,15 +4,12 @@ import { Button } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { ProfileCard, TeamList } from "@/components/ui/profile-card";
+import { ProfileCard } from "@/components/ui/profile-card";
 import Image from "next/image";
 import teamImage from "@/public/team-image.png";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import captain from "@/public/captain.png";
+import { teams } from "@/lib/data";
 
 export default function Team() {
   const [selectedGame, setSelectedGame] = useState("Call of Duty");
@@ -22,25 +19,34 @@ export default function Team() {
   };
 
   return (
-    <main>
-      <section className="px-11 py-5">
-        <p className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-center mb-7">
-          Team
-        </p>
-        <Select
-          labelId="demo-simple-select-disabled-label"
-          id="demo-simple-select-disabled"
-          value={selectedGame}
-          onChange={handleGameChange}
-          className="mb-5 m-3 text-gray-500 w-full sm:w-max"
-        >
-          {teams.map((team) => (
-            <MenuItem value={team.game} key={team.game} className="flex justify-center items-center text-lg">
-              {team.game} <span className="text-xs">{team.name}</span>
-            </MenuItem>
-          ))}
-        </Select>
-        <div className="gap-10 flex flex-wrap">
+    <section className="min-h-screen">
+        <div className="flex flex-col items-center space-y-4">
+          <Select
+            labelId="select-team-label"
+            id="select-team"
+            value={selectedGame}
+            onChange={handleGameChange}
+            className="bg-inherit text-inherit rounded-md shadow-md w-64 sticky top-0"
+          >
+            {teams.map((team) => (
+              <MenuItem 
+                value={team.game} 
+                key={team.game}
+                className="flex justify-between items-center text-lg">
+                {team.game} <span className="text-sm text-gray-500">({team.name})</span>
+              </MenuItem>
+            ))}
+          </Select>
+        </div>
+      <section className="px-6 py-8">
+        <h1 className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-center font-bold mb-10">
+            {teams
+            .filter((team) => team.game === selectedGame)
+            .map((team) => team.name)
+            .join(", ")}
+        </h1>
+
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {teams
             .filter((team) => team.game === selectedGame)
             .flatMap((team) => team.team)
@@ -49,6 +55,7 @@ export default function Team() {
             ))}
         </div>
       </section>
+
       <section>
         <div className="relative overflow-hidden bg-white">
           <div className="py-5 sm:py-0 max-h-[25rem]">
@@ -82,152 +89,6 @@ export default function Team() {
           </div>
         </div>
       </section>
-    </main>
+    </section>
   );
 }
-
-const teams = [
-  {
-    game: "Call of Duty",
-    name: "Team Core",
-    team: [
-      {
-        name: "Bhabishya Dhakal Chhetri",
-        ign: "tcr-sexy.44",
-        image: captain,
-        role: "Player",
-        igRole: "Captain",
-        rank: "Diamond",
-        level: 350,
-      },
-      {
-        name: "John Doe",
-        nickname: "JD",
-        image: captain,
-        role: "Admin",
-        igRole: "Manager",
-        breifResponsibility: "Managing team schedules",
-      },
-      {
-        name: "Jane Smith",
-        nickname: "tcr-ace.21",
-        image: captain,
-        role: "Admin",
-        igRole: "Coach",
-        breifResponsibility: "Coach team to be better players",
-      },
-      {
-        name: "Alice Johnson",
-        ign: "tcr-queen.99",
-        image: captain,
-        role: "Player",
-        igRole: "Support",
-        rank: "Gold",
-        level: 250,
-      },
-      {
-        name: "Bob Brown",
-        ign: "tcr-king.77",
-        image: captain,
-        role: "Player",
-        igRole: "Striker",
-        rank: "Silver",
-        level: 200,
-      },
-      {
-        name: "Alice Johnson",
-        ign: "tcr-queen.99",
-        image: captain,
-        role: "Player",
-        igRole: "Support",
-        rank: "Gold",
-        level: 250,
-      },
-      {
-        name: "Bob Brown",
-        ign: "tcr-king.77",
-        image: captain,
-        role: "Player",
-        igRole: "Striker",
-        rank: "Silver",
-        level: 200,
-      },
-      {
-        name: "Alice Johnson",
-        ign: "tcr-queen.99",
-        image: captain,
-        role: "Player",
-        igRole: "Support",
-        rank: "Gold",
-        level: 250,
-      },
-    ],
-  },
-  {
-    game: "Pub G",
-    name: "Phoenix Core",
-    team: [
-      {
-        name: "John Doe",
-        nickname: "JD",
-        image: captain,
-        role: "Admin",
-        igRole: "Manager",
-        breifResponsibility: "Managing team schedules",
-      },
-      {
-        name: "Jane Smith",
-        nickname: "tcr-ace.21",
-        image: captain,
-        role: "Admin",
-        igRole: "Coach",
-        breifResponsibility: "Coach team to be better players",
-      },
-      {
-        name: "Alice Johnson",
-        ign: "tcr-queen.99",
-        image: captain,
-        role: "Player",
-        igRole: "Support",
-        rank: "Gold",
-        level: 250,
-      },
-      {
-        name: "Bob Brown",
-        ign: "tcr-king.77",
-        image: captain,
-        role: "Player",
-        igRole: "Striker",
-        rank: "Silver",
-        level: 200,
-      },
-      {
-        name: "Alice Johnson",
-        ign: "tcr-queen.99",
-        image: captain,
-        role: "Player",
-        igRole: "Support",
-        rank: "Gold",
-        level: 250,
-      },
-      {
-        name: "Bob Brown",
-        ign: "tcr-king.77",
-        image: captain,
-        role: "Player",
-        igRole: "Striker",
-        rank: "Silver",
-        level: 200,
-      },
-      {
-        name: "Alice Johnson",
-        ign: "tcr-queen.99",
-        image: captain,
-        role: "Player",
-        igRole: "Support",
-        rank: "Gold",
-        level: 250,
-      },
-    ],
-  },
-];
