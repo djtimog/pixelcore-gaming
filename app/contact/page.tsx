@@ -39,8 +39,8 @@ export default function Contact() {
         </div>
       </section>
       <section className="my-10 space-y-5">
-        <h1 className="text-2xl text-center">
-          Connect with one of our global offices
+        <h1 className="text-3xl text-center">
+          Connect with our global office
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-3 px-5 gap-10">
           <div className="col-span-2 py-5">
@@ -57,7 +57,7 @@ export default function Contact() {
             <div>
               <h2 className="text-lg font-bold mb-2">Global Headquarters</h2>
               <p>
-                2 Canal Park <br />
+                2 Canal Park
                 Cambridge, MA 02141 <br />
                 United States
               </p>
