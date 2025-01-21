@@ -1,3 +1,17 @@
+import React from 'react';
+
+const GlobalContact = () => {
+  return (
+    <section className='my-10' id='global-contact'>
+        <div>GlobalContact</div>
+    </section>
+  )
+}
+
+export default GlobalContact;
+
+
+
 const nigeriaContactData = [
     {
       region: "Lagos",

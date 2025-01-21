@@ -7,6 +7,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { IconButton } from "@mui/material";
 import Link from "next/link";
 import MediaCard from "@/components/ui/contact/media-card";
+import GlobalContact from "@//components/ui/contact/global-contact"
 
 export default function Contact() {
   return (
@@ -69,12 +70,13 @@ export default function Contact() {
                 (<Link href="tel:+18884827768" >+1 888 482 7768</Link>)
               </p>
               <p className="mt-5">
-                <span className="font-semibold">Fax:</span> +1 617 812 5820
+                <span className="font-semibold">Fax:</span> <Link href="tel:+1 617 812 5820">+1 617 812 5820</Link>
               </p>
             </div>
           </div>
         </div>
       </section>
+      <GlobalContact />
     </main>
   );
 }
