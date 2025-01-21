@@ -94,7 +94,7 @@ const Header = () => {
 
   return (
     <header className="p-4 sticky top-0 z-50 bg-inherit">
-      <div className="container mx-auto flex items-center justify-between">
+      <div className=" max-w-screen-xl mx-auto flex items-center justify-between">
         <div className="flex items-center">
           <Link href="/">
             <Image src={logo} alt="Logo" width={70} height={80} />
