@@ -65,12 +65,12 @@ export default function Contact() {
             <div>
               <h2 className="text-lg font-bold mb-2">Phone / Fax</h2>
               <p>
-                <Link href="tel:+2347053554961">+1 888 111 454</Link>
+                <Link href="tel:+2347053554961" className="text-blue-700 underline">+1 888 111 454</Link>
                 <br />
-                (<Link href="tel:+18884827768" >+1 888 482 7768</Link>)
+                (<Link href="tel:+18884827768" className="text-blue-700 underline">+1 888 482 7768</Link>)
               </p>
               <p className="mt-5">
-                <span className="font-semibold">Fax:</span> <Link href="tel:+1 617 812 5820">+1 617 812 5820</Link>
+                <span className="font-semibold">Fax:</span> <Link href="tel:+1 617 812 5820" className="text-blue-700 underline">+1 617 812 5820</Link>
               </p>
             </div>
           </div>
