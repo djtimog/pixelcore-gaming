@@ -1,11 +1,9 @@
 "use client";
-import Footer from "@/components/footer";
-import Header from "@/components/header";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./app.module.scss";
 import { useTheme } from "@/app/context/theme-context";
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import captain from "@/public/captain.png";
 import { TeamList } from "@/components/ui/profile-card";
@@ -15,7 +13,7 @@ import activeBlog from "@/public/blog/active-blog.svg";
 import OtherBlogs from "@/components/ui/other-blogs";
 
 export default function Home() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
 
   return (
     <>
@@ -192,23 +190,23 @@ export default function Home() {
   );
 }
 
-const events = [
-  {
-    date: "November 11th - 19th",
-    title: "World Esports Championship",
-    image: "/white-bg-image.jpg",
-    status: "Online",
-  },
-  {
-    date: "December 5th - 12th",
-    title: "Regional Qualifiers",
-    image: "/regional-qualifiers.jpg",
-    status: "Offline",
-  },
-  {
-    date: "January 20th - 25th",
-    title: "National Finals",
-    image: "/national-finals.jpg",
-    status: "Online",
-  },
-];
+// const events = [
+//   {
+//     date: "November 11th - 19th",
+//     title: "World Esports Championship",
+//     image: "/white-bg-image.jpg",
+//     status: "Online",
+//   },
+//   {
+//     date: "December 5th - 12th",
+//     title: "Regional Qualifiers",
+//     image: "/regional-qualifiers.jpg",
+//     status: "Offline",
+//   },
+//   {
+//     date: "January 20th - 25th",
+//     title: "National Finals",
+//     image: "/national-finals.jpg",
+//     status: "Online",
+//   },
+// ];

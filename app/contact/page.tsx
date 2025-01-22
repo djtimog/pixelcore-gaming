@@ -3,8 +3,6 @@ import React from "react";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import EmailIcon from "@mui/icons-material/Email";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { IconButton } from "@mui/material";
 import Link from "next/link";
 import MediaCard from "@/components/ui/contact/media-card";
 import GlobalContact from "@//components/ui/contact/global-contact"
@@ -26,9 +24,9 @@ export default function Contact() {
           <div className="flex flex-col justify-center text-center md:text-left md:col-span-2 space-y-7 mx-auto">
             <h1 className="text-4xl">Get In Touch</h1>
             <p className="text-md">
-              Want to get in touch?, We'd love to hear from you
+              Want to get in touch?, We&apos;d love to hear from you
               <br />
-              Here's how you can reach us...
+              Here&apos;s how you can reach us...
             </p>
           </div>
         </div>

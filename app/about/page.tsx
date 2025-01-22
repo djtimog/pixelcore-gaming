@@ -49,19 +49,19 @@ function about() {
           </div>
           <p className="text-center md:text-start col-span-2 mt-5">
             <span className="hidden md:block">
-              "To establish Pixelcore as the leading esports organization and
+            &quot;To establish Pixelcore as the leading esports organization and
               broadcasting network in Africa, fostering a thriving gaming
               ecosystem that unlocks the potential of Nigerian and African
-              gamers, and propels the industry into the mainstream."
+              gamers, and propels the industry into the mainstream.&quot;
             </span>
             <br />
             <span>
-              "To revolutionize the esports industry in Africa by building a
+            &quot;To revolutionize the esports industry in Africa by building a
               thriving ecosystem where African gamers can achieve their full
               potential, be globally recognized, and inspire future generations.
               Pixelcore envisions a future where esports becomes a mainstream
               avenue for empowerment, innovation, and cultural connection across
-              the continent."
+              the continent.&quot;
             </span>
           </p>
         </div>
@@ -74,12 +74,12 @@ function about() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           <p className="text-center md:text-start col-span-2 mt-5 ">
             <span>
-              "Pixelcore is committed to driving the growth of esports in Africa
+            &quot;Pixelcore is committed to driving the growth of esports in Africa
               by creating opportunities for gamers to showcase their talents,
               develop professionally, and compete on global platforms. Our
               mission is to serve as the bridge between African gaming talent
               and the international esports scene by offering the tools,
-              resources, and platforms they need to succeed"
+              resources, and platforms they need to succeed&quot;
             </span>
             <br />
             <span className="hidden lg:block">

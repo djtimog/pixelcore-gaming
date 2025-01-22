@@ -22,7 +22,7 @@ const TeamCard = ({
     <div className=" mx-auto rounded-lg shadow-lg p-5 space-y-3 sm:space-y-0 sm:space-x-5 md:space-x-7 flex flex-col sm:flex-row">
       <div className="w-full sm:max-w-sm h-60 overflow-hidden">
         <Image
-          src="/about/team/ceo.jpeg"
+          src={image}
           alt={name}
           width={500}
           height={300}
@@ -51,7 +51,7 @@ export default TeamCard;
 
 export const teamData = [
   {
-    image: "/about/ceo.png",
+    image: "/about/team/ceo.jpeg",
     name: "John Doe",
     role: "CEO",
     description:
@@ -60,7 +60,7 @@ export const teamData = [
     number: "+1234567890",
   },
   {
-    image: "/about/cto.png",
+    image: "/about/team/ceo.jpeg",
     name: "Jane Smith",
     role: "CTO",
     description:
@@ -69,7 +69,7 @@ export const teamData = [
     number: "+0987654321",
   },
   {
-    image: "/about/coo.png",
+    image: "/about/team/ceo.jpeg",
     name: "Alex Johnson",
     role: "COO",
     description:
