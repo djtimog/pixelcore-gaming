@@ -93,8 +93,7 @@ export const ProfileCard = ({ profile }: { profile: Profile }) => {
               ) : null}
               <Link href={`/`}>
                 <button
-                  className="bg-[#14C570] normal-case text-black p-2 rounded"
-                  size="small"
+                  className="bg-[#14C570] normal-case text-black p-2 rounded text-sm"
                 >
                   More details
                   <ArrowRightAltIcon />
