@@ -1,7 +1,7 @@
 "use client";
 import Image, { StaticImageData } from "next/image";
 import captain from "@/public/captain.png";
-import { Typography, Avatar, Button } from "@mui/material";
+import { Typography, Avatar } from "@mui/material";
 import { useState } from "react";
 import Link from "next/link";
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
