@@ -92,14 +92,13 @@ export const ProfileCard = ({ profile }: { profile: Profile }) => {
                 </div>
               ) : null}
               <Link href={`/`}>
-                <Button
-                  variant="contained"
-                  className="bg-[#14C570] normal-case text-black"
+                <button
+                  className="bg-[#14C570] normal-case text-black p-2 rounded"
                   size="small"
                 >
                   More details
                   <ArrowRightAltIcon />
-                </Button>
+                </button>
               </Link>
             </>
           ) : null}

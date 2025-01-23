@@ -76,13 +76,12 @@ export default function Team() {
 
               <div className="flex justify-center sm:justify-start md:pt-10">
                 <Link href="/events">
-                  <Button
-                    variant="contained"
-                    className="bg-[#14C570] flex normal-case space-x-2 hover:space-x-4 text-lg"
+                  <button
+                    className="bg-[#14C570] flex normal-case space-x-2 hover:space-x-4 text-lg p-2 rounded"
                   >
                     <span>Join Us</span>
                     <ArrowForwardIcon className="" />
-                  </Button>
+                  </button>
                 </Link>
               </div>
             </div>

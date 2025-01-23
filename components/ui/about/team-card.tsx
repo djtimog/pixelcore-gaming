@@ -35,12 +35,11 @@ const TeamCard = ({
         <p className="text-md">{description}</p>
         <Link href={`mailto:${email}`}>{email}</Link>
         <Link href={`tel:${number}`}>
-          <Button
-            variant="contained"
-            className="w-full bg-[#00ff00] text-black"
+          <button
+            className="w-full bg-[#00ff00] text-black rounded"
           >
             Contact
-          </Button>
+          </button>
         </Link>
       </div>
     </div>

@@ -91,13 +91,11 @@ export default function Home() {
               <TeamList />
               <div className="px-11 text-end mb-5">
                 <Link href={`/team`}>
-                  <Button
-                    variant="contained"
-                    className="bg-[#14C570] normal-case text-black w-full md:w-auto"
-                    size="large"
+                  <button
+                    className="bg-[#14C570] normal-case text-black w-full md:w-auto py-2 px-3 rounded text-lg"
                   >
                     More Info On Our Team!
-                  </Button>
+                  </button>
                 </Link>
               </div>
             </div>
@@ -120,13 +118,12 @@ export default function Home() {
 
                   <div className="flex justify-center sm:justify-start md:pt-10">
                     <Link href="/events">
-                      <Button
-                        variant="contained"
-                        className="bg-[#14C570] flex normal-case space-x-2 hover:space-x-4 text-lg"
+                      <button
+                        className="bg-[#14C570] flex normal-case space-x-2 hover:space-x-4 text-lg p-2 rounded"
                       >
                         <span>Join Us</span>
                         <ArrowForwardIcon className="" />
-                      </Button>
+                      </button>
                     </Link>
                   </div>
                 </div>
