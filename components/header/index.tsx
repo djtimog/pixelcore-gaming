@@ -1,11 +1,9 @@
 "use client";
 
-import React, { MouseEvent, KeyboardEvent, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  Menu,
-  MenuItem,
   IconButton,
   List,
   ListItem,
@@ -16,7 +14,7 @@ import {
   Menu as MenuIcon,
   Close as CloseIcon,
 } from "@mui/icons-material";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import logo from "@/public/logo.png";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "@/components/ui/mode-toggle";
@@ -33,7 +31,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 const LanguageButton = ({
   currentLanguage,
@@ -44,16 +42,20 @@ const LanguageButton = ({
 }) => (
   <DropdownMenu>
     <DropdownMenuTrigger>
-      <Button variant="outline" size="icon" className="hover:text-[#14C570] flex items-center space-x-1 border-[0px]">
-
-<ExpandMore />
-<span>{currentLanguage}</span>
-</Button>
+      <p
+        className="hover:text-[#14C570] flex items-center space-x-1 border-[0px] p-1"
+      >
+        <ExpandMore />
+        <span className="font-medium">{currentLanguage}</span>
+      </p>
     </DropdownMenuTrigger>
-    <DropdownMenuContent align="end" className="absolute"
-    >
+    <DropdownMenuContent align="center" className="absolute w-max">
       {["EN", "FR", "ES"].map((lang) => (
-        <DropdownMenuItem key={lang} onClick={() => handleLanguageClick(lang)}>
+        <DropdownMenuItem
+          key={lang}
+          onClick={() => handleLanguageClick(lang)}
+          className="max-w-max"
+        >
           {lang}
         </DropdownMenuItem>
       ))}
@@ -62,7 +64,7 @@ const LanguageButton = ({
 );
 
 const Header = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   // const [drawerOpen, setDrawerOpen] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("EN");
 
@@ -70,7 +72,6 @@ const Header = () => {
 
   const handleLanguageClick = (language: string) => {
     setCurrentLanguage(language);
-
   };
 
   // const toggleDrawer =
@@ -96,14 +97,12 @@ const Header = () => {
   return (
     <header className="p-4 sticky top-0 z-50 bg-inherit">
       <div className="container mx-auto xl:px-11 flex items-center justify-between">
-        {/* Logo */}
         <div className="flex items-center">
           <Link href="/">
             <Image src={logo} alt="Logo" width={70} height={80} />
           </Link>
         </div>
 
-        {/* Navigation for larger screens */}
         <nav className="hidden md:flex space-x-6 items-center">
           {navItems.map((item) => (
             <Link
@@ -117,7 +116,6 @@ const Header = () => {
           ))}
         </nav>
 
-        {/* Language and Theme Toggle for larger screens */}
         <div className="hidden md:flex items-center space-x-4">
           <LanguageButton
             currentLanguage={currentLanguage}
@@ -126,60 +124,59 @@ const Header = () => {
           <ModeToggle />
         </div>
 
-        {/* Mobile Drawer Menu */}
-        {/* <div className="md:hidden">
-          <IconButton color="inherit" onClick={toggleDrawer(true)}>
-            <MenuIcon />
-          </IconButton>
-
-          <Drawer
-            anchor="right"
-            open={drawerOpen}
-            onClose={toggleDrawer(false)}
-            className=""
-          >
-            <div className="p-4 w-75 h-full bg-initial">
-
-              <div className="flex justify-between items-center mb-4 space-x-5">
-
-                <Image src={logo} alt="Logo" width={50} height={50} />
-
-
-                <div className="flex items-center">
-                  <LanguageButton
-                    currentLanguage={currentLanguage}
-                    handleLanguageClick={handleLanguageClick}
-                    anchorEl={anchorEl}
-                    handleLanguageClose={handleLanguageClose}
-                  />
-                </div>
-
-                <div className="flex justify-center">
-                  <ModeToggle />
-                </div>
-
-                <IconButton color="inherit" onClick={toggleDrawer(false)}>
-                  <CloseIcon />
-                </IconButton>
-              </div>
-
-              <List>
-                {navItems.map((item) => (
-                  <ListItem key={item.label} onClick={toggleDrawer(false)}>
-                    <Link
-                      href={item.href}
-                      className={pathname === item.href ? "text-[#14C570] text-lg" : ""}
-                      passHref
-                    >
-                      <ListItemText primary={item.label} />
-                    </Link>
-                  </ListItem>
-                ))}
-              </List>
-            </div>
-          </Drawer>
-        </div> */}
         <div className="md:hidden">
+          {/* <div className="md:hidden">
+            <IconButton color="inherit" onClick={toggleDrawer(true)}>
+              <MenuIcon />
+            </IconButton>
+
+            <Drawer
+              anchor="right"
+              open={drawerOpen}
+              onClose={toggleDrawer(false)}
+              className=""
+            >
+              <div className="p-4 w-75 h-full bg-initial">
+
+                <div className="flex justify-between items-center mb-4 space-x-5">
+
+                  <Image src={logo} alt="Logo" width={50} height={50} />
+
+
+                  <div className="flex items-center">
+                    <LanguageButton
+                      currentLanguage={currentLanguage}
+                      handleLanguageClick={handleLanguageClick}
+                      anchorEl={anchorEl}
+                      handleLanguageClose={handleLanguageClose}
+                    />
+                  </div>
+
+                  <div className="flex justify-center">
+                    <ModeToggle />
+                  </div>
+
+                  <IconButton color="inherit" onClick={toggleDrawer(false)}>
+                    <CloseIcon />
+                  </IconButton>
+                </div>
+
+                <List>
+                  {navItems.map((item) => (
+                    <ListItem key={item.label} onClick={toggleDrawer(false)}>
+                      <Link
+                        href={item.href}
+                        className={pathname === item.href ? "text-[#14C570] text-lg" : ""}
+                        passHref
+                      >
+                        <ListItemText primary={item.label} />
+                      </Link>
+                    </ListItem>
+                  ))}
+                </List>
+              </div>
+            </Drawer>
+          </div> */}
           <Drawer>
             <DrawerTrigger asChild>
               <IconButton color="inherit">
@@ -191,19 +188,19 @@ const Header = () => {
                 <DrawerHeader>
                   <DrawerTitle className="flex justify-between items-center mb-4 space-x-5">
                     <Image src={logo} alt="Logo" width={50} height={50} />
-  
+
                     <div className="flex items-center">
                       <LanguageButton
                         currentLanguage={currentLanguage}
                         handleLanguageClick={handleLanguageClick}
                       />
                     </div>
-  
+
                     {/* Mode Toggle */}
                     <div className="flex justify-center">
                       <ModeToggle />
                     </div>
-  
+
                     {/* Close Button */}
                     <DrawerClose asChild>
                       <IconButton color="inherit">
@@ -219,7 +216,9 @@ const Header = () => {
                         <Link
                           href={item.href}
                           className={
-                            pathname === item.href ? "text-[#14C570] text-lg" : ""
+                            pathname === item.href
+                              ? "text-[#14C570] text-lg"
+                              : ""
                           }
                           passHref
                         >

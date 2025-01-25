@@ -30,7 +30,7 @@ export default function Home() {
               autoPlay
               muted
               loop
-              className="py-10 md:py-0"
+              className="py-9 md:py-0"
             />
             <div className="flex justify-center items-center px-5 py-5">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-center">
