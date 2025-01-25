@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { Button } from "@/components/ui/button";
+
 
 const TeamCard = ({
   image,
@@ -34,11 +36,11 @@ const TeamCard = ({
         <p className="text-md">{description}</p>
         <Link href={`mailto:${email}`}>{email}</Link>
         <Link href={`tel:${number}`}>
-          <button
-            className="w-full bg-[#00ff00] text-black rounded"
+          <Button
+            className="w-full bg-[#00ff00] font-bold rounded"
           >
             Contact
-          </button>
+          </Button>
         </Link>
       </div>
     </div>

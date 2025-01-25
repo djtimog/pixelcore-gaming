@@ -5,6 +5,8 @@ import { Typography, Avatar } from "@mui/material";
 import { useState } from "react";
 import Link from "next/link";
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import { Button } from "@/components/ui/button";
+
 
 type Player = {
   name: string;
@@ -92,12 +94,12 @@ export const ProfileCard = ({ profile }: { profile: Profile }) => {
                 </div>
               ) : null}
               <Link href={`/`}>
-                <button
-                  className="bg-[#14C570] normal-case text-black p-2 rounded text-sm"
+                <Button
+                  className="bg-[#14C570] normal-case rounded text-sm"
                 >
                   More details
                   <ArrowRightAltIcon />
-                </button>
+                </Button>
               </Link>
             </>
           ) : null}

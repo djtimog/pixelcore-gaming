@@ -10,6 +10,8 @@ import teamImage from "@/public/team-image.png";
 import SponsorSwiper from "@/components/ui/sponsor-swiper";
 import activeBlog from "@/public/blog/active-blog.svg";
 import OtherBlogs from "@/components/ui/other-blogs";
+import { Button } from "@/components/ui/button";
+
 
 export default function Home() {
   const { theme } = useTheme();
@@ -90,11 +92,11 @@ export default function Home() {
               <TeamList />
               <div className="px-11 text-end mb-5">
                 <Link href={`/team`}>
-                  <button
-                    className="bg-[#14C570] normal-case text-black w-full md:w-auto py-2 px-3 rounded text-lg"
+                  <Button
+                    className="bg-[#14C570] normal-case text-black w-full md:w-auto rounded text-lg"
                   >
                     More Info On Our Team!
-                  </button>
+                  </Button>
                 </Link>
               </div>
             </div>
@@ -117,12 +119,12 @@ export default function Home() {
 
                   <div className="flex justify-center sm:justify-start md:pt-10">
                     <Link href="/events">
-                      <button
-                        className="bg-[#14C570] flex normal-case space-x-2 hover:space-x-4 text-lg p-2 rounded"
+                      <Button
+                        className="bg-[#14C570] flex normal-case space-x-2 hover:space-x-4 text-lg rounded"
                       >
                         <span>Join Us</span>
                         <ArrowForwardIcon className="" />
-                      </button>
+                      </Button>
                     </Link>
                   </div>
                 </div>

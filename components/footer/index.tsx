@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/public/logo.png";
+import { Button } from "@/components/ui/button";
+
 
 const Footer = () => {
   return (
@@ -91,12 +93,12 @@ const Footer = () => {
                 className="mr-4 p-2 md:py-2 md:px-3 focus:outline-none text-black w-full"
               />
               <div className="min-w-max">
-                <button
+                <Button
                   type="submit"
-                  className="md:py-3 md:px-3 p-2 bg-[#14C570] text-white rounded-lg"
+                  className="md:py-3 md:px-3 p-2 bg-[#14C570] text-white rounded-md"
                 >
                   Subcribe
-                </button>
+                </Button>
               </div>
             </div>
           </div>

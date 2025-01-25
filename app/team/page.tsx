@@ -9,6 +9,8 @@ import teamImage from "@/public/team-image.png";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { teams } from "@/lib/data";
+import { Button } from "@/components/ui/button";
+
 
 export default function Team() {
   const [selectedGame, setSelectedGame] = useState("Call of Duty");
@@ -75,12 +77,12 @@ export default function Team() {
 
               <div className="flex justify-center sm:justify-start md:pt-10">
                 <Link href="/events">
-                  <button
-                    className="bg-[#14C570] flex normal-case space-x-2 hover:space-x-4 text-lg p-2 rounded"
+                  <Button
+                    className={"bg-[#14C570] flex normal-case space-x-2 hover:space-x-4 text-lg rounded"}
                   >
                     <span>Join Us</span>
                     <ArrowForwardIcon className="" />
-                  </button>
+                  </Button>
                 </Link>
               </div>
             </div>
