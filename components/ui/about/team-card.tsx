@@ -37,7 +37,7 @@ const TeamCard = ({
         <Link href={`mailto:${email}`}>{email}</Link>
         <Link href={`tel:${number}`}>
           <Button
-            className="w-full bg-[#00ff00] font-bold rounded"
+            className="w-full bg-[#00ff00] font-bold dark:font-medium rounded text-white dark:text-black"
           >
             Contact
           </Button>
