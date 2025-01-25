@@ -7,9 +7,11 @@ export const usersTable = pgTable("users", {
   password: varchar({ length: 255 }).notNull(), // Use bcrypt for password hashing
   role: varchar({ length: 50 }).default("player"), // e.g., "admin", "player", "team_manager"
   created_at: date().defaultNow(),
-  imageUrl:varchar('imageUrl'),
-  subscription: boolean("subscription").$default(()=>false),
-  verified: boolean("verified").$default(()=>false),
+  imageUrl: varchar({ length: 255 }), // Optional profile image URL
+  subscription: boolean("subscription").$default(() => false),
+  verified: boolean("verified").$default(() => false),
+  phone_number: varchar({ length: 15 }).notNull(), // For phone numbers (e.g., +123456789)
+  discord_handle: varchar({ length: 50 }), // Optional Discord handle (e.g., user#1234)
 });
 
 // Tournament Table
