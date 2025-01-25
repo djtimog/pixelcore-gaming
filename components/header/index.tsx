@@ -14,7 +14,6 @@ import {
   Menu as MenuIcon,
   Close as CloseIcon,
 } from "@mui/icons-material";
-import { Button } from "@/components/ui/button";
 import logo from "@/public/logo.png";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "@/components/ui/mode-toggle";
