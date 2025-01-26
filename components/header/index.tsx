@@ -27,6 +27,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Auth from "@/components/ui/auth";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 const LanguageButton = ({
   currentLanguage,
@@ -89,7 +90,7 @@ const Header = () => {
 
   return (
     <header className="p-4 sticky top-0 z-50 bg-inherit">
-      <div className="lg:container mx-auto xl:px-11 px-5 md:px-2 flex items-center justify-between">
+      <div className="lg:container mx-auto xl:px-11 px-5 md:px flex items-center justify-between">
         <div className="flex items-center">
           <Link href="/">
             <Image src={logo} alt="Logo" width={70} height={80} />
@@ -173,12 +174,17 @@ const Header = () => {
           </div> */}
           <Drawer>
             <DrawerTrigger asChild>
-              <IconButton color="inherit">
-                <MenuIcon />
-              </IconButton>
+              <div className="space-x-5 flex justify-center">
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
+                <IconButton color="inherit">
+                  <MenuIcon />
+                </IconButton>
+              </div>
             </DrawerTrigger>
-            <DrawerContent className="fixed right-0 max-h-min shadow-lg">
-              <div className="my-auto max-h-max p-4">
+            <DrawerContent className="fixed bottom-0 right-0 h-full max-h-min shadow-lg">
+              <div className="my--auto max-h-max p-4">
                 <DrawerHeader>
                   <DrawerTitle className="flex justify-between items-center mb-4 space-x-5">
                     <Image src={logo} alt="Logo" width={50} height={50} />
@@ -195,9 +201,16 @@ const Header = () => {
                       <ModeToggle />
                     </div>
 
-                    <DrawerClose asChild>
-                      <Auth />
-                    </DrawerClose>
+                    <>
+                      {" "}
+                      <SignedOut>
+                        <DrawerClose asChild>
+                          <div className="bg-[#14C570] rounded-lg px-3 py-2 font-medium text-sm cursor-pointer">
+                            <SignInButton />
+                          </div>
+                        </DrawerClose>
+                      </SignedOut>
+                    </>
 
                     {/* Close Button */}
                     <DrawerClose asChild>
@@ -209,8 +222,8 @@ const Header = () => {
                 </DrawerHeader>
                 <List>
                   {navItems.map((item) => (
-                    <DrawerClose asChild key={item.label}>
-                      <ListItem>
+                    <ListItem key={item.label}>
+                      <DrawerClose asChild>
                         <Link
                           href={item.href}
                           className={
@@ -222,8 +235,8 @@ const Header = () => {
                         >
                           <ListItemText primary={item.label} />
                         </Link>
-                      </ListItem>
-                    </DrawerClose>
+                      </DrawerClose>
+                    </ListItem>
                   ))}
                 </List>
               </div>
