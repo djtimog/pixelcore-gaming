@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Auth from "@/components/ui/auth";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { LogIn } from "lucide-react";
 
 const LanguageButton = ({
   currentLanguage,
@@ -184,9 +185,9 @@ const Header = () => {
               </div>
             </DrawerTrigger>
             <DrawerContent className="fixed bottom-0 right-0 h-full max-h-min shadow-lg">
-              <div className="my--auto max-h-max p-4">
+              <div className="my-auto max-h-max p-4">
                 <DrawerHeader>
-                  <DrawerTitle className="flex justify-between items-center mb-4 space-x-5">
+                  <DrawerTitle className="flex justify-between items-center mb-4 space-x-2 sm:space-x-5">
                     <Image src={logo} alt="Logo" width={50} height={50} />
 
                     <div className="flex items-center">
@@ -202,11 +203,27 @@ const Header = () => {
                     </div>
 
                     <>
-                      {" "}
                       <SignedOut>
                         <DrawerClose asChild>
                           <div className="bg-[#14C570] rounded-lg px-3 py-2 font-medium text-sm cursor-pointer">
-                            <SignInButton />
+                            {/* For larger screens */}
+                            <div className="hidden sm:block">
+                              <SignInButton />
+                            </div>
+
+                            {/* For small screens */}
+                            <div
+                              className="sm:hidden text-xs"
+                              onClick={() => {
+                                // Trigger the Clerk sign-in function programmatically
+                                const clerk = window.Clerk; // Access Clerk instance
+                                if (clerk) {
+                                  clerk.openSignIn(); // Opens the Clerk Sign-in modal
+                                }
+                              }}
+                            >
+                              <LogIn />
+                            </div>
                           </div>
                         </DrawerClose>
                       </SignedOut>
