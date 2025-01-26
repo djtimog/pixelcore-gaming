@@ -32,7 +32,7 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
       .where(eq(usersTable.email, email));
 
     if (!userResult[0]) {
-      router.push("/user-signup");
+      router.push("/schedule/player-signup");
       return;
     }
 
