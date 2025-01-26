@@ -2,7 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./app.module.scss";
-import { useTheme } from "next-themes"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import captain from "@/public/captain.png";
 import { TeamList } from "@/components/ui/profile-card";
