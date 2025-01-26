@@ -22,15 +22,18 @@ export default function Home() {
         <section className="home">
           <div className={`${styles.hero}`}>
             <video
-              src={
-                theme === "light"
-                  ? "/white-bg-video.mp4"
-                  : "/black-bg-video.mp4"
-              }
+              src={"/white-bg-video.mp4"}
               autoPlay
               muted
               loop
-              className="py-9 md:py-0"
+              className="py-9 md:py-0 dark:hidden"
+            />
+            <video
+              src={"/black-bg-video.mp4"}
+              autoPlay
+              muted
+              loop
+              className="py-9 md:py-0 hidden dark:block "
             />
             <div className="flex justify-center items-center px-5 py-5">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-center">

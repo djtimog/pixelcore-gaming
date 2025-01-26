@@ -1,14 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-} from "@mui/material";
+import { IconButton, List, ListItem, ListItemText } from "@mui/material";
 import {
   ExpandMore,
   Menu as MenuIcon,
@@ -31,6 +26,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Auth from "@/components/ui/auth";
 
 const LanguageButton = ({
   currentLanguage,
@@ -41,9 +37,7 @@ const LanguageButton = ({
 }) => (
   <DropdownMenu>
     <DropdownMenuTrigger>
-      <p
-        className="hover:text-[#14C570] flex items-center space-x-1 border-[0px] p-1"
-      >
+      <p className="hover:text-[#14C570] flex items-center space-x-1 border-[0px] p-1">
         <ExpandMore />
         <span className="font-medium">{currentLanguage}</span>
       </p>
@@ -121,6 +115,7 @@ const Header = () => {
             handleLanguageClick={handleLanguageClick}
           />
           <ModeToggle />
+          <Auth />
         </div>
 
         <div className="md:hidden">
@@ -182,7 +177,7 @@ const Header = () => {
                 <MenuIcon />
               </IconButton>
             </DrawerTrigger>
-            <DrawerContent className="fixed inset-y-0 right-0 h-full max-h-sm  shadow-lg">
+            <DrawerContent className="fixed inset-y-0 right-0 h-full max-h-sm shadow-lg">
               <div className="my-auto h-full p-4">
                 <DrawerHeader>
                   <DrawerTitle className="flex justify-between items-center mb-4 space-x-5">
@@ -199,6 +194,10 @@ const Header = () => {
                     <div className="flex justify-center">
                       <ModeToggle />
                     </div>
+
+                    <DrawerClose asChild>
+                      <Auth />
+                    </DrawerClose>
 
                     {/* Close Button */}
                     <DrawerClose asChild>

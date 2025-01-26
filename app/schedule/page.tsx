@@ -5,6 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectItem, SelectContent } from "@/components/ui/select";
+import {
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
 
 type FormData = {
   tournamentName: string;
@@ -69,6 +75,12 @@ const TournamentForm: React.FC = () => {
 
   return (
     <Card className="p-4 max-w-4xl mx-auto">
+      <SignedOut>
+      <SignInButton />
+    </SignedOut>
+    <SignedIn>
+      <UserButton />
+    </SignedIn>
       <CardContent>
         <h1 className="text-2xl font-bold mb-4">Tournament Registration Form</h1>
         <form onSubmit={handleSubmit}>

@@ -4,7 +4,8 @@ import { Orbitron } from "next/font/google";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ClerkProvider } from '@clerk/nextjs';
+import { ClerkProvider } from "@clerk/nextjs";
+import Provider from "@/app/provider";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -28,16 +29,7 @@ export default function RootLayout({
       <html lang="en">
         {/* <I18nextProvider i18n={i18n}> */}
         <body className={`${orbitron.className} antialiased`}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Header />
-            {children}
-            <Footer />
-          </ThemeProvider>
+          <Provider>{children}</Provider>
         </body>
         {/* </I18nextProvider> */}
       </html>
