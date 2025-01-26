@@ -89,7 +89,7 @@ const Header = () => {
 
   return (
     <header className="p-4 sticky top-0 z-50 bg-inherit">
-      <div className="container mx-auto xl:px-11 flex items-center justify-between">
+      <div className="lg:container mx-auto xl:px-11 px-5 md:px-2 flex items-center justify-between">
         <div className="flex items-center">
           <Link href="/">
             <Image src={logo} alt="Logo" width={70} height={80} />
@@ -177,8 +177,8 @@ const Header = () => {
                 <MenuIcon />
               </IconButton>
             </DrawerTrigger>
-            <DrawerContent className="fixed inset-y-0 right-0 h-full max-h-sm shadow-lg">
-              <div className="my-auto h-full p-4">
+            <DrawerContent className="fixed right-0 max-h-min shadow-lg">
+              <div className="my-auto max-h-max p-4">
                 <DrawerHeader>
                   <DrawerTitle className="flex justify-between items-center mb-4 space-x-5">
                     <Image src={logo} alt="Logo" width={50} height={50} />
