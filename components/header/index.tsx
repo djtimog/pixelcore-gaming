@@ -59,8 +59,6 @@ const LanguageButton = ({
 );
 
 const Header = () => {
-  // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  // const [drawerOpen, setDrawerOpen] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("EN");
 
   const pathname = usePathname();
@@ -69,17 +67,6 @@ const Header = () => {
     setCurrentLanguage(language);
   };
 
-  // const toggleDrawer =
-  //   (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
-  //     if (
-  //       event.type === "keydown" &&
-  //       ((event as KeyboardEvent).key === "Tab" ||
-  //         (event as KeyboardEvent).key === "Shift")
-  //     ) {
-  //       return;
-  //     }
-  //     setDrawerOpen(open);
-  //   };
 
   const navItems = [
     { label: "Home", href: "/" },
@@ -197,7 +184,6 @@ const Header = () => {
                       />
                     </div>
 
-                    {/* Mode Toggle */}
                     <div className="flex justify-center">
                       <ModeToggle />
                     </div>
@@ -206,19 +192,17 @@ const Header = () => {
                       <SignedOut>
                         <DrawerClose asChild>
                           <div className="bg-[#14C570] rounded-lg px-3 py-2 font-medium text-sm cursor-pointer">
-                            {/* For larger screens */}
+
                             <div className="hidden sm:block">
                               <SignInButton />
                             </div>
 
-                            {/* For small screens */}
                             <div
                               className="sm:hidden text-xs"
                               onClick={() => {
-                                // Trigger the Clerk sign-in function programmatically
-                                const clerk = window.Clerk; // Access Clerk instance
+                                const clerk = window.Clerk; 
                                 if (clerk) {
-                                  clerk.openSignIn(); // Opens the Clerk Sign-in modal
+                                  clerk.openSignIn();
                                 }
                               }}
                             >
@@ -229,7 +213,6 @@ const Header = () => {
                       </SignedOut>
                     </>
 
-                    {/* Close Button */}
                     <DrawerClose asChild>
                       <IconButton color="inherit">
                         <CloseIcon />

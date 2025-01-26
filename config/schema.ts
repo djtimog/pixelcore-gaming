@@ -3,8 +3,8 @@ import { integer, pgTable, varchar, text, boolean, date, jsonb } from "drizzle-o
 export const usersTable = pgTable("users", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
-  email: varchar({ length: 255 }).notNull().unique(),
-  password: varchar({ length: 255 }).notNull(), // Use bcrypt for password hashing
+  user_name: varchar({ length: 255 }).notNull(),
+  email: varchar({ length: 255 }).notNull().unique(), // Use bcrypt for password hashing
   role: varchar({ length: 50 }).default("player"), // e.g., "admin", "player", "team_manager"
   created_at: date().defaultNow(),
   imageUrl: varchar({ length: 255 }), // Optional profile image URL
