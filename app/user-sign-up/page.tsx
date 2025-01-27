@@ -22,7 +22,7 @@ import { useUser } from "@clerk/nextjs";
 import { db } from "@/config/db";
 import { usersTable } from "@/config/schema";
 import { eq } from "drizzle-orm";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -76,10 +76,7 @@ export default function UserSignUpForm() {
     if (user) {
       const userName = user.username;
       const email = user.emailAddresses[0]?.emailAddress;
-      if (
-        userName !== getUserName ||
-        email !== getEmail
-      ) {
+      if (userName !== getUserName || email !== getEmail) {
         setIsUserUser(false);
       } else {
         setIsUserUser(true);
@@ -115,7 +112,7 @@ export default function UserSignUpForm() {
           title: "Success!",
           description: "User added to the database.",
         });
-        router.push('/')
+        router.push("/");
       } else {
         toast({
           title: "Error",
@@ -206,26 +203,30 @@ export default function UserSignUpForm() {
                 <FormField
                   control={form.control}
                   name="phone_number"
-                  render={({field}) => (
+                  render={({ field }) => (
                     <FormItem>
                       <FormLabel>Phone Number</FormLabel>
                       <FormControl>
-                       
-                            <PhoneInput
-                              {...field}
-                              placeholder="Phone number"
-                              country="ng"
-                              inputStyle={{
-                                backgroundColor: "inherit",
-                                width: "100%",
-                                border: "0.1px gray solid",
-                              }}
-                              buttonStyle={{backgroundColor: "inherit",border: "0.1px gray solid",}}
-                              dropDownStyle={{backgroundColor: "white", color: 'black'}}
-                              onBlur={field.onBlur}
-                              onChange={(value) => field.onChange(value)}
-                            />
-
+                        <PhoneInput
+                          {...field}
+                          placeholder="Phone number"
+                          country="ng"
+                          inputStyle={{
+                            backgroundColor: "inherit",
+                            width: "100%",
+                            border: "0.1px gray solid",
+                          }}
+                          buttonStyle={{
+                            backgroundColor: "inherit",
+                            border: "0.1px gray solid",
+                          }}
+                          dropdownStyle={{
+                            backgroundColor: "white",
+                            color: "black",
+                          }}
+                          onBlur={field.onBlur}
+                          onChange={(value) => field.onChange(value)}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -285,7 +286,7 @@ export default function UserSignUpForm() {
                     Email or Username does not match User data.
                   </p>
                 )}
-  
+
                 {/* Submit Button */}
                 <Button
                   type="submit"
