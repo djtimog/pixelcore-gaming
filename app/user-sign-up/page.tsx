@@ -22,6 +22,7 @@ import { useUser } from "@clerk/nextjs";
 import { db } from "@/config/db";
 import { usersTable } from "@/config/schema";
 import { eq } from "drizzle-orm";
+import { useRouter } from 'next/navigation'
 
 const FormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -41,6 +42,7 @@ export default function UserSignUpForm() {
   const { user } = useUser();
   const [isLoading, setIsLoading] = useState(false);
   const [isUserUser, setIsUserUser] = useState(true);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -68,20 +70,22 @@ export default function UserSignUpForm() {
     }
   }, [user, form]);
 
+  const getUserName = form.getValues("user_name");
+  const getEmail = form.getValues("email");
   useEffect(() => {
     if (user) {
       const userName = user.username;
       const email = user.emailAddresses[0]?.emailAddress;
       if (
-        userName !== form.getValues("user_name") ||
-        email !== form.getValues("email")
+        userName !== getUserName ||
+        email !== getEmail
       ) {
         setIsUserUser(false);
       } else {
         setIsUserUser(true);
       }
     }
-  }, [user, form.getValues("user_name"), form.getValues("email")]);
+  }, [user, getUserName, getEmail]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsLoading(true);
@@ -111,6 +115,7 @@ export default function UserSignUpForm() {
           title: "Success!",
           description: "User added to the database.",
         });
+        router.push('/')
       } else {
         toast({
           title: "Error",
@@ -201,14 +206,11 @@ export default function UserSignUpForm() {
                 <FormField
                   control={form.control}
                   name="phone_number"
-                  render={({ field }) => (
+                  render={({field}) => (
                     <FormItem>
                       <FormLabel>Phone Number</FormLabel>
-                      <FormControl aria-required>
-                        <Controller
-                          name="phone_number"
-                          control={form.control}
-                          render={({ field }) => (
+                      <FormControl>
+                       
                             <PhoneInput
                               {...field}
                               placeholder="Phone number"
@@ -218,11 +220,12 @@ export default function UserSignUpForm() {
                                 width: "100%",
                                 border: "0.1px gray solid",
                               }}
+                              buttonStyle={{backgroundColor: "inherit",border: "0.1px gray solid",}}
+                              dropDownStyle={{backgroundColor: "white", color: 'black'}}
                               onBlur={field.onBlur}
                               onChange={(value) => field.onChange(value)}
                             />
-                          )}
-                        />
+
                       </FormControl>
                       <FormMessage />
                     </FormItem>
