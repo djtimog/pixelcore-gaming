@@ -26,17 +26,17 @@ const Footer = () => {
             </h6>
             <ul className="space-y-5">
               <li>
-                <Link href="#" className="hover:text-white">
+                <Link href="/" className="hover:text-white">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white">
+                <Link href="/about" className="hover:text-white">
                   About us
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white">
+                <Link href="/schedule" className="hover:text-white">
                   Schedule
                 </Link>
               </li>
@@ -49,17 +49,17 @@ const Footer = () => {
             </h6>
             <ul className="space-y-5">
               <li>
-                <Link href="#" className="hover:text-white">
+                <Link href="/user-sign-up" className="hover:text-white">
                   Becoming a member
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white">
+                <Link href="/player-sign-up" className="hover:text-white">
                   Join the team
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white">
+                <Link href="/schedule" className="hover:text-white">
                   Match streaming
                 </Link>
               </li>
@@ -72,12 +72,12 @@ const Footer = () => {
             </h6>
             <ul className="space-y-5">
               <li>
-                <Link href="#" className="hover:text-white">
+                <Link href="/contact" className="hover:text-white">
                   Customer services
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white">
+                <Link href="/contact#email" className="hover:text-white">
                   Email us
                 </Link>
               </li>
@@ -90,12 +90,12 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Your Email Address"
-                className="mr-4 p-2 md:py-2 md:px-3 focus:outline-none text-black w-full"
+                className="mr-4 p-2 md:py-2 md:px-3 focus:outline-none text-black w-full bg-transparent"
               />
               <div className="min-w-max">
                 <Button
                   type="submit"
-                  className="md:py-3 md:px-3 p-2 bg-[#14C570] text-white rounded-md"
+                  className="md:py-3 md:px-3 p-2 bg-[#14C570] hover:bg-[#00ff00] text-white rounded-md"
                 >
                   Subcribe
                 </Button>
@@ -104,7 +104,7 @@ const Footer = () => {
           </div>
           <div className="md:w-1/5">
             <span className="text-xs">
-              &copy;2024 Pixelcore | Design by TCR-timog with{" "}
+              &copy;2024 Pixelcore | Design by <Link href="https://github.com/djtimog" target="_blank">TCR-timog</Link> with{" "}
               <span className="text-[#14C570]">&hearts;</span>
             </span>
           </div>

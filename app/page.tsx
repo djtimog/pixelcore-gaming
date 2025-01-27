@@ -33,7 +33,7 @@ export default function Home() {
               loop
               className="py-9 md:py-0 hidden dark:block "
             />
-            <div className="flex justify-center items-center px-5 py-5">
+            <div className="flex justify-center items-center px-5 py-5 bg-black bg-opacity-40 dark:bg-opacity-60">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-center">
                 {" "}
                 Pixel <span className="text-[#14C570]">C</span>ore Esport <br />
