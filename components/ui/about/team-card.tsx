@@ -20,7 +20,7 @@ const TeamCard = ({
   number: string;
 }) => {
   return (
-    <div className="mx-auto rounded-lg shadow-lg p-5 space-y-3 sm:space-y-0 sm:space-x-5 md:space-x-7 flex flex-col sm:flex-row">
+    <div className="mx-auto rounded-lg shadow-lg p-5 space-y-3 sm:space-y-0 sm:space-x-5 md:space-x-7 flex flex-col sm:flex-row w-full">
       <div className="w-full sm:max-w-sm h-60 overflow-hidden">
         <Image
           src={image}
@@ -34,7 +34,7 @@ const TeamCard = ({
         <p className="text-lg">{name}</p>
         <p className="text-sm">{role}</p>
         <p className="text-md">{description}</p>
-        <Link href={`mailto:${email}`}>{email}</Link>
+        <Link href={`mailto:${email}`} className="text-blue-700 underline">{email}</Link>
         <Link href={`tel:${number}`}>
           <Button
           size={"sm"}
