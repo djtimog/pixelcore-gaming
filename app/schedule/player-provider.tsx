@@ -50,7 +50,6 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
       .where(eq(playersTable.user_id, userData.id));
 
     if (!playerResult[0]) {
-      console.error("Player not found in the players table.");
       router.push("/player-sign-up");
       return;
     }
