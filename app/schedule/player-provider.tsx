@@ -32,7 +32,7 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
       .where(eq(usersTable.email, email));
 
     if (!userResult[0]) {
-      router.push("/schedule/player-signup");
+      router.push("/user-sign-up");
       return;
     }
 
@@ -51,7 +51,7 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
 
     if (!playerResult[0]) {
       console.error("Player not found in the players table.");
-      router.push("/schedule/player-signup");
+      router.push("/player-sign-up");
       return;
     }
 
