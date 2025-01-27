@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { db } from "@/config/db";
@@ -11,17 +11,11 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
   const { user } = useUser();
   const router = useRouter();
 
-  useEffect(() => {
-    if (user) {
-      checkPlayerStatus();
-    }
-  }, [user]);
-
-  const checkPlayerStatus = async () => {
+  const checkPlayerStatus = useCallback(async () => {
     const email = user?.primaryEmailAddress?.emailAddress;
 
     if (!email) {
-      router.push('/sign-up');
+      router.push("/sign-up");
       return;
     }
 
@@ -50,12 +44,18 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
       .where(eq(playersTable.user_id, userData.id));
 
     if (!playerResult[0]) {
-      router.push("/player-sign-up");
+      router.push("/schedule/player-sign-up");
       return;
     }
+  }, [user, router]); // Add dependencies
 
-    return;
-  };
+  useEffect(() => {
+    if (user) {
+      checkPlayerStatus();
+    } else {
+      router.push("/sign-up");
+    }
+  }, [user, checkPlayerStatus, router]); // Include dependencies
 
   return <main>{children}</main>;
 }
