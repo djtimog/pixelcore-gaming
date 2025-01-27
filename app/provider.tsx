@@ -2,6 +2,7 @@ import React from "react";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function Provider({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     >
       <Header />
       {children}
+      <Toaster />
       <Footer />
     </ThemeProvider>
   );

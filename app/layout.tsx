@@ -11,9 +11,9 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  title: "PIXEL CORE esport team",
+  title: "PIXEL CORE",
   description:
-    "Join pixelcore, a dedicated esports team competing in top-tier tournaments across games like [List Games, e.g., Call of Duty, League of Legends, Valorant]. Fueled by passion, teamwork, and strategy, we aim to dominate the competitive scene while fostering a community of gamers and fans worldwide. Stay updated with match schedules, team news, and exclusive content on our official website.",
+    "Join pixelcore esport team, a dedicated esports team competing in top-tier tournaments across games like [List Games, e.g., Call of Duty, League of Legends, Valorant]. Fueled by passion, teamwork, and strategy, we aim to dominate the competitive scene while fostering a community of gamers and fans worldwide. Stay updated with match schedules, team news, and exclusive content on our official website.",
 };
 
 export default function RootLayout({
@@ -24,11 +24,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        {/* <I18nextProvider i18n={i18n}> */}
         <body className={`${orbitron.className} antialiased`}>
           <Provider>{children}</Provider>
         </body>
-        {/* </I18nextProvider> */}
       </html>
     </ClerkProvider>
   );
