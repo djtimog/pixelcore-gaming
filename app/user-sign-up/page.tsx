@@ -138,7 +138,7 @@ export default function UserSignUpForm() {
         User Sign Up
       </p>
       <section>
-        <div className="m-auto w-full">
+        <div className="max-w-5xl m-auto w-full">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
@@ -261,7 +261,7 @@ export default function UserSignUpForm() {
                       <FormControl>
                         <select
                           {...field}
-                          className="w-full border rounded-md px-3 py-2 bg-white"
+                          className="w-full border rounded-md px-3 py-2"
                         >
                           <option value="player">Player</option>
                           <option value="admin">Admin</option>

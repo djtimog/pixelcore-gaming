@@ -135,7 +135,7 @@ export default function PlayerSignUpForm() {
         Player Sign Up
       </p>
       <section>
-        <div className="m-auto w-full">
+        <div className="max-w-5xl m-auto w-full">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-5 md:p-11">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
