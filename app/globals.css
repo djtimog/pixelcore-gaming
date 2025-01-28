@@ -70,6 +70,7 @@ input:focus {
   color: #00ff00; 
 }
 
+
 main{
   max-width: 1536px;
   margin-left: auto;
@@ -103,7 +104,6 @@ main{
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
-  
   }
   .dark {
     --background: 240 10% 3.9%;

@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +17,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useUser } from "@clerk/nextjs";
 import { db } from "@/config/db";
 import { usersTable } from "@/config/schema";
@@ -53,6 +52,7 @@ export default function UserSignUpForm() {
       phone_number: "",
       discord_handle: "",
       role: "player",
+      imageUrl: user?.imageUrl || "",
     },
   });
 
@@ -63,7 +63,7 @@ export default function UserSignUpForm() {
         user_name: user.username || "",
         email: user.emailAddresses[0]?.emailAddress || "",
         phone_number: user.phoneNumbers[0]?.phoneNumber || "",
-        imageUrl: user.imageUrl || "",
+        imageUrl: user.imageUrl,
         discord_handle: "",
         role: "player",
       });
@@ -72,6 +72,7 @@ export default function UserSignUpForm() {
 
   const getUserName = form.getValues("user_name");
   const getEmail = form.getValues("email");
+
   useEffect(() => {
     if (user) {
       const userName = user.username;
@@ -210,22 +211,24 @@ export default function UserSignUpForm() {
                         <PhoneInput
                           {...field}
                           placeholder="Phone number"
-                          country="ng"
+                          defaultCountry="ng"
                           inputStyle={{
+                            color: "inherit",
                             backgroundColor: "inherit",
                             width: "100%",
                             border: "0.1px gray solid",
                           }}
-                          buttonStyle={{
-                            backgroundColor: "inherit",
-                            border: "0.1px gray solid",
-                          }}
-                          dropdownStyle={{
-                            backgroundColor: "white",
-                            color: "black",
-                          }}
                           onBlur={field.onBlur}
+                          className="border-[0.1px]"
                           onChange={(value) => field.onChange(value)}
+                          required
+                          countrySelectorStyleProps={{
+                            buttonStyle: {
+                              color: "inherit",
+                              backgroundColor: "inherit",
+                              padding: "7px",
+                            },
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -273,11 +276,42 @@ export default function UserSignUpForm() {
                   )}
                 />
 
-                {/* Picture Upload */}
-                <div className="grid w-full items-center gap-1.5">
+                {/* Picture */}
+                {/* <FormField
+                  control={form.control}
+                  name="imageUrl"
+                  render={({ field: _field }) => (
+                    <FormItem>
+                      <FormLabel>Picture</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          className="w-full"
+                          onChange={(event) => {
+                            const file = event.target.files?.[0];
+                            form.setValue("imageUrl", file); // Store file in form state
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                /> */}
+
+                {/* <div className="grid w-full items-center gap-1.5">
                   <Label htmlFor="picture">Picture</Label>
-                  <Input id="picture" type="file" className="w-full" />
-                </div>
+                  <Input
+                    id="picture"
+                    type="file"
+                    accept="image/*"
+                    className="w-full"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0];
+                      form.setValue("imageUrl", file); // Store file in form state
+                    }}
+                  />
+                </div> */}
               </div>
 
               <div>
