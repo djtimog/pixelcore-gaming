@@ -29,12 +29,18 @@ export const tournamentsTable = pgTable("tournaments", {
 });
 
 // Teams Table
+function generateSecretCode(): string {
+  return Math.random().toString(36).slice(2, 9).toUpperCase(); // 7-character alphanumeric code
+}
+
 export const teamsTable = pgTable("teams", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
   logo_url: varchar({ length: 255 }), // Optional team logo
   captain_id: integer().notNull(), // Foreign key to users table
+  secret_code: varchar({ length: 7 }).notNull().default(generateSecretCode()), // Auto-generated
   created_at: date().defaultNow(),
+  game_name: varchar({ length: 255 }).notNull().default("Call of Duty"), // Optional game name
 });
 
 // Players Table
@@ -44,6 +50,7 @@ export const playersTable = pgTable("players", {
   team_id: integer(), // Foreign key to teams table
   game_handle: varchar({ length: 255 }), // In-game username
   rank: varchar({ length: 100 }), // Optional in-game rank
+  UID: varchar({ length: 255 }), // Unique identifier for the player
 });
 
 // Games Table

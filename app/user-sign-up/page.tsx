@@ -110,13 +110,13 @@ export default function UserSignUpForm() {
 
         toast({
           title: "Success!",
-          description: "User added to the database.",
+          description: "User added",
         });
         router.push("/");
       } else {
         toast({
           title: "Error",
-          description: "User already exists in the database.",
+          description: "User already exists",
           variant: "destructive",
         });
       }
@@ -124,7 +124,7 @@ export default function UserSignUpForm() {
       console.error("Error saving user:", error);
       toast({
         title: "Submission Failed",
-        description: "An error occurred while saving user data.",
+        description: "An error occurred while saving USER.",
         variant: "destructive",
       });
     } finally {
