@@ -1,4 +1,4 @@
-import { integer, pgTable, varchar, text, boolean, date, jsonb } from "drizzle-orm/pg-core";
+import {serial,timestamp, integer, pgTable, varchar, text, boolean, date, jsonb } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -78,4 +78,18 @@ export const adminsTable = pgTable("admins", {
   role: varchar({ length: 50 }).default("admin"), // e.g., "super_admin", "tournament_admin"
   permissions: varchar({ length: 255 }).default("full_access"), // Optional permissions field
   created_at: date().defaultNow(),
+});
+
+export const matchesTable = pgTable("matches", {
+  id: serial("id").primaryKey(),
+  game_id: integer("game_id").notNull().references(() => gamesTable.id),
+  match_date: text("match_date").notNull(),
+  match_time: text("match_time").notNull(),
+  created_at: timestamp("created_at").defaultNow(),
+});
+
+export const matchTeamsTable = pgTable("match_teams", {
+  id: serial("id").primaryKey(),
+  match_id: integer("match_id").notNull().references(() => matchesTable.id, { onDelete: "cascade" }),
+  team_id: integer("team_id").notNull().references(() => teamsTable.id, { onDelete: "cascade" }),
 });

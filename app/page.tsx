@@ -188,24 +188,3 @@ export default function Home() {
     </>
   );
 }
-
-// const events = [
-//   {
-//     date: "November 11th - 19th",
-//     title: "World Esports Championship",
-//     image: "/white-bg-image.jpg",
-//     status: "Online",
-//   },
-//   {
-//     date: "December 5th - 12th",
-//     title: "Regional Qualifiers",
-//     image: "/regional-qualifiers.jpg",
-//     status: "Offline",
-//   },
-//   {
-//     date: "January 20th - 25th",
-//     title: "National Finals",
-//     image: "/national-finals.jpg",
-//     status: "Online",
-//   },
-// ];
