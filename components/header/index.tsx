@@ -67,7 +67,6 @@ const Header = () => {
     setCurrentLanguage(language);
   };
 
-
   const navItems = [
     { label: "Home", href: "/" },
     { label: "About us", href: "/about" },
@@ -190,26 +189,19 @@ const Header = () => {
 
                     <>
                       <SignedOut>
-                        <DrawerClose asChild>
-                          <div className="bg-[#14C570] rounded-lg px-3 py-2 font-medium text-sm cursor-pointer">
-
-                            <div className="hidden sm:block">
+                        <div className="cursor-pointer">
+                          <DrawerClose asChild>
+                            <div className="hidden sm:block bg-[#14C570] rounded-lg px-3 py-2 font-medium text-sm">
                               <SignInButton />
                             </div>
+                          </DrawerClose>
 
-                            <div
-                              className="sm:hidden text-xs"
-                              onClick={() => {
-                                const clerk = window.Clerk; 
-                                if (clerk) {
-                                  clerk.openSignIn();
-                                }
-                              }}
-                            >
-                              <LogIn />
-                            </div>
-                          </div>
-                        </DrawerClose>
+                          <DrawerClose asChild>
+                          <Link href="/sign-in">
+                            <LogIn size="22" />
+                          </Link>
+                          </DrawerClose>
+                        </div>
                       </SignedOut>
                     </>
 

@@ -11,7 +11,6 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { teams } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 
-
 export default function Team() {
   const [selectedGame, setSelectedGame] = useState("Call of Duty");
 
@@ -21,33 +20,35 @@ export default function Team() {
 
   return (
     <section className="min-h-screen">
-        <div className="flex flex-col items-center space-y-4">
-          <Select
-            labelId="select-team-label"
-            id="select-team"
-            value={selectedGame}
-            onChange={handleGameChange}
-            className="bg-inherit text-inherit rounded-md shadow-md w-64 sticky top-0"
-          >
-            {teams.map((team) => (
-              <MenuItem 
-                value={team.game} 
-                key={team.game}
-                className="flex justify-between items-center text-lg">
-                {team.game} <span className="text-sm text-gray-500">({team.name})</span>
-              </MenuItem>
-            ))}
-          </Select>
-        </div>
+      <div className="flex flex-col items-center space-y-4">
+        <Select
+          labelId="select-team-label"
+          id="select-team"
+          value={selectedGame}
+          onChange={handleGameChange}
+          className="bg-inherit text-inherit rounded-md shadow-md w-64 sticky top-0"
+        >
+          {teams.map((team) => (
+            <MenuItem
+              value={team.game}
+              key={team.game}
+              className="flex justify-between items-center text-lg"
+            >
+              {team.game}{" "}
+              <span className="text-sm text-gray-500">({team.name})</span>
+            </MenuItem>
+          ))}
+        </Select>
+      </div>
       <section className="px-6 py-8">
         <h1 className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-center font-bold mb-10">
-            {teams
+          {teams
             .filter((team) => team.game === selectedGame)
             .map((team) => team.name)
             .join(", ")}
         </h1>
 
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {teams
             .filter((team) => team.game === selectedGame)
             .flatMap((team) => team.team)
@@ -78,7 +79,9 @@ export default function Team() {
               <div className="flex justify-center sm:justify-start md:pt-10">
                 <Link href="/events">
                   <Button
-                    className={"bg-[#14C570] flex normal-case space-x-2 hover:space-x-4 text-lg rounded"}
+                    className={
+                      "bg-[#14C570] flex normal-case space-x-2 hover:space-x-4 text-lg rounded"
+                    }
                   >
                     <span>Join Us</span>
                     <ArrowForwardIcon className="" />

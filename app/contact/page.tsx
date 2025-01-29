@@ -30,7 +30,7 @@ export default function Contact() {
             </p>
           </div>
         </div>
-        <div id="email" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-2 sm:p-3 md:p-5">
+        <div id="email" className="flex flex-wrap gap-10 p-2 sm:p-3 md:p-5">
           {contactDetails.map((detail, index) => (
             <MediaCard {...detail} key={index} />
           ))}
