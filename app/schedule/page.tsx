@@ -1,85 +1,95 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useFieldArray } from "react-hook-form";
-import { z } from "zod";
-import { toast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { db } from "@/config/db";
-import { matchesTable, teamsTable, gamesTable } from "@/config/schema";
-import { eq } from "drizzle-orm";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "@/hooks/use-toast";
+import { db } from "@/config/db";
+import { tournamentsTable, gamesTable } from "@/config/schema";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 // Validation Schema
-const FormSchema = z.object({
-  teams: z.array(z.string()).min(2, { message: "Select at least two teams" }),
-  game_id: z.string().min(1, { message: "Select Game" }),
-  match_date: z.string().min(1, { message: "Select Match Date" }),
-  match_time: z.string().min(1, { message: "Select Match Time" }),
+const ScheduleSchema = z.object({
+  name: z.string().min(3, "Tournament name is required"),
+  description: z.string().optional(),
+  game_id: z.string().min(1, "Select a game"),
+  start_date: z.string().min(1, "Select start date"),
+  end_date: z.string().min(1, "Select end date"),
+  registration_start_date: z.string().min(1, "Select registration start date"),
+  registration_end_date: z.string().min(1, "Select registration end date"),
+  max_players_or_teams: z.number().min(2, "Must allow at least 2 teams/players"),
+  prize_pool: z.string().optional(),
+  image: z.instanceof(File).optional(),
 });
 
-export default function ScheduleMatchPage() {
+export default function ScheduleTournamentPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const [teams, setTeams] = useState<{ id: number; name: string }[]>([]);
   const [games, setGames] = useState<{ id: number; name: string }[]>([]);
   const router = useRouter();
 
+  // Fetch games from DB
   useEffect(() => {
-    async function fetchTeams() {
-      const teamData = await db.select().from(teamsTable);
-      setTeams(teamData);
-    }
-
     async function fetchGames() {
       const gameData = await db.select().from(gamesTable);
       setGames(gameData);
     }
-
-    fetchTeams();
     fetchGames();
   }, []);
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  // Form Setup
+  const form = useForm<z.infer<typeof ScheduleSchema>>({
+    resolver: zodResolver(ScheduleSchema),
     defaultValues: {
-      teams: [""],
+      name: "",
+      description: "",
       game_id: "",
-      match_date: "",
-      match_time: "",
+      start_date: "",
+      end_date: "",
+      registration_start_date: "",
+      registration_end_date: "",
+      max_players_or_teams: 2,
+      prize_pool: "",
     },
   });
 
-  const { fields, append, remove } = useFieldArray<string>({
-    control: form.control,
-    name: "teams",
-  });
-
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  // Submit Handler
+  async function onSubmit(data: z.infer<typeof ScheduleSchema>) {
     setIsLoading(true);
 
     try {
-      await db.insert(matchesTable).values({
-        team_ids: data.teams.map(id => parseInt(id)),
+      // Upload Image (if provided)
+      let imageUrl = "";
+      if (data.image) {
+        const formData = new FormData();
+        formData.append("file", data.image);
+        const uploadRes = await fetch("/api/upload", { method: "POST", body: formData });
+        const uploadData = await uploadRes.json();
+        imageUrl = uploadData.url;
+      }
+
+      // Insert into DB
+      await db.insert(tournamentsTable).values({
+        name: data.name,
+        description: data.description,
         game_id: parseInt(data.game_id),
-        match_date: data.match_date,
-        match_time: data.match_time,
+        start_date: data.start_date,
+        end_date: data.end_date,
+        registration_start_date: data.registration_start_date,
+        registration_end_date: data.registration_end_date,
+        prize_pool: data.prize_pool,
+        organizer_id: 1, // Change this to dynamic user ID
       });
 
-      toast({ title: "Success!", description: "Match scheduled successfully." });
-      router.push("/matches");
+      toast({ title: "Success!", description: "Tournament scheduled successfully." });
+      router.push("/tournaments");
     } catch (error) {
-      console.error("Error scheduling match:", error);
+      console.error("Error scheduling tournament:", error);
       toast({ title: "Submission Failed", description: "An error occurred.", variant: "destructive" });
     } finally {
       setIsLoading(false);
@@ -87,105 +97,104 @@ export default function ScheduleMatchPage() {
   }
 
   return (
-    <main>
-      <p className="uppercase outlined-text text-lg sm:text-xl md:text-2xl lg:text-3xl text-center">
-        Schedule a Match
-      </p>
-      <section>
-        <div className="max-w-4xl mx-auto p-6">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* Dynamic Team Selection */}
-              {fields.map((field, index) => (
-                <FormField
-                  key={field.id}
-                  control={form.control}
-                  name={`teams.${index}` as const}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Team {index + 1}</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
-                        <SelectTrigger><SelectValue placeholder={`Select Team ${index + 1}`} /></SelectTrigger>
-                        <SelectContent>
-                          {teams.map(team => (
-                            <SelectItem key={team.id} value={String(team.id)}>
-                              {team.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                      {index > 1 && (
-                        <Button type="button" onClick={() => remove(index)} variant="destructive">
-                          Remove
-                        </Button>
-                      )}
-                    </FormItem>
-                  )}
-                />
-              ))}
-              <Button type="button" onClick={() => append("")}>Add Team</Button>
+    <main className="max-w-4xl mx-auto p-6">
+      <p className="uppercase text-2xl text-center">Schedule a Tournament</p>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <FormField control={form.control} name="name" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Tournament Name</FormLabel>
+              <FormControl><Input {...field} /></FormControl>
+              <FormMessage />
+            </FormItem>
+          )} />
+          
+          <FormField control={form.control} name="description" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl><Textarea {...field} /></FormControl>
+              <FormMessage />
+            </FormItem>
+          )} />
 
-              {/* Game Selection */}
-              <FormField
-                control={form.control}
-                name="game_id"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Game</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger><SelectValue placeholder="Select Game" /></SelectTrigger>
-                      <SelectContent>
-                        {games.map(game => (
-                          <SelectItem key={game.id} value={String(game.id)}>
-                            {game.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField control={form.control} name="game_id" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Game</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <SelectTrigger><SelectValue placeholder="Select Game" /></SelectTrigger>
+                <SelectContent>
+                  {games.map(game => (
+                    <SelectItem key={game.id} value={String(game.id)}>{game.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )} />
 
-              {/* Match Date */}
-              <FormField
-                control={form.control}
-                name="match_date"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Match Date</FormLabel>
-                    <FormControl>
-                      <Input type="date" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField control={form.control} name="start_date" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Start Date</FormLabel>
+              <FormControl><Input type="date" {...field} /></FormControl>
+              <FormMessage />
+            </FormItem>
+          )} />
 
-              {/* Match Time */}
-              <FormField
-                control={form.control}
-                name="match_time"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Match Time</FormLabel>
-                    <FormControl>
-                      <Input type="time" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField control={form.control} name="end_date" render={({ field }) => (
+            <FormItem>
+              <FormLabel>End Date</FormLabel>
+              <FormControl><Input type="date" {...field} /></FormControl>
+              <FormMessage />
+            </FormItem>
+          )} />
 
-              {/* Submit Button */}
-              <Button type="submit" className="w-full bg-[#00ff00] hover:bg-[#14C570]" disabled={isLoading}>
-                {isLoading ? "Scheduling..." : "Schedule Match"}
-              </Button>
-            </form>
-          </Form>
-        </div>
-      </section>
+          <FormField control={form.control} name="registration_start_date" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Registration Start Date</FormLabel>
+              <FormControl><Input type="date" {...field} /></FormControl>
+              <FormMessage />
+            </FormItem>
+          )} />
+
+          <FormField control={form.control} name="registration_end_date" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Registration End Date</FormLabel>
+              <FormControl><Input type="date" {...field} /></FormControl>
+              <FormMessage />
+            </FormItem>
+          )} />
+
+          <FormField control={form.control} name="max_players_or_teams" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Max Teams/Players</FormLabel>
+              <FormControl><Input type="number" {...field} /></FormControl>
+              <FormMessage />
+            </FormItem>
+          )} />
+
+          <FormField control={form.control} name="prize_pool" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Prize Pool</FormLabel>
+              <FormControl><Input type="text" {...field} /></FormControl>
+              <FormMessage />
+            </FormItem>
+          )} />
+
+          <FormField control={form.control} name="image" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Upload Image</FormLabel>
+              <FormControl>
+                <Input type="file" accept="image/*" onChange={e => field.onChange(e.target.files?.[0])} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )} />
+
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? "Scheduling..." : "Schedule Tournament"}
+          </Button>
+        </form>
+      </Form>
     </main>
   );
 }
