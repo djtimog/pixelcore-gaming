@@ -1,95 +1,98 @@
-import {serial,timestamp, integer, pgTable, varchar, text, boolean, date, jsonb } from "drizzle-orm/pg-core";
+import {time, serial, timestamp, integer, pgTable, varchar, text, boolean, date } from "drizzle-orm/pg-core";
 
+// Users Table
 export const usersTable = pgTable("users", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 255 }).notNull(),
-  user_name: varchar({ length: 255 }).notNull(),
-  email: varchar({ length: 255 }).notNull().unique(), // Use bcrypt for password hashing
-  role: varchar({ length: 50 }).default("player"), // e.g., "admin", "player", "team_manager"
-  created_at: date().defaultNow(),
-  imageUrl: varchar({ length: 255 }), // Optional profile image URL
-  subscription: boolean("subscription").$default(() => false),
-  verified: boolean("verified").$default(() => false),
-  phone_number: varchar({ length: 15 }).notNull(), // For phone numbers (e.g., +123456789)
-  discord_handle: varchar({ length: 50 }), // Optional Discord handle (e.g., user#1234)
-});
-
-// Tournament Table
-export const tournamentsTable = pgTable("tournaments", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 255 }).notNull(),
-  description: text(),
-  start_date: date().notNull(),
-  end_date: date().notNull(),
-  registration_start_date: date().notNull(),
-  registration_end_date: date().notNull(),
-  game_id: integer().notNull(), // Foreign key to the games table
-  organizer_id: integer().notNull(), // Foreign key to users table
-  prize_pool: varchar({ length: 255 }).default("0"), // Optional prize pool
-});
-
-// Teams Table
-function generateSecretCode(): string {
-  return Math.random().toString(36).slice(2, 9).toUpperCase(); // 7-character alphanumeric code
-}
-
-export const teamsTable = pgTable("teams", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 255 }).notNull(),
-  logo_url: varchar({ length: 255 }), // Optional team logo
-  captain_id: integer().notNull(), // Foreign key to users table
-  secret_code: varchar({ length: 7 }).notNull().default(generateSecretCode()), // Auto-generated
-  created_at: date().defaultNow(),
-  game_name: varchar({ length: 255 }).notNull().default("Call of Duty"), // Optional game name
-});
-
-// Players Table
-export const playersTable = pgTable("players", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  user_id: integer().notNull().unique(), // Foreign key to users table
-  team_id: integer(), // Foreign key to teams table
-  game_handle: varchar({ length: 255 }), // In-game username
-  rank: varchar({ length: 100 }), // Optional in-game rank
-  UID: varchar({ length: 255 }), // Unique identifier for the player
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  username: varchar("username", { length: 255 }).notNull().unique(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  role: varchar("role", { length: 50 }).default("player"), // e.g., "admin", "player", "team_manager"
+  createdAt: timestamp("created_at").defaultNow(),
+  imageUrl: varchar("image_url", { length: 255 }), // Optional profile image URL
+  isSubscribed: boolean("is_subscribed").default(false),
+  isVerified: boolean("is_verified").default(false),
+  phoneNumber: varchar("phone_number", { length: 15 }), // Optional phone number
+  discordHandle: varchar("discord_handle", { length: 50 }), // Optional Discord handle
 });
 
 // Games Table
 export const gamesTable = pgTable("games", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 255 }).notNull(),
-  genre: varchar({ length: 255 }), // Optional game genre
-  platform: varchar({ length: 255 }), // e.g., PC, console, mobile
-  publisher: varchar({ length: 255 }), // Optional publisher info
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  genre: varchar("genre", { length: 255 }), // Optional game genre
+  platform: varchar("platform", { length: 255 }), // e.g., PC, console, mobile
+  publisher: varchar("publisher", { length: 255 }), // Optional publisher info
 });
 
-// Game-Specific Tournament Details
-export const gameDetailsTable = pgTable("game_details", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  tournament_id: integer().notNull(), // Foreign key to tournaments table
-  rules: text().notNull(), // Game-specific rules for the tournament
-  max_teams: integer().notNull(),
-  max_players_per_team: integer().notNull(),
-  additional_info: jsonb(), // Store any additional game-specific data
+// Teams Table
+export const teamsTable = pgTable("teams", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  logoUrl: varchar("logo_url", { length: 255 }), // Optional team logo
+  captainId: integer("captain_id").notNull().references(() => usersTable.id), // Foreign key to users table
+  secretCode: varchar("secret_code", { length: 7 }).notNull().default(generateSecretCode()), // Auto-generated
+  createdAt: timestamp("created_at").defaultNow(),
+  gameId: integer("game_id").notNull().references(() => gamesTable.id), // Foreign key to games table
 });
 
-export const adminsTable = pgTable("admins", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  user_id: integer().notNull().unique(), // Foreign key to users table
-  role: varchar({ length: 50 }).default("admin"), // e.g., "super_admin", "tournament_admin"
-  permissions: varchar({ length: 255 }).default("full_access"), // Optional permissions field
-  created_at: date().defaultNow(),
+// Players Table
+export const playersTable = pgTable("players", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => usersTable.id), // Foreign key to users table
+  teamId: integer("team_id").references(() => teamsTable.id), // Foreign key to teams table
+  gameHandle: varchar("game_handle", { length: 255 }), // In-game username
+  rank: varchar("rank", { length: 100 }), // Optional in-game rank
+  uid: varchar("uid", { length: 255 }), // Unique identifier for the player
 });
 
+// Tournaments Table
+export const tournamentsTable = pgTable("tournaments", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description"),
+  startDate: date("start_date").notNull(),
+  endDate: date("end_date").notNull(),
+  registrationStartDate: date("registration_start_date").notNull(),
+  registrationEndDate: date("registration_end_date").notNull(),
+  gameId: integer("game_id").notNull().references(() => gamesTable.id), // Foreign key to games table
+  organizerId: integer("organizer_id").notNull().references(() => usersTable.id), // Foreign key to users table
+  prizePool: varchar("prize_pool", { length: 255 }).default("0"), // Optional prize pool
+  maxTeams: integer("max_teams").notNull(), // Maximum number of teams allowed
+  maxPlayersPerTeam: integer("max_players_per_team").notNull(), // Maximum players per team
+  rules: text("rules"), // Tournament rules
+  status: varchar("status", { length: 50 }).default("upcoming"), // e.g., "upcoming", "ongoing", "completed"
+});
+
+// Matches Table
 export const matchesTable = pgTable("matches", {
   id: serial("id").primaryKey(),
-  game_id: integer("game_id").notNull().references(() => gamesTable.id),
-  match_date: text("match_date").notNull(),
-  match_time: text("match_time").notNull(),
-  created_at: timestamp("created_at").defaultNow(),
+  tournamentId: integer("tournament_id").notNull().references(() => tournamentsTable.id), // Foreign key to tournaments table
+  gameId: integer("game_id").notNull().references(() => gamesTable.id), // Foreign key to games table
+  matchDate: date("match_date").notNull(), // Date of the match
+  matchTime: time("match_time").notNull(), // Time of the match
+  round: varchar("round", { length: 50 }).notNull(), // e.g., "group stage", "quarter-finals", "semi-finals", "finals"
+  status: varchar("status", { length: 50 }).default("scheduled"), // e.g., "scheduled", "ongoing", "completed"
+  winnerTeamId: integer("winner_team_id").references(() => teamsTable.id), // Foreign key to teams table (optional, populated after match completion)
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Match Teams Table (Many-to-Many relationship between matches and teams)
 export const matchTeamsTable = pgTable("match_teams", {
   id: serial("id").primaryKey(),
-  match_id: integer("match_id").notNull().references(() => matchesTable.id, { onDelete: "cascade" }),
-  team_id: integer("team_id").notNull().references(() => teamsTable.id, { onDelete: "cascade" }),
+  matchId: integer("match_id").notNull().references(() => matchesTable.id, { onDelete: "cascade" }),
+  teamId: integer("team_id").notNull().references(() => teamsTable.id, { onDelete: "cascade" }),
 });
+
+// Admins Table
+export const adminsTable = pgTable("admins", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => usersTable.id), // Foreign key to users table
+  role: varchar("role", { length: 50 }).default("admin"), // e.g., "super_admin", "tournament_admin"
+  permissions: varchar("permissions", { length: 255 }).default("full_access"), // Optional permissions field
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Helper function to generate a secret code for teams
+function generateSecretCode(): string {
+  return Math.random().toString(36).slice(2, 9).toUpperCase(); // 7-character alphanumeric code
+}
