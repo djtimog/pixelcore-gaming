@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { Phone } from "lucide-react";
 
 
 const TeamCard = ({
@@ -40,6 +41,7 @@ const TeamCard = ({
           size={"sm"}
             className="w-full bg-[#00ff00] font-bold dark:font-medium rounded text-white dark:text-black"
           >
+            <Phone size={20} />
             Contact
           </Button>
         </Link>

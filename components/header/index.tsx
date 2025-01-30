@@ -27,8 +27,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Auth from "@/components/ui/auth";
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { LogIn } from "lucide-react";
+import ProfileImage from "@/components/ui/profile-image";
+import { Button } from "@/components/ui/button";
 
 const LanguageButton = ({
   currentLanguage,
@@ -102,68 +104,18 @@ const Header = () => {
             currentLanguage={currentLanguage}
             handleLanguageClick={handleLanguageClick}
           />
+
           <ModeToggle />
+
           <Auth />
         </div>
 
         <div className="md:hidden">
-          {/* <div className="md:hidden">
-            <IconButton color="inherit" onClick={toggleDrawer(true)}>
-              <MenuIcon />
-            </IconButton>
-
-            <Drawer
-              anchor="right"
-              open={drawerOpen}
-              onClose={toggleDrawer(false)}
-              className=""
-            >
-              <div className="p-4 w-75 h-full bg-initial">
-
-                <div className="flex justify-between items-center mb-4 space-x-5">
-
-                  <Image src={logo} alt="Logo" width={50} height={50} />
-
-
-                  <div className="flex items-center">
-                    <LanguageButton
-                      currentLanguage={currentLanguage}
-                      handleLanguageClick={handleLanguageClick}
-                      anchorEl={anchorEl}
-                      handleLanguageClose={handleLanguageClose}
-                    />
-                  </div>
-
-                  <div className="flex justify-center">
-                    <ModeToggle />
-                  </div>
-
-                  <IconButton color="inherit" onClick={toggleDrawer(false)}>
-                    <CloseIcon />
-                  </IconButton>
-                </div>
-
-                <List>
-                  {navItems.map((item) => (
-                    <ListItem key={item.label} onClick={toggleDrawer(false)}>
-                      <Link
-                        href={item.href}
-                        className={pathname === item.href ? "text-[#14C570] text-lg" : ""}
-                        passHref
-                      >
-                        <ListItemText primary={item.label} />
-                      </Link>
-                    </ListItem>
-                  ))}
-                </List>
-              </div>
-            </Drawer>
-          </div> */}
           <Drawer>
             <DrawerTrigger asChild>
               <div className="space-x-5 flex justify-center">
                 <SignedIn>
-                  <UserButton />
+                  <ProfileImage />
                 </SignedIn>
                 <IconButton color="inherit">
                   <MenuIcon />
@@ -191,22 +143,29 @@ const Header = () => {
                       <SignedOut>
                         <div className="cursor-pointer">
                           <DrawerClose asChild>
-                            <div className="hidden sm:block bg-[#14C570] rounded-lg px-3 py-2 font-medium text-sm">
-                              <SignInButton />
-                            </div>
+                            <Link href="/sign-in" className="hidden sm:block">
+                              <Button
+                                variant={"outline"}
+                                size={"sm"}
+                                className="hover:text-[#14C570]"
+                              >
+                                <LogIn size={16} />
+                                Sign In
+                              </Button>
+                            </Link>
                           </DrawerClose>
 
                           <DrawerClose asChild>
-                          <Link href="/sign-in">
-                            <LogIn size="22" />
-                          </Link>
+                            <Link href="/sign-in" className="sm:hidden">
+                              <LogIn size="16" />
+                            </Link>
                           </DrawerClose>
                         </div>
                       </SignedOut>
                     </>
 
                     <DrawerClose asChild>
-                      <IconButton color="inherit">
+                      <IconButton color="inherit" className="hover:text-[#14C570]">
                         <CloseIcon />
                       </IconButton>
                     </DrawerClose>

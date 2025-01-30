@@ -23,6 +23,7 @@ import { db } from "@/config/db";
 import { usersTable } from "@/config/schema";
 import { eq } from "drizzle-orm";
 import { useRouter } from "next/navigation";
+import { BookmarkCheck } from "lucide-react";
 
 const FormSchema = z.object({
   name: z.string()
@@ -35,8 +36,7 @@ const FormSchema = z.object({
     .email({ message: "Invalid email address." })
     .max(255, { message: "Email cannot exceed 255 characters" }),
   phoneNumber: z.string()
-    .max(15, { message: "Phone number cannot exceed 15 characters" })
-    .optional(),
+    .max(15, { message: "Phone number cannot exceed 15 characters" }),
   discordHandle: z.string()
     .max(50, { message: "Discord handle cannot exceed 50 characters" })
     .optional(),
@@ -61,7 +61,6 @@ export default function UserSignUpForm() {
       name: "",
       username: "",
       email: "",
-      phoneNumber: "",
       discordHandle: "",
       role: "player",
       imageUrl: "",
@@ -89,7 +88,6 @@ export default function UserSignUpForm() {
         name: user.firstName || "",
         username: user.username || "",
         email: user.emailAddresses[0]?.emailAddress || "",
-        phoneNumber: user.phoneNumbers[0]?.phoneNumber || "",
         imageUrl: user.imageUrl,
         discordHandle: "",
         role: "player",
@@ -134,7 +132,7 @@ export default function UserSignUpForm() {
         role: data.role,
         imageUrl: user?.imageUrl || "", // Use Clerk's CDN URL
         isSubscribed: data.isSubscribed,
-        isVerified: user?.hasVerifiedEmailAddress || false,
+        isVerified: false,
         createdAt: new Date()
       };
   
@@ -156,7 +154,7 @@ export default function UserSignUpForm() {
         router.push("/schedule/player")
        }
        else{
-        router.push('/')
+        router.push('/user')
        }
       } else {
         toast({
@@ -178,11 +176,11 @@ export default function UserSignUpForm() {
   }
 
   return (
-    <main className="container mx-auto px-4 py-8">
+    <main className="container mx-auto px-4 py-8 space-y-10">
       <p className="uppercase outlined-text text-lg sm:text-xl md:text-2xl lg:text-3xl text-center">
         Complete Your Profile
       </p>
-      <section className="max-w-5xl mx-auto">
+      <section className="">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -195,12 +193,12 @@ export default function UserSignUpForm() {
               render={() => (
                 <FormItem>
                   <FormLabel>Profile Picture</FormLabel>
-                  <div className="flex items-center gap-4">
+                  <div className="sm:flex space-y-4 sm:space-y-0 items-center gap-4">
                     {previewImage && (
                       <img
                         src={previewImage}
                         alt="Preview"
-                        className="w-10 h-10 rounded-full object-cover"
+                        className="w-20 h-20 rounded-full object-cover"
                       />
                     )}
                     <FormControl>
@@ -294,12 +292,7 @@ export default function UserSignUpForm() {
                         placeholder="Phone Number"
                         onBlur={field.onBlur}
                         className="border-[0.1px]"
-                        value={field.value}
-                        onChange={(value) => {
-                          // Remove all non-numeric characters and limit length
-                          const cleanedValue = value.replace(/[^0-9]/g, '').slice(0, 15);
-                          field.onChange(cleanedValue);
-                        }}
+                        required
                       />
                     </FormControl>
                     <FormMessage />
@@ -374,6 +367,7 @@ export default function UserSignUpForm() {
                 disabled={!isUserUser || isLoading}
               >
                 {isLoading ? "Creating Profile..." : "Complete Registration"}
+                <BookmarkCheck size={20} />
               </Button>
             </div>
           </form>

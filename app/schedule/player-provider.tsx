@@ -26,7 +26,7 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
       .where(eq(usersTable.email, email));
 
     if (!userResult[0]) {
-      router.push("/user-sign-up");
+      router.push("/user/signUp");
       return;
     }
 
@@ -41,7 +41,7 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
     const playerResult = await db
       .select()
       .from(playersTable)
-      .where(eq(playersTable.user_id, userData.id));
+      .where(eq(playersTable.userId, userData.id));
 
     if (!playerResult[0]) {
       router.push("/schedule/player-sign-up");
