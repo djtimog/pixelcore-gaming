@@ -116,7 +116,7 @@ export default function UserProfilePage() {
     };
 
     fetchUserData();
-  }, [clerkUser, form]);
+  }, [clerkUser, form, router]);
 
   // Handle image upload preview
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
