@@ -64,13 +64,13 @@ export default function ScheduleTournamentPage() {
 
     try {
       // Upload Image (if provided)
-      let imageUrl = "";
+      // let imageUrl = "";
       if (data.image) {
         const formData = new FormData();
         formData.append("file", data.image);
         const uploadRes = await fetch("/api/upload", { method: "POST", body: formData });
         const uploadData = await uploadRes.json();
-        imageUrl = uploadData.url;
+        // imageUrl = uploadData.url;
       }
 
       // Insert into DB
