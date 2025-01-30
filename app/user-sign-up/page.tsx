@@ -24,6 +24,7 @@ import { usersTable } from "@/config/schema";
 import { eq } from "drizzle-orm";
 import { useRouter } from "next/navigation";
 import { BookmarkCheck } from "lucide-react";
+import Image from "next/image";
 
 const FormSchema = z.object({
   name: z.string()
@@ -195,10 +196,12 @@ export default function UserSignUpForm() {
                   <FormLabel>Profile Picture</FormLabel>
                   <div className="sm:flex space-y-4 sm:space-y-0 items-center gap-4">
                     {previewImage && (
-                      <img
+                      <Image
                         src={previewImage}
-                        alt="Preview"
+                        alt="Profile preview"
                         className="w-20 h-20 rounded-full object-cover"
+                        width={1000}
+                          height={1000}
                       />
                     )}
                     <FormControl>

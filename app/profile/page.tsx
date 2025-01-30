@@ -25,6 +25,7 @@ import { eq } from "drizzle-orm";
 import { useRouter } from "next/navigation";
 import UserSkeleton from "@/components/ui/profile-skeleton";
 import { Ban, LogOut, Pencil, Save } from "lucide-react";
+import Image from "next/image";
 
 
 // Reuse the same form schema from sign-up
@@ -223,10 +224,12 @@ export default function UserProfilePage() {
                     <FormLabel>Profile Picture</FormLabel>
                     <div className="sm:flex space-y-4 sm:space-y-0 items-center gap-4">
                       {previewImage && (
-                        <img
+                        <Image
                           src={previewImage}
                           alt="Profile"
                           className="w-20 h-20 rounded-full object-cover"
+                          width={1000}
+                          height={1000}
                         />
                       )}
                       {isEditing && (
