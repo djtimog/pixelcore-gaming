@@ -118,6 +118,7 @@ export default function UserProfilePage() {
             router.push("/user-sign-up");
           }
         } catch (error) {
+          console.log(error);
           toast({
             title: "Error",
             description: "An error occurred while fetching user data",
