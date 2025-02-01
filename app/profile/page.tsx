@@ -62,7 +62,22 @@ export default function UserProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
-  const [dbUser, setDbUser] = useState<any>(null);
+
+  interface UserProfileForm {
+    id: number;
+    createdAt: Date | null;
+    isVerified: boolean | null;
+    name: string;
+    username: string;
+    email: string;
+    phoneNumber: string | null;
+    discordHandle: string | null;
+    role: string | null;
+    imageUrl: string | null;
+    isSubscribed: boolean | null;
+  }
+
+  const [dbUser, setDbUser] = useState<UserProfileForm | null>(null);
   const router = useRouter();
   const { signOut } = useClerk();
 
@@ -144,12 +159,12 @@ export default function UserProfilePage() {
         } = {};
 
         // Check if username changed
-        if (data.username !== dbUser.username) {
+        if (data.username !== dbUser?.username) {
           clerkUpdates.username = data.username;
         }
 
         // Check if name changed (assuming name is stored as firstName in Clerk)
-        if (data.name !== dbUser.name) {
+        if (data.name !== dbUser?.name) {
           clerkUpdates.firstName = data.name;
         }
 
@@ -174,17 +189,17 @@ export default function UserProfilePage() {
         phoneNumber: data.phoneNumber?.slice(0, 15) || null,
         discordHandle: data.discordHandle?.slice(0, 50) || null,
         role: data.role,
-        imageUrl: clerkUser?.imageUrl || dbUser.imageUrl,
+        imageUrl: clerkUser?.imageUrl || dbUser?.imageUrl || "",
         isSubscribed: data.isSubscribed,
       };
+
+      const email = clerkUser?.emailAddresses?.[0]?.emailAddress ?? "";
 
       // Update database
       await db
         .update(usersTable)
         .set(updatedData)
-        .where(
-          eq(usersTable.email, clerkUser!.emailAddresses[0]?.emailAddress!)
-        );
+        .where(eq(usersTable.email, email));
 
       toast({
         title: "Success!",
@@ -192,7 +207,16 @@ export default function UserProfilePage() {
       });
 
       setIsEditing(false);
-      setDbUser({ ...dbUser, ...updatedData });
+      setDbUser((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          ...updatedData,
+          id: prev.id ?? 0, // Ensure 'id' is always a number
+          createdAt: prev.createdAt ?? null,
+          isVerified: prev.isVerified ?? null,
+        };
+      });
     } catch (error) {
       console.error("Error updating profile:", error);
       toast({
@@ -201,7 +225,16 @@ export default function UserProfilePage() {
           error instanceof Error ? error.message : "An error occurred",
         variant: "destructive",
       });
-      form.reset(dbUser);
+      form.reset({
+        name: dbUser?.name || "",
+        username: dbUser?.username || "",
+        email: dbUser?.email || "",
+        phoneNumber: dbUser?.phoneNumber || "", // Ensure string type
+        discordHandle: dbUser?.discordHandle || undefined, // Ensure undefined instead of null
+        role: dbUser?.role as "player" | "admin" | "team_manager",
+        imageUrl: dbUser?.imageUrl || undefined,
+        isSubscribed: dbUser?.isSubscribed ?? false,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -434,7 +467,20 @@ export default function UserProfilePage() {
                       variant="outline"
                       className="bg-red-500 hover:bg-red-400"
                       onClick={() => {
-                        form.reset(dbUser);
+                        form.reset({
+                          name: dbUser?.name || "",
+                          username: dbUser?.username || "",
+                          email: dbUser?.email || "",
+                          phoneNumber: dbUser?.phoneNumber || "", // Ensure string type
+                          discordHandle: dbUser?.discordHandle || undefined, // Ensure undefined instead of null
+                          role: dbUser?.role as
+                            | "player"
+                            | "admin"
+                            | "team_manager",
+                          imageUrl: dbUser?.imageUrl || undefined,
+                          isSubscribed: dbUser?.isSubscribed ?? false,
+                        });
+
                         setIsEditing(false);
                       }}
                     >
