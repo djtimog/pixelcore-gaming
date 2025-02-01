@@ -59,7 +59,7 @@ export default function UserSkeleton() {
         {/* Action Buttons */}
         <div className="flex gap-4">
           <Skeleton className="h-10 w-24" />
-          <Skeleton className="h-10 w-24" />
+          <Skeleton className="h-10 w-full" />
         </div>
       </div>
     </div>

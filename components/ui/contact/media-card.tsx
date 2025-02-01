@@ -19,7 +19,7 @@ const MediaCard = ({
   linkText: string;
 }) => {
   return (
-    <div className="flex-grow basis-[290px] p-5 text-center bg-slate-500 hover:bg-slate-400 rounded-lg">
+    <div className="flex-grow basis-[290px] p-5 text-center bg-slate-500 hover:bg-slate-400 rounded-lg slideInEffect-30">
       <IconButton size="large">{icon}</IconButton>
       <h3 className="text-xl font-bold my-5">{title}</h3>
       <p className="mb-3">{description}</p>

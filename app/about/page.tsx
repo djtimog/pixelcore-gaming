@@ -21,7 +21,7 @@ function about() {
           <p className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-center">
             About Us
           </p>
-          <p className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 mx-auto text-center">
+          <p className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 mx-auto text-center slideInEffect-10">
             Welcome to{" "}
             <strong className="text-[#00ff00]">
               <Link href={"/"}>Pixelcore</Link>
@@ -38,7 +38,7 @@ function about() {
           Our Vision
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="overflow-hidden flex justify-center items-center w-full">
+          <div className="overflow-hidden flex justify-center items-center w-full slideInEffect-30">
             <Image
               src={"/about/vision-image.png"}
               alt="team image"
@@ -47,17 +47,17 @@ function about() {
               className="w-full object-contain sm:object-cover"
             />
           </div>
-          <p className="text-center md:text-start col-span-2 mt-5">
+          <p className="text-center md:text-start col-span-2 mt-5 slideInEffect-30">
             <span className="hidden md:block">
-            &quot;To establish Pixelcore as the leading esports organization and
-              broadcasting network in Africa, fostering a thriving gaming
+              &quot;To establish Pixelcore as the leading esports organization
+              and broadcasting network in Africa, fostering a thriving gaming
               ecosystem that unlocks the potential of Nigerian and African
               gamers, and propels the industry into the mainstream.&quot;
             </span>
             <br />
             <span>
-            &quot;To revolutionize the esports industry in Africa by building a
-              thriving ecosystem where African gamers can achieve their full
+              &quot;To revolutionize the esports industry in Africa by building
+              a thriving ecosystem where African gamers can achieve their full
               potential, be globally recognized, and inspire future generations.
               Pixelcore envisions a future where esports becomes a mainstream
               avenue for empowerment, innovation, and cultural connection across
@@ -71,14 +71,14 @@ function about() {
         <p className="uppercase outlined-text text-3xl sm:text-4xl md:text-5xl text-center mb-3">
           Our Mission
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <p className="text-center md:text-start col-span-2 mt-5 ">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 ">
+          <p className="text-center md:text-start col-span-2 mt-5 slideInEffect-30">
             <span>
-            &quot;Pixelcore is committed to driving the growth of esports in Africa
-              by creating opportunities for gamers to showcase their talents,
-              develop professionally, and compete on global platforms. Our
-              mission is to serve as the bridge between African gaming talent
-              and the international esports scene by offering the tools,
+              &quot;Pixelcore is committed to driving the growth of esports in
+              Africa by creating opportunities for gamers to showcase their
+              talents, develop professionally, and compete on global platforms.
+              Our mission is to serve as the bridge between African gaming
+              talent and the international esports scene by offering the tools,
               resources, and platforms they need to succeed&quot;
             </span>
             <br />
@@ -91,7 +91,7 @@ function about() {
               resilience in the next generation of African gamers.
             </span>
           </p>
-          <div className="overflow-hidden flex justify-center items-center w-full order-first md:order-last">
+          <div className="overflow-hidden flex justify-center items-center w-full order-first md:order-last slideInEffect-30">
             <Image
               src={"/about/mission-image.jpeg"}
               alt="team image"
@@ -116,10 +116,10 @@ function about() {
 
       <section className="p-7 sm:p-11">
         <p className="uppercase outlined-text text-3xl sm:text-4xl md:text-5xl text-center mb-3">
-        Core Values
+          Core Values
         </p>
-        <div className="space-y-3 sm:space-y-4 md:space-y-5 max-w-max mx-auto">
-        <ul className="space-y-5 text-center">
+        <div className="space-y-3 sm:space-y-4 md:space-y-5 max-w-max mx-auto slideInEffect-30">
+          <ul className="space-y-5 text-center">
             <li>
               <strong>Innovation</strong>: Shaping the future of esports with
               creativity and cutting-edge solutions.
@@ -151,13 +151,13 @@ function about() {
           </ul>
         </div>
       </section>
-      
+
       <section className="my-5 p-7 sm:p-11">
         <p className="uppercase outlined-text text-3xl sm:text-4xl md:text-5xl text-center mb-3">
-        Our Objectives
+          Our Objectives
         </p>
-        <div className="max-w-max mx-auto">
-        <ol className="space-y-5 text-center">
+        <div className="max-w-max mx-auto slideInEffect-30">
+          <ol className="space-y-5 text-center">
             <li>
               Establish Pixelcore as a top-tier esports organization in Africa.
             </li>

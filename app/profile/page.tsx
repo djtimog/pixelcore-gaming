@@ -27,7 +27,6 @@ import UserSkeleton from "@/components/ui/profile-skeleton";
 import { Ban, LogOut, Pencil, Save } from "lucide-react";
 import Image from "next/image";
 
-
 // Reuse the same form schema from sign-up
 const FormSchema = z.object({
   name: z
@@ -86,8 +85,8 @@ export default function UserProfilePage() {
             setDbUser(result[0]);
             form.reset({
               ...result[0],
-              phoneNumber: result[0].phoneNumber || undefined,
-              discordHandle: result[0].discordHandle || undefined,
+              phoneNumber: result[0].phoneNumber || "",
+              discordHandle: result[0].discordHandle || "",
               role:
                 `${
                   result[0].role === "player"
@@ -96,7 +95,7 @@ export default function UserProfilePage() {
                     ? "admin"
                     : "team_manager"
                 }` || "player",
-              imageUrl: result[0].imageUrl || undefined,
+              imageUrl: clerkUser.imageUrl || result[0].imageUrl || undefined,
               isSubscribed: result[0].isSubscribed ?? false,
             });
             setPreviewImage(result[0].imageUrl);
@@ -112,6 +111,8 @@ export default function UserProfilePage() {
           });
           router.push("/");
         }
+      } else {
+        router.push("/sign-in");
       }
     };
 
@@ -208,7 +209,7 @@ export default function UserProfilePage() {
 
   return (
     <main className="container mx-auto px-4 py-8 space-y-10">
-      <p className="uppercase outlined-text text-lg sm:text-xl md:text-2xl lg:text-3xl text-start">
+      <p className="uppercase outlined-text text-lg sm:text-xl md:text-2xl lg:text-3xl text-center">
         User Profile
       </p>
       <section>

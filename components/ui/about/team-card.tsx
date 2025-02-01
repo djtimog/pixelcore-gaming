@@ -4,7 +4,6 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Phone } from "lucide-react";
 
-
 const TeamCard = ({
   image,
   name,
@@ -22,7 +21,7 @@ const TeamCard = ({
 }) => {
   return (
     <div className="mx-auto rounded-lg shadow-lg p-5 space-y-3 sm:space-y-0 sm:space-x-5 md:space-x-7 flex flex-col sm:flex-row w-full">
-      <div className="w-full sm:max-w-sm h-60 overflow-hidden">
+      <div className="w-full sm:max-w-sm h-60 overflow-hidden slideInEffect-30">
         <Image
           src={image}
           alt={name}
@@ -31,14 +30,16 @@ const TeamCard = ({
           className="object-contain"
         />
       </div>
-      <div className="space-y-3 flex flex-col justify-around">
+      <div className="space-y-3 flex flex-col justify-around slideInEffect-30">
         <p className="text-lg">{name}</p>
         <p className="text-sm">{role}</p>
         <p className="text-md">{description}</p>
-        <Link href={`mailto:${email}`} className="text-blue-700 underline">{email}</Link>
+        <Link href={`mailto:${email}`} className="text-blue-700 underline">
+          {email}
+        </Link>
         <Link href={`tel:${number}`}>
           <Button
-          size={"sm"}
+            size={"sm"}
             className="w-full bg-[#00ff00] font-bold dark:font-medium rounded text-white dark:text-black"
           >
             <Phone size={20} />
