@@ -115,10 +115,9 @@ export default function UserProfilePage() {
             });
             setPreviewImage(result[0].imageUrl);
           } else {
-            router.push("user/signUp");
+            router.push("/user-sign-up");
           }
         } catch (error) {
-          console.error("Error fetching user data:", error);
           toast({
             title: "Error",
             description: "An error occurred while fetching user data",
@@ -189,7 +188,11 @@ export default function UserProfilePage() {
         phoneNumber: data.phoneNumber?.slice(0, 15) || null,
         discordHandle: data.discordHandle?.slice(0, 50) || null,
         role: data.role,
-        imageUrl: clerkUser?.imageUrl || dbUser?.imageUrl || "",
+        imageUrl: clerkUser
+          ? clerkUser.imageUrl
+          : dbUser
+          ? dbUser?.imageUrl
+          : null,
         isSubscribed: data.isSubscribed,
       };
 
