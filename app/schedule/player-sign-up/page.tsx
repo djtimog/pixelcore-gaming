@@ -104,6 +104,7 @@ export default function PlayerSignUpForm() {
       const games = await db.select().from(gamesTable);
       setGameNames(games.map((game) => game.name));
     } catch (error) {
+      console.log("Error fetching games:", error);
       toast({
         title: "Fetch Failed",
         description: "An error occurred while fetching games",
@@ -302,7 +303,9 @@ export default function PlayerSignUpForm() {
                       <FormControl>
                         <Input
                           type="number"
-                          {...field}
+                          onChange={(e) => {
+                            field.onChange(parseInt(e.target.value));
+                          }}
                           min={1}
                           max={350}
                           placeholder="Your Level in game"
@@ -359,8 +362,8 @@ export default function PlayerSignUpForm() {
                 className="w-full bg-[#14C570]"
                 disabled={isLoading}
               >
-                {isLoading ? "Submitting..." : "Submit"}
                 <CheckCheck />
+                {isLoading ? "Submitting..." : "Submit"}
               </Button>
             </form>
           </Form>
