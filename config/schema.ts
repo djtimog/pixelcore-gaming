@@ -40,9 +40,12 @@ export const playersTable = pgTable("players", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull().references(() => usersTable.id), // Foreign key to users table
   teamId: integer("team_id").references(() => teamsTable.id), // Foreign key to teams table
+  gameId: integer("game_id").notNull().references(() => gamesTable.id), // Game name
   gameHandle: varchar("game_handle", { length: 255 }), // In-game username
   rank: varchar("rank", { length: 100 }), // Optional in-game rank
-  uid: varchar("uid", { length: 255 }), // Unique identifier for the player
+  uid: varchar("uid", { length: 255 }).notNull(), // Unique identifier for the player
+  level: integer("level").default(1), // Optional player level
+  isCaptain: boolean("is_captain").default(false), // Is the player a team captain?
 });
 
 // Tournaments Table
