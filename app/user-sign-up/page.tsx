@@ -25,24 +25,37 @@ import { eq } from "drizzle-orm";
 import { useRouter } from "next/navigation";
 import { BookmarkCheck } from "lucide-react";
 import Image from "next/image";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const FormSchema = z.object({
-  name: z.string()
+  name: z
+    .string()
     .min(5, { message: "Name must be at least 5 characters." })
     .max(255, { message: "Name cannot exceed 255 characters" }),
-  username: z.string()
+  username: z
+    .string()
     .min(5, { message: "Username must be at least 5 characters." })
     .max(255, { message: "Username cannot exceed 255 characters" }),
-  email: z.string()
+  email: z
+    .string()
     .email({ message: "Invalid email address." })
     .max(255, { message: "Email cannot exceed 255 characters" }),
-  phoneNumber: z.string()
+  phoneNumber: z
+    .string()
     .max(15, { message: "Phone number cannot exceed 15 characters" }),
-  discordHandle: z.string()
+  discordHandle: z
+    .string()
     .max(50, { message: "Discord handle cannot exceed 50 characters" })
     .optional(),
   role: z.enum(["player", "admin", "team_manager"]).default("player"),
-  imageUrl: z.string()
+  imageUrl: z
+    .string()
     .max(255, { message: "Image URL cannot exceed 255 characters" })
     .optional(),
   isSubscribed: z.boolean().default(false),
@@ -115,14 +128,14 @@ export default function UserSignUpForm() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsLoading(true);
-  
+
     try {
       // Handle profile image upload first
       if (selectedImageFile && user) {
         await user.setProfileImage({ file: selectedImageFile });
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 500));
       }
-  
+
       // Prepare user data with Clerk's image URL
       const userData = {
         name: data.name.slice(0, 255),
@@ -134,29 +147,28 @@ export default function UserSignUpForm() {
         imageUrl: user?.imageUrl || "", // Use Clerk's CDN URL
         isSubscribed: data.isSubscribed,
         isVerified: false,
-        createdAt: new Date()
+        createdAt: new Date(),
       };
-  
+
       // Check for existing user
       const existingUser = await db
         .select()
         .from(usersTable)
         .where(eq(usersTable.email, userData.email));
-  
+
       if (!existingUser[0]) {
         await db.insert(usersTable).values(userData);
-        
+
         toast({
           title: "Success!",
           description: "Profile created successfully",
         });
 
-       if(data.role === "player"){
-        router.push("/schedule/player")
-       }
-       else{
-        router.push('/user')
-       }
+        if (data.role === "player") {
+          router.push("/schedule/player");
+        } else {
+          router.push("/user");
+        }
       } else {
         toast({
           title: "Error",
@@ -201,7 +213,7 @@ export default function UserSignUpForm() {
                         alt="Profile preview"
                         className="w-20 h-20 rounded-full object-cover"
                         width={1000}
-                          height={1000}
+                        height={1000}
                       />
                     )}
                     <FormControl>
@@ -326,14 +338,22 @@ export default function UserSignUpForm() {
                   <FormItem>
                     <FormLabel>Account Type</FormLabel>
                     <FormControl>
-                      <select
+                      <Select
                         {...field}
-                        className="w-full border rounded-md px-3 py-2"
+                        onValueChange={(value) => field.onChange(value)}
                       >
-                        <option value="player">Player</option>
-                        <option value="team_manager">Team Manager</option>
-                        <option value="admin">Administrator</option>
-                      </select>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Pick a Role" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          <SelectItem value="player">Player</SelectItem>
+                          <SelectItem value="team_manager">
+                            Team Manager
+                          </SelectItem>
+                          <SelectItem value="admin">Administrator</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

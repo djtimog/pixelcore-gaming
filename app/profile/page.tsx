@@ -26,6 +26,13 @@ import { useRouter } from "next/navigation";
 import UserSkeleton from "@/components/ui/profile-skeleton";
 import { Ban, LogOut, Pencil, Save } from "lucide-react";
 import Image from "next/image";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 // Reuse the same form schema from sign-up
 const FormSchema = z.object({
@@ -388,17 +395,25 @@ export default function UserProfilePage() {
                 name="role"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Role</FormLabel>
+                    <FormLabel>Account Type</FormLabel>
                     <FormControl>
                       {isEditing ? (
-                        <select
+                        <Select
                           {...field}
-                          className="w-full border rounded-md px-3 py-2"
+                          onValueChange={(value) => field.onChange(value)}
                         >
-                          <option value="player">Player</option>
-                          <option value="team_manager">Team Manager</option>
-                          <option value="admin">Administrator</option>
-                        </select>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Pick a Role" />
+                          </SelectTrigger>
+
+                          <SelectContent>
+                            <SelectItem value="player">Player</SelectItem>
+                            <SelectItem value="team_manager">
+                              Team Manager
+                            </SelectItem>
+                            <SelectItem value="admin">Administrator</SelectItem>
+                          </SelectContent>
+                        </Select>
                       ) : (
                         <Input {...field} disabled />
                       )}
