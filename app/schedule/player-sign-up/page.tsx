@@ -25,6 +25,14 @@ import {
 } from "@/config/schema";
 import { eq } from "drizzle-orm";
 import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { CheckCheck } from "lucide-react";
 
 const FormSchema = z.object({
   game_handle: z.string().min(5, { message: "Game handle is required." }),
@@ -216,6 +224,37 @@ export default function PlayerSignUpForm() {
               className="space-y-6 p-5 md:p-11"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Game */}
+                <FormField
+                  control={form.control}
+                  name="game"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Game Name</FormLabel>
+                      <FormControl>
+                        <Select
+                          {...field}
+                          onValueChange={(value) => field.onChange(value)}
+                          required
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Pick a Game" />
+                          </SelectTrigger>
+
+                          <SelectContent>
+                            {gameNames.map((game) => (
+                              <SelectItem value={game} key={game}>
+                                {game}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 {/* Game Handle */}
                 <FormField
                   control={form.control}
@@ -246,6 +285,28 @@ export default function PlayerSignUpForm() {
                         <Input
                           {...field}
                           placeholder="Your in-game rank (optional)"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* level */}
+                <FormField
+                  control={form.control}
+                  name="level"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Level</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          {...field}
+                          min={1}
+                          max={350}
+                          placeholder="Your Level in game"
+                          required
                         />
                       </FormControl>
                       <FormMessage />
@@ -295,10 +356,11 @@ export default function PlayerSignUpForm() {
               {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full hover:bg-[#14C570] bg-[#00ff00]"
+                className="w-full bg-[#14C570]"
                 disabled={isLoading}
               >
                 {isLoading ? "Submitting..." : "Submit"}
+                <CheckCheck />
               </Button>
             </form>
           </Form>
