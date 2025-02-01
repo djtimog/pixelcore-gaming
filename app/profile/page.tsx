@@ -23,7 +23,7 @@ import { db } from "@/config/db";
 import { usersTable } from "@/config/schema";
 import { eq } from "drizzle-orm";
 import { useRouter } from "next/navigation";
-import UserSkeleton from "@/components/ui/profile-skeleton";
+import ProfileSkeleton from "@/components/ui/profile-skeleton";
 import { Ban, LogOut, Pencil, Save } from "lucide-react";
 import Image from "next/image";
 import {
@@ -520,7 +520,7 @@ export default function UserProfilePage() {
             </form>
           </Form>
         ) : (
-          <UserSkeleton />
+          <ProfileSkeleton />
         )}
       </section>
     </main>

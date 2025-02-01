@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Orbitron } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
-import Provider from "@/app/provider";
+import Provider from "@/app/provider/app-provider";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
