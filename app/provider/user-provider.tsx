@@ -13,44 +13,53 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const [pageLoading, setPageLoading] = useState(true);
 
-  const fetchUserDetails = async () => {
-    setPageLoading(true);
-
-    try {
-      const userEmail = user?.emailAddresses[0]?.emailAddress;
-      if (!userEmail) {
-        toast({
-          title: "Error",
-          description: "An error occurred while fetching user email",
-          variant: "destructive",
-        });
-        throw new Error("User email is undefined");
-      }
-      const existingUser = await db
-        .select()
-        .from(usersTable)
-        .where(eq(usersTable.email, userEmail));
-      if (existingUser.length > 0) {
-        const userRole = existingUser[0].role;
-        userRole === "admin"
-          ? router.push("/admin-sign-up")
-          : userRole === "admin"
-          ? router.push("/team-sign-up")
-          : router.push("/player-sign-up");
-      } else {
-        setPageLoading(false);
-        return;
-      }
-    } catch (error) {
-      console.log(error);
-      toast({
-        title: "Error",
-        description: "An error occurred while fetching user data",
-        variant: "destructive",
-      });
+  const getRolePath = (role: string | null): string => {
+    switch (role) {
+      case "admin":
+        return "/profile";
+      case "team":
+        return "/profile";
+      case "player":
+        return "/player-sign-up";
+      default:
+        return "/player-sign-up";
     }
   };
+
   useEffect(() => {
+    const fetchUserDetails = async () => {
+      setPageLoading(true);
+
+      try {
+        const userEmail = user?.emailAddresses[0]?.emailAddress;
+        if (!userEmail) {
+          toast({
+            title: "Error",
+            description: "An error occurred while fetching user email",
+            variant: "destructive",
+          });
+          throw new Error("User email is undefined");
+        }
+        const existingUser = await db
+          .select()
+          .from(usersTable)
+          .where(eq(usersTable.email, userEmail));
+        if (existingUser.length > 0) {
+          const userRole = existingUser[0].role;
+          router.push(getRolePath(userRole));
+        } else {
+          setPageLoading(false);
+          return;
+        }
+      } catch (error) {
+        console.log(error);
+        toast({
+          title: "Error",
+          description: "An error occurred while fetching user data",
+          variant: "destructive",
+        });
+      }
+    };
     if (user) {
       fetchUserDetails();
     }

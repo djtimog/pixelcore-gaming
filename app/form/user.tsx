@@ -384,7 +384,7 @@ export default function UserSignUpForm() {
             )}
             <Button
               type="submit"
-              className="w-full hover:bg-[#14C570] bg-[#00ff00]"
+              className="w-full bg-[#14C570] "
               disabled={!isUserUser || isLoading}
             >
               {isLoading ? "Creating Profile..." : "Complete Registration"}
