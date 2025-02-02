@@ -7,7 +7,6 @@ import { playersTable, usersTable } from "@/config/schema";
 import { eq } from "drizzle-orm";
 import { toast } from "@/hooks/use-toast";
 import PlayerFormSkeleton from "@/components/ui/skeleton/player-form-skeleton";
-import { ucs2 } from "node:punycode";
 
 const PlayerProvider = ({ children }: { children: React.ReactNode }) => {
   const { user } = useUser();
