@@ -145,11 +145,9 @@ const Header = () => {
                           <DrawerClose asChild>
                             <Link href="/sign-in" className="hidden sm:block">
                               <Button
-                                variant={"outline"}
                                 size={"sm"}
                                 className="hover:text-[#14C570]"
                               >
-                                <LogIn size={16} />
                                 Sign In
                               </Button>
                             </Link>
@@ -165,7 +163,10 @@ const Header = () => {
                     </>
 
                     <DrawerClose asChild>
-                      <IconButton color="inherit" className="hover:text-[#14C570]">
+                      <IconButton
+                        color="inherit"
+                        className="hover:text-[#14C570]"
+                      >
                         <CloseIcon />
                       </IconButton>
                     </DrawerClose>

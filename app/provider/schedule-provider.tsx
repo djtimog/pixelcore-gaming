@@ -30,7 +30,7 @@ export default function ScheduleProvider({
       .where(eq(usersTable.email, email));
 
     if (!userResult[0]) {
-      router.push("/user/signUp");
+      router.push("/user-sign-up");
       return;
     }
 
@@ -48,7 +48,7 @@ export default function ScheduleProvider({
       .where(eq(playersTable.userId, userData.id));
 
     if (!playerResult[0]) {
-      router.push("/schedule/player-sign-up");
+      router.push("/player-sign-up");
       return;
     }
   }, [user, router]); // Add dependencies
