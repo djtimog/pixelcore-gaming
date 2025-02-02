@@ -2,7 +2,7 @@
 import { useUser } from "@clerk/nextjs";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import UserFormSkeleton from "@/components/ui/user-form-skeleton";
+import UserFormSkeleton from "@/components/ui/skeleton/user-form-skeleton";
 import { db } from "@/config/db";
 import { usersTable } from "@/config/schema";
 import { eq } from "drizzle-orm";

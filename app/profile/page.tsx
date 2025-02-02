@@ -23,7 +23,7 @@ import { db } from "@/config/db";
 import { usersTable } from "@/config/schema";
 import { eq } from "drizzle-orm";
 import { useRouter } from "next/navigation";
-import ProfileSkeleton from "@/components/ui/profile-skeleton";
+import ProfileSkeleton from "@/components/ui/skeleton/profile-form-skeleton";
 import { Ban, LogOut, Pencil, Save } from "lucide-react";
 import Image from "next/image";
 import {
@@ -509,7 +509,7 @@ export default function UserProfilePage() {
                     <Button
                       type="submit"
                       disabled={isLoading || !isEditing}
-                      className="w-full hover:bg-[#14C570] bg-[#00ff00]"
+                      className="w-full bg-[#14C570]"
                     >
                       <Save size={20} />
                       {isLoading ? "Saving..." : "Save Changes"}

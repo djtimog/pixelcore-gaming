@@ -1,6 +1,6 @@
 import React from "react";
 import UserProvider from "../provider/user-provider";
-import UserSignUpForm from "../form/user";
+import UserSignUpForm from "../form/user-form";
 
 const UserSignUp = () => {
   return (
