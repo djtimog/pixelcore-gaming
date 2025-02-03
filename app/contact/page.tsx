@@ -39,7 +39,7 @@ export default function Contact() {
       <section className="my-10 space-y-5">
         <h1 className="text-3xl text-center">Connect with our global office</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 px-5 gap-10">
-          <div className="col-span-2 py-5 slideInEffect-30">
+          <div className="col-span-2 py-5  ">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0858576607646!2d-122.4206796846811!3d37.77492977975982!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858064a2b7f1c1%3A0x9a9211f79e0028c5!2sSan%20Francisco%2C%20CA!5e0!3m2!1sen!2sus!4v1615398706136!5m2!1sen!2sus"
               className="w-full"
@@ -49,7 +49,7 @@ export default function Contact() {
               title="Global Headquater"
             ></iframe>
           </div>
-          <div className="py-5 md:py-10 px-3 space-y-7 slideInEffect-30">
+          <div className="py-5 md:py-10 px-3 space-y-7  ">
             <div>
               <h2 className="text-lg font-bold mb-2">Global Headquarters</h2>
               <p>

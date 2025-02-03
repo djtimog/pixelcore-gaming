@@ -218,7 +218,3 @@ export const teams = [
   //     publisher: "Electronic Arts"
   //   }
   // ];
-  
-
-  
-  

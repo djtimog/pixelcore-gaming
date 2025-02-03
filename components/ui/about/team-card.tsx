@@ -21,7 +21,7 @@ const TeamCard = ({
 }) => {
   return (
     <div className="mx-auto rounded-lg shadow-lg p-5 space-y-3 sm:space-y-0 sm:space-x-5 md:space-x-7 flex flex-col sm:flex-row w-full">
-      <div className="w-full sm:max-w-sm h-60 overflow-hidden slideInEffect-30">
+      <div className="w-full sm:max-w-sm h-60 overflow-hidden  ">
         <Image
           src={image}
           alt={name}
@@ -30,7 +30,7 @@ const TeamCard = ({
           className="object-contain"
         />
       </div>
-      <div className="space-y-3 flex flex-col justify-around slideInEffect-30">
+      <div className="space-y-3 flex flex-col justify-around  ">
         <p className="text-lg">{name}</p>
         <p className="text-sm">{role}</p>
         <p className="text-md">{description}</p>

@@ -16,7 +16,7 @@ export default function Home() {
     <>
       <main>
         <section className="home">
-          <div className={`${styles.hero} slideInEffect-10`}>
+          <div className={`${styles.hero}  `}>
             <video
               src={"/white-bg-video.mp4"}
               autoPlay
@@ -31,7 +31,7 @@ export default function Home() {
               loop
               className="py-9 md:py-0 hidden dark:block "
             />
-            <div className="flex justify-center items-center px-5 py-5 bg-black bg-opacity-40 dark:bg-opacity-60 slideInEffect-10">
+            <div className="flex justify-center items-center px-5 py-5 bg-black bg-opacity-40 dark:bg-opacity-60  ">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-center">
                 {" "}
                 Pixel <span className="text-[#14C570]">C</span>ore Esport <br />
@@ -45,7 +45,7 @@ export default function Home() {
           <p className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-end pe-3">
             Achievement
           </p>
-          <div className="bg-[#14C570] relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 p-11 space-y-7 sm:space-y-0 sm:space-x-5 slideInEffect-30">
+          <div className="bg-[#14C570] relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 p-11 space-y-7 sm:space-y-0 sm:space-x-5  ">
             <div className="md:h-[70px] flex justify-center items-center">
               <Image
                 src={captain}
@@ -87,7 +87,7 @@ export default function Home() {
             Team
           </p>
           <div className="space-y-10">
-            <div className="space-y-5 sm:space-y-7 md:space-y-9 slideInEffect-20">
+            <div className="space-y-5 sm:space-y-7 md:space-y-9  ">
               <TeamList />
               <div className="px-11 text-end mb-5">
                 <Link href={`/team`}>
@@ -132,7 +132,7 @@ export default function Home() {
           <p className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-end pe-3">
             Sponsor
           </p>
-          <div className="bg-[#14C570] py-5 relative slideInEffect-30">
+          <div className="bg-[#14C570] py-5 relative  ">
             <SponsorSwiper />
           </div>
         </section>
@@ -141,7 +141,7 @@ export default function Home() {
           <p className="uppercase outlined-text text-4xl sm:text-5xl md:text-6xl text-start ps-3">
             Blog
           </p>
-          <div className="relative px-11 space-y-10 slideInEffect-30">
+          <div className="relative px-11 space-y-10  ">
             <div className="space-y-5">
               <div className="flex justify-center items-center overflow-hidden max-h-[510px]">
                 <Image
@@ -172,7 +172,7 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="slideInEffect-30">
+            <div className=" ">
               <h2 className="mb-7 text-lg font-bold">Other Blogs</h2>
               <OtherBlogs />
             </div>
