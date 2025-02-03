@@ -22,6 +22,7 @@ export const gamesTable = pgTable("games", {
   genre: varchar("genre", { length: 255 }), // Optional game genre
   platform: varchar("platform", { length: 255 }), // e.g., PC, console, mobile
   publisher: varchar("publisher", { length: 255 }), // Optional publisher info
+  images: varchar("images", { length: 1024 }).notNull(), // JSON stringified image URLs
 });
 
 // Teams Table
