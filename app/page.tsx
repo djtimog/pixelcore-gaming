@@ -174,7 +174,7 @@ export default function Home() {
             </div>
             <div className=" ">
               <h2 className="mb-7 text-lg font-bold">Other Blogs</h2>
-              <OtherBlogs />
+              <OtherBlogs activeBlogId="12345-543-25637" />
             </div>
           </div>
         </section>

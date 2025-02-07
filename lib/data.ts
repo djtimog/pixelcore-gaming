@@ -126,95 +126,68 @@ export const teams = [
     },
   ];
   
-  // const games = [
-  //   {
-  //     name: "Call of Duty",
-  //     genre: "First-Person Shooter",
-  //     platform: "PC, PlayStation, Xbox",
-  //     publisher: "Activision"
-  //   },
-  //   {
-  //     name: "League of Legends",
-  //     genre: "MOBA",
-  //     platform: "PC",
-  //     publisher: "Riot Games"
-  //   },
-  //   {
-  //     name: "Minecraft",
-  //     genre: "Sandbox",
-  //     platform: "PC, Mobile, Console",
-  //     publisher: "Mojang Studios"
-  //   },
-  //   {
-  //     name: "Fortnite",
-  //     genre: "Battle Royale",
-  //     platform: "PC, PlayStation, Xbox, Mobile",
-  //     publisher: "Epic Games"
-  //   },
-  //   {
-  //     name: "Valorant",
-  //     genre: "First-Person Shooter",
-  //     platform: "PC",
-  //     publisher: "Riot Games"
-  //   },
-  //   {
-  //     name: "Apex Legends",
-  //     genre: "Battle Royale",
-  //     platform: "PC, PlayStation, Xbox, Nintendo Switch",
-  //     publisher: "Electronic Arts"
-  //   },
-  //   {
-  //     name: "Overwatch 2",
-  //     genre: "First-Person Shooter",
-  //     platform: "PC, PlayStation, Xbox, Nintendo Switch",
-  //     publisher: "Blizzard Entertainment"
-  //   },
-  //   {
-  //     name: "Dota 2",
-  //     genre: "MOBA",
-  //     platform: "PC",
-  //     publisher: "Valve"
-  //   },
-  //   {
-  //     name: "Rocket League",
-  //     genre: "Sports",
-  //     platform: "PC, PlayStation, Xbox, Nintendo Switch",
-  //     publisher: "Psyonix"
-  //   },
-  //   {
-  //     name: "Counter-Strike 2",
-  //     genre: "First-Person Shooter",
-  //     platform: "PC",
-  //     publisher: "Valve"
-  //   },
-  //   {
-  //     name: "PUBG: Battlegrounds",
-  //     genre: "Battle Royale",
-  //     platform: "PC, PlayStation, Xbox, Mobile",
-  //     publisher: "Krafton"
-  //   },
-  //   {
-  //     name: "Rainbow Six Siege",
-  //     genre: "Tactical Shooter",
-  //     platform: "PC, PlayStation, Xbox",
-  //     publisher: "Ubisoft"
-  //   },
-  //   {
-  //     name: "The Legend of Zelda: Breath of the Wild",
-  //     genre: "Action-Adventure",
-  //     platform: "Nintendo Switch",
-  //     publisher: "Nintendo"
-  //   },
-  //   {
-  //     name: "Super Smash Bros. Ultimate",
-  //     genre: "Fighting",
-  //     platform: "Nintendo Switch",
-  //     publisher: "Nintendo"
-  //   },
-  //   {
-  //     name: "FIFA 23",
-  //     genre: "Sports",
-  //     platform: "PC, PlayStation, Xbox, Nintendo Switch",
-  //     publisher: "Electronic Arts"
-  //   }
-  // ];
+export const blogs = [
+    {
+      id: "12345-543-25637",
+      title: "PUBG Mobile Pro League - South Asia Spring 2022",
+      date: "17-12-2021",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
+      image: "/blog/active-blog.svg",
+      link: "/blog",
+    },
+    {
+      id: "12345-543-25612",
+      title: "PUBG Mobile Club Open - Fall Split 2021: Nepal",
+      date: "17-12-2021",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
+      image: "/blog/other-blog-1.png",
+      link: "/blog/12345-543-25612",
+    },
+    {
+      id: "12345-543-25154",
+      title: "PUBG Mobile Club Open - Spring Split 2021: Nepal",
+      date: "17-12-2021",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
+      image: "/blog/other-blog-2.png",
+      link: "/blog/12345-543-25154",
+    },
+    {
+      id: "12345-503-22354",
+      title: "PUBG Mobile Pro League - South Asia Season 2",
+      date: "17-12-2021",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
+      image: "/blog/other-blog-3.png",
+      link: "/blog/12345-543-22354",
+    },
+    {
+      id: "12345-513-25612",
+      title: "PUBG Mobile Club Open - Fall Split 2021: Nepal",
+      date: "17-12-2021",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
+      image: "/blog/other-blog-1.png",
+      link: "/blog/12345-543-25612",
+    },
+    {
+      id: "12345-533-25154",
+      title: "PUBG Mobile Club Open - Spring Split 2021: Nepal",
+      date: "17-12-2021",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
+      image: "/blog/other-blog-2.png",
+      link: "/blog/12345-543-25154",
+    },
+    {
+      id: "12345-523-22354",
+      title: "PUBG Mobile Pro League - South Asia Season 2",
+      date: "17-12-2021",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
+      image: "/blog/other-blog-3.png",
+      link: "/blog/12345-543-22354",
+    },
+  ];

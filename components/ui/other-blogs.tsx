@@ -1,72 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-const blogs = [
-  {
-    id: "12345-543-25637",
-    title: "PUBG Mobile Pro League - South Asia Spring 2022",
-    date: "17-12-2021",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
-    image: "/blog/active-blog.svg",
-    link: "/blog",
-  },
-  {
-    id: "12345-543-25612",
-    title: "PUBG Mobile Club Open - Fall Split 2021: Nepal",
-    date: "17-12-2021",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
-    image: "/blog/other-blog-1.png",
-    link: "/blog/12345-543-25612",
-  },
-  {
-    id: "12345-543-25154",
-    title: "PUBG Mobile Club Open - Spring Split 2021: Nepal",
-    date: "17-12-2021",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
-    image: "/blog/other-blog-2.png",
-    link: "/blog/12345-543-25154",
-  },
-  {
-    id: "12345-503-22354",
-    title: "PUBG Mobile Pro League - South Asia Season 2",
-    date: "17-12-2021",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
-    image: "/blog/other-blog-3.png",
-    link: "/blog/12345-543-22354",
-  },
-  {
-    id: "12345-513-25612",
-    title: "PUBG Mobile Club Open - Fall Split 2021: Nepal",
-    date: "17-12-2021",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
-    image: "/blog/other-blog-1.png",
-    link: "/blog/12345-543-25612",
-  },
-  {
-    id: "12345-533-25154",
-    title: "PUBG Mobile Club Open - Spring Split 2021: Nepal",
-    date: "17-12-2021",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
-    image: "/blog/other-blog-2.png",
-    link: "/blog/12345-543-25154",
-  },
-  {
-    id: "12345-523-22354",
-    title: "PUBG Mobile Pro League - South Asia Season 2",
-    date: "17-12-2021",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
-    image: "/blog/other-blog-3.png",
-    link: "/blog/12345-543-22354",
-  },
-];
+import { blogs } from "@/lib/data";
 
 const OtherBlogCard = ({ blog }: { blog: (typeof blogs)[0] }) => {
   return (
@@ -87,12 +22,15 @@ const OtherBlogCard = ({ blog }: { blog: (typeof blogs)[0] }) => {
   );
 };
 
-const OtherBlogs = () => {
+const OtherBlogs = (
+  {activeBlogId}:{activeBlogId:string}
+) => {
   return (
     <div className="flex space-x-5 sm:space-x-7 md:space-x-10 overflow-x-auto">
       {blogs.map((blog)=>(
-        blog.id !== "12345-543-25637"
-          ?<OtherBlogCard key={blog.id} blog={blog} />
+        blog.id !== activeBlogId
+          ?
+          <OtherBlogCard key={blog.id} blog={blog} />
           :null
       ))
       }
