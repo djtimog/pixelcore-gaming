@@ -19,9 +19,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useUser } from "@clerk/nextjs";
-import { db } from "@/config/db";
-import { usersTable } from "@/config/schema";
-import { eq } from "drizzle-orm";
 import { BookmarkCheck } from "lucide-react";
 import Image from "next/image";
 import {
@@ -32,6 +29,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
+import { Get } from "@/lib/action/get";
+import { Post } from "@/lib/action/post";
 
 const FormSchema = z.object({
   name: z
@@ -159,13 +158,10 @@ export default function UserSignUpForm() {
       };
 
       // Check for existing user
-      const existingUser = await db
-        .select()
-        .from(usersTable)
-        .where(eq(usersTable.email, userData.email));
+      const existingUser = await Get.UserByEmail(userData.email)
 
       if (!existingUser[0]) {
-        await db.insert(usersTable).values(userData);
+        await Post.UserData(userData)
         toast({
           title: "Success!",
           description: "Profile created successfully",

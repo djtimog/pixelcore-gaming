@@ -19,9 +19,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useUser, useClerk } from "@clerk/nextjs";
-import { db } from "@/config/db";
-import { usersTable } from "@/config/schema";
-import { eq } from "drizzle-orm";
 import { useRouter } from "next/navigation";
 import { Ban, LogOut, Pencil, Save } from "lucide-react";
 import Image from "next/image";
@@ -34,22 +31,10 @@ import {
 } from "@/components/ui/select";
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { cn } from "@/lib/utils";
-
-const roleEnum = ["player", "admin", "team_manager"] as const;
-
-const FormSchema = z.object({
-  name: z.string().min(5).max(255),
-  username: z.string().min(5).max(255),
-  email: z.string().email().max(255),
-  phoneNumber: z.string().max(15).optional(),
-  discordHandle: z.string().max(50).optional(),
-  role: z.enum(roleEnum).default("player"),
-  imageUrl: z.string().max(255).optional(),
-  isSubscribed: z.boolean().default(false),
-});
-
-type FormValues = z.infer<typeof FormSchema>;
-type DatabaseUser = typeof usersTable.$inferSelect;
+import { Update } from "@/lib/action/post";
+import { DatabaseUser, ProfileFormValues } from "@/lib/placeholder-data";
+import { ProfileFormSchema, roleEnum } from "@/lib/form-schema";
+import { Get } from "@/lib/action/get";
 
 export default function UserProfilePage() {
   const router = useRouter();
@@ -61,8 +46,8 @@ export default function UserProfilePage() {
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const [databaseUser, setDatabaseUser] = useState<DatabaseUser | null>(null);
 
-  const form = useForm<FormValues>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<ProfileFormValues>({
+    resolver: zodResolver(ProfileFormSchema),
     defaultValues: {
       role: "player",
       isSubscribed: false,
@@ -77,11 +62,7 @@ export default function UserProfilePage() {
         const email = clerkUser.primaryEmailAddress?.emailAddress;
         if (!email) throw new Error("No email associated with account");
 
-        const [user] = await db
-          .select()
-          .from(usersTable)
-          .where(eq(usersTable.email, email))
-          .limit(1);
+        const [user] = await Get.UserByEmail(email);
 
         if (!user) throw new Error("User not found in database");
 
@@ -124,7 +105,7 @@ export default function UserProfilePage() {
     reader.readAsDataURL(file);
   };
 
-  const handleFormSubmit = async (values: FormValues) => {
+  const handleFormSubmit = async (values: ProfileFormValues) => {
     if (!clerkUser || !databaseUser) return;
     setIsLoading(true);
 
@@ -146,10 +127,7 @@ export default function UserProfilePage() {
       };
 
       // Update database
-      await db
-        .update(usersTable)
-        .set(updateData)
-        .where(eq(usersTable.id, databaseUser.id));
+      await Update.UserData(databaseUser.id, updateData)
 
       // Update local state
       setDatabaseUser((prev) => ({ ...prev!, ...updateData }));

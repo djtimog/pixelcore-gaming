@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,14 +15,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useUser } from "@clerk/nextjs";
-import { db } from "@/config/db";
-import {
-  gamesTable,
-  playersTable,
-  teamsTable,
-  usersTable,
-} from "@/config/schema";
-import { eq } from "drizzle-orm";
 import { useRouter } from "next/navigation";
 import {
   Select,
@@ -33,18 +24,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CheckCheck } from "lucide-react";
-
-const FormSchema = z.object({
-  game_handle: z.string().min(5, { message: "Game handle is required." }),
-  rank: z.string().optional(),
-  uid: z.string().min(7, { message: "UID is required." }),
-  secret_code: z.string().optional(),
-  game: z.string().min(3, { message: "Game is required." }),
-  level: z
-    .number()
-    .min(1, { message: "level must be more than 1" })
-    .max(350, { message: "level must be less than 350" }),
-});
+import { Get } from "@/lib/action/get";
+import { PlayerFormValues } from "@/lib/placeholder-data";
+import { PlayerFormSchema } from "@/lib/form-schema";
+import { Post } from "@/lib/action/post";
 
 export default function PlayerSignUpForm() {
   const { user } = useUser();
@@ -53,8 +36,8 @@ export default function PlayerSignUpForm() {
   const router = useRouter();
   const [gameNames, setGameNames] = useState<string[]>([]);
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<PlayerFormValues>({
+    resolver: zodResolver(PlayerFormSchema),
     defaultValues: {
       game: gameNames[0] || "",
       game_handle: "",
@@ -70,10 +53,7 @@ export default function PlayerSignUpForm() {
     if (!secret_code) return;
 
     try {
-      const team = await db
-        .select()
-        .from(teamsTable)
-        .where(eq(teamsTable.secretCode, secret_code));
+      const team = await Get.TeamBySecretCode(secret_code);
 
       if (team.length > 0) {
         setTeamId(team[0].id);
@@ -101,7 +81,7 @@ export default function PlayerSignUpForm() {
 
   const lookUpGames = async () => {
     try {
-      const games = await db.select().from(gamesTable);
+      const games = await Get.Games();
       setGameNames(games.map((game) => game.name));
     } catch (error) {
       console.log("Error fetching games:", error);
@@ -117,7 +97,7 @@ export default function PlayerSignUpForm() {
     lookUpGames();
   }, [user, form, router]);
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: PlayerFormValues) {
     setIsLoading(true);
 
     try {
@@ -135,11 +115,8 @@ export default function PlayerSignUpForm() {
       const userName = user.username || "";
 
       // Find user_id in the database using email and username
-      const existingUser = await db
-        .select()
-        .from(usersTable)
-        .where(eq(usersTable.email, userEmail))
-        .limit(1);
+      const existingUser = await Get.UserByEmail(userEmail);
+
 
       if (existingUser.length === 0 || existingUser[0].username !== userName) {
         toast({
@@ -164,11 +141,7 @@ export default function PlayerSignUpForm() {
       }
 
       // Check if the player already exists
-      const existingPlayer = await db
-        .select()
-        .from(playersTable)
-        .where(eq(playersTable.userId, userId))
-        .limit(1);
+      const existingPlayer = await Get.PlayerByUserId(userId)
 
       if (existingPlayer.length > 0) {
         toast({
@@ -179,7 +152,7 @@ export default function PlayerSignUpForm() {
         return;
       }
 
-      const games = await db.select().from(gamesTable);
+      const games = await Get.Games();
 
       //player data
       const playerData = {
@@ -193,7 +166,7 @@ export default function PlayerSignUpForm() {
       };
 
       // Insert player into the database
-      await db.insert(playersTable).values(playerData);
+      await Post.PlayerData(playerData);
 
       toast({
         title: "Success!",
