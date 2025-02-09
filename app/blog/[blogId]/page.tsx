@@ -4,12 +4,13 @@ import BlogSkeleton from "@/components/ui/skeleton/blog-skeleton";
 import { blogs } from "@/lib/data";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 
 export default function page() {
-  const pathname = usePathname();
 
-  const blogId = pathname.replace("/blog/", "");
+  const param = useParams();
+
+  const blogId = param.blogId;
   const activeBlog = blogs.find((blog) => blog.id === blogId);
 
   return (
