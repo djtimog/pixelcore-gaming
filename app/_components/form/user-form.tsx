@@ -31,34 +31,8 @@ import {
 import { useRouter } from "next/navigation";
 import { Get } from "@/lib/action/_get";
 import { Post } from "@/lib/action/_post";
-
-const FormSchema = z.object({
-  name: z
-    .string()
-    .min(5, { message: "Name must be at least 5 characters." })
-    .max(255, { message: "Name cannot exceed 255 characters" }),
-  username: z
-    .string()
-    .min(5, { message: "Username must be at least 5 characters." })
-    .max(255, { message: "Username cannot exceed 255 characters" }),
-  email: z
-    .string()
-    .email({ message: "Invalid email address." })
-    .max(255, { message: "Email cannot exceed 255 characters" }),
-  phoneNumber: z
-    .string()
-    .max(15, { message: "Phone number cannot exceed 15 characters" }),
-  discordHandle: z
-    .string()
-    .max(50, { message: "Discord handle cannot exceed 50 characters" })
-    .optional(),
-  role: z.enum(["player", "admin", "team_manager"]).default("player"),
-  imageUrl: z
-    .string()
-    .max(255, { message: "Image URL cannot exceed 255 characters" })
-    .optional(),
-  isSubscribed: z.boolean().default(false),
-});
+import { UserFormValues } from "@/lib/placeholder-data";
+import { UserFormSchema } from "@/lib/form-schema";
 
 export default function UserSignUpForm() {
   const { user } = useUser();
@@ -68,8 +42,8 @@ export default function UserSignUpForm() {
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<UserFormValues>({
+    resolver: zodResolver(UserFormSchema),
     defaultValues: {
       name: "",
       username: "",
@@ -125,7 +99,7 @@ export default function UserSignUpForm() {
     }
   }, [user, form]);
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: UserFormValues) {
     setIsLoading(true);
 
     try {
