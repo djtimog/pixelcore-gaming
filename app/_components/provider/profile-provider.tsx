@@ -2,7 +2,7 @@
 
 import ProfileSkeleton from "@/components/ui/skeleton/profile-form-skeleton";
 import { toast } from "@/hooks/use-toast";
-import { Get } from "@/lib/action/get";
+import { Get } from "@/lib/action/_get";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";

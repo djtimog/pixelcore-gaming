@@ -24,10 +24,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CheckCheck } from "lucide-react";
-import { Get } from "@/lib/action/get";
+import { Get } from "@/lib/action/_get";
 import { PlayerFormValues } from "@/lib/placeholder-data";
 import { PlayerFormSchema } from "@/lib/form-schema";
-import { Post } from "@/lib/action/post";
+import { Post } from "@/lib/action/_post";
 
 export default function PlayerSignUpForm() {
   const { user } = useUser();
@@ -117,7 +117,6 @@ export default function PlayerSignUpForm() {
       // Find user_id in the database using email and username
       const existingUser = await Get.UserByEmail(userEmail);
 
-
       if (existingUser.length === 0 || existingUser[0].username !== userName) {
         toast({
           title: "Error",
@@ -141,7 +140,7 @@ export default function PlayerSignUpForm() {
       }
 
       // Check if the player already exists
-      const existingPlayer = await Get.PlayerByUserId(userId)
+      const existingPlayer = await Get.PlayerByUserId(userId);
 
       if (existingPlayer.length > 0) {
         toast({

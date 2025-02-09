@@ -3,7 +3,7 @@
 import React, { useEffect, useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { Get } from "@/lib/action/get";
+import { Get } from "@/lib/action/_get";
 
 export default function ScheduleProvider({
   children,

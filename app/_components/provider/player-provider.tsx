@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import PlayerFormSkeleton from "@/components/ui/skeleton/player-form-skeleton";
-import { Get } from "@/lib/action/get";
+import { Get } from "@/lib/action/_get";
 import { getRolePath } from "@/lib/getRole";
 
 const PlayerProvider = ({ children }: { children: React.ReactNode }) => {
@@ -34,7 +34,9 @@ const PlayerProvider = ({ children }: { children: React.ReactNode }) => {
           const userRole = existingUser[0].role;
           if (userRole === "player") {
             try {
-              const existingPlayer = await Get.PlayerByUserId(existingUser[0].id);
+              const existingPlayer = await Get.PlayerByUserId(
+                existingUser[0].id
+              );
 
               if (existingPlayer.length > 0) {
                 toast({

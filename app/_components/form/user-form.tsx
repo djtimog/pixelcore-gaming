@@ -29,8 +29,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
-import { Get } from "@/lib/action/get";
-import { Post } from "@/lib/action/post";
+import { Get } from "@/lib/action/_get";
+import { Post } from "@/lib/action/_post";
 
 const FormSchema = z.object({
   name: z
@@ -158,10 +158,10 @@ export default function UserSignUpForm() {
       };
 
       // Check for existing user
-      const existingUser = await Get.UserByEmail(userData.email)
+      const existingUser = await Get.UserByEmail(userData.email);
 
       if (!existingUser[0]) {
-        await Post.UserData(userData)
+        await Post.UserData(userData);
         toast({
           title: "Success!",
           description: "Profile created successfully",

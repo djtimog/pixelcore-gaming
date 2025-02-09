@@ -31,10 +31,10 @@ import {
 } from "@/components/ui/select";
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { cn } from "@/lib/utils";
-import { Update } from "@/lib/action/post";
+import { Update } from "@/lib/action/_post";
 import { DatabaseUser, ProfileFormValues } from "@/lib/placeholder-data";
 import { ProfileFormSchema, roleEnum } from "@/lib/form-schema";
-import { Get } from "@/lib/action/get";
+import { Get } from "@/lib/action/_get";
 
 export default function UserProfilePage() {
   const router = useRouter();
@@ -127,7 +127,7 @@ export default function UserProfilePage() {
       };
 
       // Update database
-      await Update.UserData(databaseUser.id, updateData)
+      await Update.UserData(databaseUser.id, updateData);
 
       // Update local state
       setDatabaseUser((prev) => ({ ...prev!, ...updateData }));
