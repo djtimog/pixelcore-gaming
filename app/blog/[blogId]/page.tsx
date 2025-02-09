@@ -6,8 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-export default function page() {
 
+export default function BlogId() {
   const param = useParams();
 
   const blogId = param.blogId;

@@ -3,28 +3,14 @@ import { useUser } from "@clerk/nextjs";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import UserFormSkeleton from "@/components/ui/skeleton/user-form-skeleton";
-import { db } from "@/config/db";
-import { usersTable } from "@/config/schema";
-import { eq } from "drizzle-orm";
 import { toast } from "@/hooks/use-toast";
+import { Get } from "@/lib/action/get";
+import { getRolePath } from "@/lib/getRole";
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const { user } = useUser();
   const router = useRouter();
   const [pageLoading, setPageLoading] = useState(true);
-
-  const getRolePath = (role: string | null): string => {
-    switch (role) {
-      case "admin":
-        return "/profile";
-      case "team":
-        return "/profile";
-      case "player":
-        return "/player-sign-up";
-      default:
-        return "/player-sign-up";
-    }
-  };
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -40,10 +26,8 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
           });
           throw new Error("User email is undefined");
         }
-        const existingUser = await db
-          .select()
-          .from(usersTable)
-          .where(eq(usersTable.email, userEmail));
+        const existingUser = await Get.UserByEmail(userEmail);
+
         if (existingUser.length > 0) {
           const userRole = existingUser[0].role;
           router.push(getRolePath(userRole));

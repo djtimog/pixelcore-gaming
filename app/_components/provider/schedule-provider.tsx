@@ -3,9 +3,7 @@
 import React, { useEffect, useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { db } from "@/config/db";
-import { usersTable, playersTable } from "@/config/schema";
-import { eq } from "drizzle-orm";
+import { Get } from "@/lib/action/get";
 
 export default function ScheduleProvider({
   children,
@@ -24,10 +22,7 @@ export default function ScheduleProvider({
     }
 
     // Find the user by email
-    const userResult = await db
-      .select()
-      .from(usersTable)
-      .where(eq(usersTable.email, email));
+    const userResult = await Get.UserByEmail(email);
 
     if (!userResult[0]) {
       router.push("/user-sign-up");
@@ -42,10 +37,7 @@ export default function ScheduleProvider({
     }
 
     // Check if the user exists in the players table
-    const playerResult = await db
-      .select()
-      .from(playersTable)
-      .where(eq(playersTable.userId, userData.id));
+    const playerResult = await Get.PlayerByUserId(userData.id);
 
     if (!playerResult[0]) {
       router.push("/player-sign-up");

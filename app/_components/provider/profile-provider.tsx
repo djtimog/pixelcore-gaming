@@ -1,11 +1,9 @@
 "use client";
 
 import ProfileSkeleton from "@/components/ui/skeleton/profile-form-skeleton";
-import { db } from "@/config/db";
-import { usersTable } from "@/config/schema";
 import { toast } from "@/hooks/use-toast";
+import { Get } from "@/lib/action/get";
 import { useUser } from "@clerk/nextjs";
-import { eq } from "drizzle-orm";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -30,10 +28,7 @@ const ProfileProvider = ({ children }: { children: React.ReactNode }) => {
           throw new Error("User email is undefined");
         }
 
-        const existingUser = await db
-          .select()
-          .from(usersTable)
-          .where(eq(usersTable.email, userEmail));
+        const existingUser = await Get.UserByEmail(userEmail);
 
         if (existingUser.length > 0) {
           setPageLoading(false);

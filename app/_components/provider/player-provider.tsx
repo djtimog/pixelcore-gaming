@@ -2,29 +2,15 @@
 import { useUser } from "@clerk/nextjs";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { db } from "@/config/db";
-import { playersTable, usersTable } from "@/config/schema";
-import { eq } from "drizzle-orm";
 import { toast } from "@/hooks/use-toast";
 import PlayerFormSkeleton from "@/components/ui/skeleton/player-form-skeleton";
+import { Get } from "@/lib/action/get";
+import { getRolePath } from "@/lib/getRole";
 
 const PlayerProvider = ({ children }: { children: React.ReactNode }) => {
   const { user } = useUser();
   const router = useRouter();
   const [pageLoading, setPageLoading] = useState(true);
-
-  const getRolePath = (role: string | null): string => {
-    switch (role) {
-      case "admin":
-        return "/profile";
-      case "team":
-        return "/profile";
-      case "player":
-        return "/player-sign-up";
-      default:
-        return "/player-sign-up";
-    }
-  };
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -42,19 +28,13 @@ const PlayerProvider = ({ children }: { children: React.ReactNode }) => {
           throw new Error("User email is undefined");
         }
 
-        const existingUser = await db
-          .select()
-          .from(usersTable)
-          .where(eq(usersTable.email, userEmail));
+        const existingUser = await Get.UserByEmail(userEmail);
 
         if (existingUser.length > 0) {
           const userRole = existingUser[0].role;
           if (userRole === "player") {
             try {
-              const existingPlayer = await db
-                .select()
-                .from(playersTable)
-                .where(eq(playersTable.userId, existingUser[0].id));
+              const existingPlayer = await Get.PlayerByUserId(existingUser[0].id);
 
               if (existingPlayer.length > 0) {
                 toast({
