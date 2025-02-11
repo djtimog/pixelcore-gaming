@@ -24,8 +24,8 @@ import {
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
 import { Get } from "@/lib/action/_get";
-import { Post, Delete } from "@/lib/action/_post";
-import { TeamFormValues } from "@/lib/placeholder-data";
+import { Post, Delete, Update } from "@/lib/action/_post";
+import { TeamData, TeamFormValues, TeamPlayersData } from "@/lib/placeholder-data";
 import { TeamFormSchema } from "@/lib/form-schema";
 import { useUser } from "@clerk/nextjs";
 
@@ -35,9 +35,10 @@ const TeamSignUpForm = () => {
   const [previewLogo, setPreviewLogo] = useState<string | null>(null);
   const [selectedLogoFile, setSelectedLogoFile] = useState<File | null>(null);
   const [gameNames, setGameNames] = useState<string[]>([]);
-  const [teamPlayers, setTeamPlayers] = useState<Array<any>>([]);
-  const [existingTeam, setExistingTeam] = useState<any>(null);
+  const [teamPlayers, setTeamPlayers] = useState<TeamPlayersData[]>([]);
+  const [existingTeam, setExistingTeam] = useState<TeamData | null>(null);
   const router = useRouter();
+  const [userId , setUserId] = useState<number>(0)
 
   const form = useForm<TeamFormValues>({
     resolver: zodResolver(TeamFormSchema),
@@ -48,7 +49,6 @@ const TeamSignUpForm = () => {
     },
   });
 
-  // Fetch games and existing team data
   useEffect(() => {
     const fetchData = async () => {
       if (user) {
@@ -71,17 +71,19 @@ const TeamSignUpForm = () => {
         }
 
         const userId = existingUser[0].id;
-
-        // Check if user already has a team
         const team = await Get.TeamByCaptainId(userId);
+        setUserId(existingUser[0].id);
+
+        if (team[0]) {
+
         const games = await Get.Games();
 
         setGameNames(games.map((game) => game.name));
 
         const teamGame = games.find((game) => game.id === team[0].gameId);
 
-        if (team[0]) {
           setExistingTeam(team[0]);
+
           form.reset({
             name: team[0].name,
             game: teamGame?.name || "",
@@ -89,14 +91,14 @@ const TeamSignUpForm = () => {
           });
           setPreviewLogo(team[0].logoUrl);
 
-          // Fetch team players
+
           const players = await Get.PlayersByTeamId(team[0].id);
           setTeamPlayers(players);
         }
       }
     };
     fetchData();
-  }, [user, form]);
+  }, [user, router, form]);
 
   const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -141,7 +143,7 @@ const TeamSignUpForm = () => {
 
       if (existingTeam) {
         // Update existing team
-        await Post.UpdateTeam(existingTeam.id, teamData);
+        await Update.TeamData(existingTeam.id, teamData);
         toast({
           title: "Success!",
           description: "Team updated successfully",
@@ -167,7 +169,7 @@ const TeamSignUpForm = () => {
     }
   }
 
-  // Handle player removal
+
   const handleRemovePlayer = async (playerId: number) => {
     if (!existingTeam) return;
 
@@ -284,7 +286,7 @@ const TeamSignUpForm = () => {
         </form>
       </Form>
 
-      {/* Team Players Section - Only visible for existing teams */}
+      
       {existingTeam && (
         <div className="mt-8 p-6 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold mb-4">Team Members</h3>
@@ -303,7 +305,7 @@ const TeamSignUpForm = () => {
                       {player.rank || "No rank specified"}
                     </p>
                   </div>
-                  {user?.id === existingTeam.captainId && (
+                  {userId === existingTeam.captainId && (
                     <Button
                       variant="destructive"
                       size="sm"
@@ -318,6 +320,7 @@ const TeamSignUpForm = () => {
           )}
         </div>
       )}
+     
     </section>
   );
 };

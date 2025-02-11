@@ -1,40 +1,39 @@
 import { db } from "@/config/db";
 import { playersTable, teamsTable, usersTable } from "@/config/schema";
 import { eq } from "drizzle-orm";
-import { PlayerData, TeamData, updateUserData, UserData } from "../placeholder-data";
+import {
+  PlayerData,
+  UpdateTeamData,
+  UpdateUserData,
+  UserData,
+} from "../placeholder-data";
 
 export const Post = {
   UserData: (userData: UserData) => {
-    return db
-        .insert(usersTable)
-        .values(userData);
+    return db.insert(usersTable).values(userData);
   },
   PlayerData: (playerData: PlayerData) => {
-    return db
-        .insert(playersTable)
-        .values(playerData);
+    return db.insert(playersTable).values(playerData);
   },
-  TeamData: (teamData: TeamData) => {
-    return db
-      .insert(teamsTable)
-      .values(teamData)
+  TeamData: (teamData: UpdateTeamData) => {
+    return db.insert(teamsTable).values(teamData);
   },
-  UpdateTeam: (existingTeamId:any, teamData: TeamData) => {
-    return existingTeamId&&teamData;
-  }
 };
 
 export const Update = {
-    UserData: ( userId :number, updataData: updateUserData)=>{
-        return db
-        .update(usersTable)
-        .set(updataData)
-        .where(eq(usersTable.id, userId));
-    },
-}
+  UserData: (userId: number, updataData: UpdateUserData) => {
+    return db
+      .update(usersTable)
+      .set(updataData)
+      .where(eq(usersTable.id, userId));
+  },
+  TeamData: (teamId: number, teamData: UpdateTeamData) => {
+    return db.update(teamsTable).set(teamData).where(eq(teamsTable, teamId));
+  },
+};
 
 export const Delete = {
-  Player: (playerId:number)=>{
+  Player: (playerId: number) => {
     return playerId;
-  }
-}
+  },
+};

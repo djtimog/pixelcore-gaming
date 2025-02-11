@@ -1,5 +1,10 @@
 import { usersTable } from "@/config/schema";
-import { PlayerFormSchema, ProfileFormSchema, UserFormSchema, TeamFormSchema } from "./form-schema";
+import {
+  PlayerFormSchema,
+  ProfileFormSchema,
+  UserFormSchema,
+  TeamFormSchema,
+} from "./form-schema";
 import { z } from "zod";
 
 export type UserData = {
@@ -25,7 +30,7 @@ export type PlayerData = {
   level: number;
 };
 
-export type updateUserData = {
+export type UpdateUserData = {
   name: string;
   username: string;
   phoneNumber: string | null;
@@ -35,13 +40,34 @@ export type updateUserData = {
   isSubscribed: boolean;
 };
 
-export type TeamData = {
+export type UpdateTeamData = {
   name: string;
   gameId: number;
   captainId: number;
   logoUrl: string;
-}
+};
 
+export type TeamData = {
+  name: string;
+  logoUrl: string | null;
+  id: number;
+  createdAt: Date | null;
+  captainId: number;
+  secretCode: string;
+  gameId: number;
+};
+
+export type TeamPlayersData = {
+  id: number;
+  gameId: number;
+  userId: number;
+  teamId: number | null;
+  gameHandle: string | null;
+  rank: string | null;
+  uid: string;
+  level: number | null;
+  isCaptain: boolean | null;
+};
 export type ProfileFormValues = z.infer<typeof ProfileFormSchema>;
 
 export type PlayerFormValues = z.infer<typeof PlayerFormSchema>;
