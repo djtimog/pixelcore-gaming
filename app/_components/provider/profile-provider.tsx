@@ -49,6 +49,9 @@ const ProfileProvider = ({ children }: { children: React.ReactNode }) => {
     if (user) {
       fetchUserDetails();
     }
+    else{
+      setPageLoading(true);
+    }
   }, [user, router]);
 
   return (

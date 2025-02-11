@@ -1,5 +1,5 @@
 import { usersTable } from "@/config/schema";
-import { PlayerFormSchema, ProfileFormSchema, UserFormSchema } from "./form-schema";
+import { PlayerFormSchema, ProfileFormSchema, UserFormSchema, TeamFormSchema } from "./form-schema";
 import { z } from "zod";
 
 export type UserData = {
@@ -35,6 +35,13 @@ export type updateUserData = {
   isSubscribed: boolean;
 };
 
+export type TeamData = {
+  name: string;
+  gameId: number;
+  captainId: number;
+  logoUrl: string;
+}
+
 export type ProfileFormValues = z.infer<typeof ProfileFormSchema>;
 
 export type PlayerFormValues = z.infer<typeof PlayerFormSchema>;
@@ -42,3 +49,5 @@ export type PlayerFormValues = z.infer<typeof PlayerFormSchema>;
 export type UserFormValues = z.infer<typeof UserFormSchema>;
 
 export type DatabaseUser = typeof usersTable.$inferSelect;
+
+export type TeamFormValues = z.infer<typeof TeamFormSchema>;

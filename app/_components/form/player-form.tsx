@@ -114,7 +114,6 @@ export default function PlayerSignUpForm() {
       const userEmail = user.emailAddresses[0]?.emailAddress || "";
       const userName = user.username || "";
 
-      // Find user_id in the database using email and username
       const existingUser = await Get.UserByEmail(userEmail);
 
       if (existingUser.length === 0 || existingUser[0].username !== userName) {
@@ -127,8 +126,7 @@ export default function PlayerSignUpForm() {
         return;
       }
 
-      const userId = existingUser[0].id; // Extract user_id from DB
-
+      const userId = existingUser[0].id; 
       if (existingUser[0].role !== "player") {
         toast({
           title: "Error",

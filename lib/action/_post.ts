@@ -1,7 +1,7 @@
 import { db } from "@/config/db";
-import { playersTable, usersTable } from "@/config/schema";
+import { playersTable, teamsTable, usersTable } from "@/config/schema";
 import { eq } from "drizzle-orm";
-import { PlayerData, updateUserData, UserData } from "../placeholder-data";
+import { PlayerData, TeamData, updateUserData, UserData } from "../placeholder-data";
 
 export const Post = {
   UserData: (userData: UserData) => {
@@ -13,6 +13,14 @@ export const Post = {
     return db
         .insert(playersTable)
         .values(playerData);
+  },
+  TeamData: (teamData: TeamData) => {
+    return db
+      .insert(teamsTable)
+      .values(teamData)
+  },
+  UpdateTeam: (existingTeamId:any, teamData: TeamData) => {
+    return existingTeamId&&teamData;
   }
 };
 
@@ -23,4 +31,10 @@ export const Update = {
         .set(updataData)
         .where(eq(usersTable.id, userId));
     },
+}
+
+export const Delete = {
+  Player: (playerId:number)=>{
+    return playerId;
+  }
 }
