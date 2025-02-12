@@ -1,11 +1,8 @@
 "use client";
-
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { IconButton, List, ListItem, ListItemText } from "@mui/material";
 import {
-  ExpandMore,
   Menu as MenuIcon,
   Close as CloseIcon,
 } from "@mui/icons-material";
@@ -20,54 +17,16 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import Auth from "@/components/ui/auth";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { LogIn } from "lucide-react";
 import ProfileImage from "@/components/ui/profile-image";
 import { Button } from "@/components/ui/button";
-
-const LanguageButton = ({
-  currentLanguage,
-  handleLanguageClick,
-}: {
-  currentLanguage: string;
-  handleLanguageClick: (language: string) => void;
-}) => (
-  <DropdownMenu>
-    <DropdownMenuTrigger>
-      <p className="hover:text-[#14C570] flex items-center space-x-1 border-[0px] p-1">
-        <ExpandMore />
-        <span className="font-medium">{currentLanguage}</span>
-      </p>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="center" className="absolute w-max">
-      {["EN", "FR", "ES"].map((lang) => (
-        <DropdownMenuItem
-          key={lang}
-          onClick={() => handleLanguageClick(lang)}
-          className="max-w-max"
-        >
-          {lang}
-        </DropdownMenuItem>
-      ))}
-    </DropdownMenuContent>
-  </DropdownMenu>
-);
+import LanguageButton from "../ui/language-switcher";
 
 const Header = () => {
-  const [currentLanguage, setCurrentLanguage] = useState("EN");
 
   const pathname = usePathname();
-
-  const handleLanguageClick = (language: string) => {
-    setCurrentLanguage(language);
-  };
 
   const navItems = [
     { label: "Home", href: "/" },
@@ -93,6 +52,7 @@ const Header = () => {
               href={item.href}
               className={pathname === item.href ? "text-[#14C570] text-lg" : ""}
               passHref
+              data-translate
             >
               {item.label}
             </Link>
@@ -100,10 +60,7 @@ const Header = () => {
         </nav>
 
         <div className="hidden md:flex items-center space-x-4">
-          <LanguageButton
-            currentLanguage={currentLanguage}
-            handleLanguageClick={handleLanguageClick}
-          />
+          <LanguageButton />
 
           <ModeToggle />
 
@@ -129,10 +86,8 @@ const Header = () => {
                     <Image src={logo} alt="Logo" width={50} height={50} />
 
                     <div className="flex items-center">
-                      <LanguageButton
-                        currentLanguage={currentLanguage}
-                        handleLanguageClick={handleLanguageClick}
-                      />
+                    <LanguageButton />
+
                     </div>
 
                     <div className="flex justify-center">

@@ -3,6 +3,7 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { TranslationProvider } from "../context/TranslationContext";
 
 export default function Provider({ children }: { children: React.ReactNode }) {
   return (
@@ -12,10 +13,12 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       enableSystem
       disableTransitionOnChange
     >
-      <Header />
-      {children}
-      <Toaster />
-      <Footer />
+      <TranslationProvider>
+        <Header />
+        {children}
+        <Toaster />
+        <Footer />
+      </TranslationProvider>
     </ThemeProvider>
   );
 }
