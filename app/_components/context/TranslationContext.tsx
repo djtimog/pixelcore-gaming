@@ -36,7 +36,7 @@ export const TranslationProvider = ({ children }: { children: ReactNode }) => {
 
         const request = `https://api.mymemory.translated.net/get?q=${text}&langpair=${language}|${langTo}`;
         const response = await fetch(request);
-
+        
         const data = await response.json();
   
         if (data.matches && data.matches.length > 0) {
