@@ -77,7 +77,7 @@ const TeamSignUpForm = () => {
         if (team[0]) {
 
         const games = await Get.Games();
-
+        console.log(games)
         setGameNames(games.map((game) => game.name));
 
         const teamGame = games.find((game) => game.id === team[0].gameId);
