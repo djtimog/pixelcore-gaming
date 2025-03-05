@@ -99,7 +99,7 @@ export default function Home() {
               <TeamList />
               <div className="px-11 text-end mb-5">
                 <Link href={`/team`}>
-                  <Button className="bg-[#14C570] normal-case text-black w-full md:w-auto rounded text-lg" data-translate>
+                  <Button className="normal-case text-black w-full md:w-auto rounded text-lg" data-translate>
                     More Info On Our Team!
                   </Button>
                 </Link>
@@ -124,7 +124,7 @@ export default function Home() {
 
                   <div className="flex justify-center sm:justify-start md:pt-10">
                     <Link href="/events">
-                      <Button className="bg-[#14C570] flex normal-case space-x-2 hover:space-x-4 text-lg rounded">
+                      <Button className="flex normal-case space-x-2 hover:space-x-4 text-lg rounded">
                         <span data-translate>Join Us</span>
                         <ArrowForwardIcon className="" />
                       </Button>

@@ -1,3 +1,4 @@
+'use server'
 import { db } from "@/config/db";
 import { eq } from "drizzle-orm";
 import {
@@ -8,8 +9,19 @@ import {
 } from "@/config/schema";
 
 export const Get = {
-  UserByEmail: (userEmail: string) => {
-    return db.select().from(usersTable).where(eq(usersTable.email, userEmail));
+  UserByEmail: async (email: string) => {
+    try {
+      const user = await db
+        .select()
+        .from(usersTable)
+        .where(eq(usersTable.email, email))
+        .limit(1);
+      
+      return user[0];
+    } catch (error) {
+      console.error("Error fetching user by email:", error);
+      return null;
+    }
   },
   PlayerByUserId: (userId: number) => {
     return db

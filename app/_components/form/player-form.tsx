@@ -325,7 +325,7 @@ export default function PlayerSignUpForm() {
             {/* Submit Button */}
             <Button
               type="submit"
-              className="w-full bg-[#14C570]"
+              className="w-full"
               disabled={isLoading}
             >
               <CheckCheck />

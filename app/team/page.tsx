@@ -80,7 +80,7 @@ export default function Team() {
                 <Link href="/events">
                   <Button
                     className={
-                      "bg-[#14C570] flex normal-case space-x-2 hover:space-x-4 text-lg rounded"
+                      "flex normal-case space-x-2 hover:space-x-4 text-lg rounded"
                     }
                   >
                     <span>Join Us</span>

@@ -95,7 +95,7 @@ const Footer = () => {
               <div className="min-w-max">
                 <Button
                   type="submit"
-                  className="md:py-3 md:px-3 p-2 bg-[#14C570] hover:bg-[#00ff00] text-white rounded-md"
+                  className="md:py-3 md:px-3 p-2 text-white rounded-md"
                 >
                   Subcribe
                 </Button>

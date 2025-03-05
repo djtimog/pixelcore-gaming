@@ -353,7 +353,7 @@ export default function UserSignUpForm() {
             )}
             <Button
               type="submit"
-              className="w-full bg-[#14C570] "
+              className="w-full"
               disabled={!isUserUser || isLoading}
             >
               {isLoading ? "Creating Profile..." : "Complete Registration"}
