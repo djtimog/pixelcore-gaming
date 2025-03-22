@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
-import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -28,10 +27,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
-import { Get } from "@/lib/action/_get";
-import { Post } from "@/lib/action/_post";
 import { UserFormValues } from "@/lib/placeholder-data";
 import { UserFormSchema } from "@/lib/form-schema";
+import { handleImageUpload, uploadedImageUrl } from "@/lib/image-upload";
+import { onSubmitForm } from "@/lib/action/_onSubmit-form";
 
 export default function UserSignUpForm() {
   const { user } = useUser();
@@ -53,20 +52,6 @@ export default function UserSignUpForm() {
       isSubscribed: false,
     },
   });
-
-  // Handle image upload preview
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedImageFile(file);
-      // Create preview URL
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   useEffect(() => {
     if (user) {
@@ -98,72 +83,12 @@ export default function UserSignUpForm() {
     }
   }, [user, form]);
 
-  async function onSubmit(data: UserFormValues) {
-    setIsLoading(true);
-
-    try {
-      // Handle profile image upload first
-
-      const getUpdatedImage = async () => {
-        let newImageUrl = user?.imageUrl;
-        if (selectedImageFile && user) {
-          await user.setProfileImage({ file: selectedImageFile });
-          await new Promise((resolve) => setTimeout(resolve, 3000));
-          newImageUrl = user?.imageUrl;
-        }
-        return newImageUrl;
-      };
-
-      const updatedImageUrl = await getUpdatedImage();
-
-      // Prepare user data with Clerk's image URL
-      const userData = {
-        name: data.name.slice(0, 255),
-        username: data.username.slice(0, 255),
-        email: data.email.slice(0, 255),
-        phoneNumber: data.phoneNumber?.slice(0, 15) || null,
-        discordHandle: data.discordHandle?.slice(0, 50) || null,
-        role: data.role,
-        imageUrl: updatedImageUrl || "", // Use Clerk's CDN URL
-        isSubscribed: data.isSubscribed,
-        isVerified: false,
-        createdAt: new Date(),
-      };
-
-      // Check for existing user
-      const existingUser = await Get.UserByEmail(userData.email);
-
-      if (!existingUser) {
-        await Post.UserData(userData);
-        toast({
-          title: "Success!",
-          description: "Profile created successfully",
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: "User already exists",
-          variant: "destructive",
-        });
-      }
-      router.push("/");
-    } catch (error) {
-      console.error("Error saving user:", error);
-      toast({
-        title: "Submission Failed",
-        description: "An error occurred while saving user data",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  }
 
   return (
     <section className="">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit((data) => onSubmitForm.User(data, user, setIsLoading, selectedImageFile, router))}
           className="space-y-6 p-6 rounded-lg shadow-md"
         >
           {/* Profile Picture */}
@@ -187,7 +112,7 @@ export default function UserSignUpForm() {
                     <Input
                       type="file"
                       accept="image/*"
-                      onChange={handleImageUpload}
+                      onChange={(event)=>handleImageUpload(event, setSelectedImageFile, setPreviewImage)}
                     />
                   </FormControl>
                 </div>

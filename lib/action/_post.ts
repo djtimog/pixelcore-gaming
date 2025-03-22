@@ -1,4 +1,3 @@
-'use server'
 import { db } from "@/config/db";
 import { playersTable, teamsTable, usersTable } from "@/config/schema";
 import { eq } from "drizzle-orm";
