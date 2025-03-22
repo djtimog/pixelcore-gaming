@@ -29,7 +29,7 @@ import {
 import { useRouter } from "next/navigation";
 import { UserFormValues } from "@/lib/placeholder-data";
 import { UserFormSchema } from "@/lib/form-schema";
-import { handleImageUpload, uploadedImageUrl } from "@/lib/image-upload";
+import { handleImageUpload } from "@/lib/image-upload";
 import { onSubmitForm } from "@/lib/action/_onSubmit-form";
 
 export default function UserSignUpForm() {
