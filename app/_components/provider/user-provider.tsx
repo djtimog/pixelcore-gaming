@@ -28,8 +28,8 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
         }
         const existingUser = await Get.UserByEmail(userEmail);
 
-        if (existingUser.length > 0) {
-          const userRole = existingUser[0].role;
+        if (existingUser) {
+          const userRole = existingUser.role;
           router.push(getRolePath(userRole));
         } else {
           setPageLoading(false);

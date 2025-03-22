@@ -16,21 +16,20 @@ const ProfileProvider = ({ children }: { children: React.ReactNode }) => {
     const fetchUserDetails = async () => {
       setPageLoading(true);
 
+      const userEmail = user?.emailAddresses[0]?.emailAddress;
+
+      if (!userEmail) {
+        toast({
+          title: "Error",
+          description: "An error occurred while fetching user email",
+          variant: "destructive",
+        });
+        throw new Error("User email is undefined");
+      }
       try {
-        const userEmail = user?.emailAddresses[0]?.emailAddress;
-
-        if (!userEmail) {
-          toast({
-            title: "Error",
-            description: "An error occurred while fetching user email",
-            variant: "destructive",
-          });
-          throw new Error("User email is undefined");
-        }
-
         const existingUser = await Get.UserByEmail(userEmail);
 
-        if (existingUser.length > 0) {
+        if (existingUser) {
           setPageLoading(false);
           return;
         } else {

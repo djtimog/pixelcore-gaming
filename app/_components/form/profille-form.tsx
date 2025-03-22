@@ -61,7 +61,7 @@ export default function UserProfilePage() {
         const email = clerkUser.primaryEmailAddress?.emailAddress;
         if (!email) throw new Error("No email associated with account");
 
-        const [user] = await Get.UserByEmail(email);
+        const user = await Get.UserByEmail(email);
 
         if (!user) throw new Error("User not found in database");
 
@@ -179,7 +179,7 @@ export default function UserProfilePage() {
             render={() => (
               <FormItem>
                 <FormLabel>Profile Picture</FormLabel>
-                <div className="flex items-center gap-4">
+                <div className="sm:flex space-y-4 sm:space-y-0 items-center gap-4 justify-center">
                   {previewImage && (
                     <Image
                       src={previewImage}

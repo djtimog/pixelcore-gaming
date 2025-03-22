@@ -52,15 +52,12 @@ const TeamSignUpForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (user) {
-        const userEmail = user.emailAddresses[0]?.emailAddress || "";
-        const userName = user.username || "";
+        const userEmail = user.emailAddresses[0]?.emailAddress!;
+        const userName = user.username!;
 
         const existingUser = await Get.UserByEmail(userEmail);
 
-        if (
-          existingUser.length === 0 ||
-          existingUser[0].username !== userName
-        ) {
+        if ( !existingUser || existingUser.username !== userName ) {
           toast({
             title: "Error",
             description: "User not found!!",
@@ -70,29 +67,29 @@ const TeamSignUpForm = () => {
           return;
         }
 
-        const userId = existingUser[0].id;
+        const userId = existingUser.id;
         const team = await Get.TeamByCaptainId(userId);
-        setUserId(existingUser[0].id);
+        setUserId(existingUser.id);
 
-        if (team[0]) {
+        if (team) {
 
         const games = await Get.Games();
         console.log(games)
         setGameNames(games.map((game) => game.name));
 
-        const teamGame = games.find((game) => game.id === team[0].gameId);
+        const teamGame = games.find((game) => game.id === team.gameId);
 
-          setExistingTeam(team[0]);
+          setExistingTeam(team);
 
           form.reset({
-            name: team[0].name,
+            name: team.name,
             game: teamGame?.name || "",
-            logoUrl: team[0].logoUrl || "",
+            logoUrl: team.logoUrl || "",
           });
-          setPreviewLogo(team[0].logoUrl);
+          setPreviewLogo(team.logoUrl);
 
 
-          const players = await Get.PlayersByTeamId(team[0].id);
+          const players = await Get.PlayersByTeamId(team.id);
           setTeamPlayers(players);
         }
       }
@@ -119,7 +116,7 @@ const TeamSignUpForm = () => {
 
     const existingUser = await Get.UserByEmail(userEmail);
 
-    if (existingUser.length === 0 || existingUser[0].username !== userName) {
+    if ( !existingUser || existingUser.username !== userName ) {
       toast({
         title: "Error",
         description: "User not found!!",
@@ -129,7 +126,7 @@ const TeamSignUpForm = () => {
       return;
     }
 
-    const userId = existingUser[0].id;
+    const userId = existingUser.id;
     const games = await Get.Games();
 
     setIsLoading(true);

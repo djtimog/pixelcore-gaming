@@ -55,11 +55,11 @@ export default function PlayerSignUpForm() {
     try {
       const team = await Get.TeamBySecretCode(secret_code);
 
-      if (team.length > 0) {
-        setTeamId(team[0].id);
+      if (team) {
+        setTeamId(team.id);
         toast({
           title: "Team found!",
-          description: `You joined ${team[0].name}.`,
+          description: `You joined ${team.name}.`,
         });
       } else {
         setTeamId(null);
@@ -116,7 +116,7 @@ export default function PlayerSignUpForm() {
 
       const existingUser = await Get.UserByEmail(userEmail);
 
-      if (existingUser.length === 0 || existingUser[0].username !== userName) {
+      if (existingUser?.name !== userName) {
         toast({
           title: "Error",
           description: "User not found!!",
@@ -126,8 +126,8 @@ export default function PlayerSignUpForm() {
         return;
       }
 
-      const userId = existingUser[0].id; 
-      if (existingUser[0].role !== "player") {
+      const userId = existingUser.id; 
+      if (existingUser.role !== "player") {
         toast({
           title: "Error",
           description: "You are not authorized to register as a player.",
@@ -140,7 +140,7 @@ export default function PlayerSignUpForm() {
       // Check if the player already exists
       const existingPlayer = await Get.PlayerByUserId(userId);
 
-      if (existingPlayer.length > 0) {
+      if (existingPlayer) {
         toast({
           title: "Error",
           description: "You are already registered as a player.",

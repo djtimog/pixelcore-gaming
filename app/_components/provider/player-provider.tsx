@@ -30,15 +30,15 @@ const PlayerProvider = ({ children }: { children: React.ReactNode }) => {
 
         const existingUser = await Get.UserByEmail(userEmail);
 
-        if (existingUser.length > 0) {
-          const userRole = existingUser[0].role;
+        if (existingUser) {
+          const userRole = existingUser.role;
           if (userRole === "player") {
             try {
               const existingPlayer = await Get.PlayerByUserId(
-                existingUser[0].id
+                existingUser.id
               );
 
-              if (existingPlayer.length > 0) {
+              if (existingPlayer) {
                 toast({
                   title: "Alert",
                   description: "You have an account already!",

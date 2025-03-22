@@ -133,7 +133,7 @@ export default function UserSignUpForm() {
       // Check for existing user
       const existingUser = await Get.UserByEmail(userData.email);
 
-      if (!existingUser[0]) {
+      if (!existingUser) {
         await Post.UserData(userData);
         toast({
           title: "Success!",
@@ -173,7 +173,7 @@ export default function UserSignUpForm() {
             render={() => (
               <FormItem>
                 <FormLabel>Profile Picture</FormLabel>
-                <div className="sm:flex space-y-4 sm:space-y-0 items-center gap-4">
+                <div className="sm:flex space-y-4 sm:space-y-0 items-center gap-4 justify-center">
                   {previewImage && (
                     <Image
                       src={previewImage}
@@ -318,7 +318,7 @@ export default function UserSignUpForm() {
                         <SelectItem value="team_manager">
                           Team Manager
                         </SelectItem>
-                        <SelectItem value="admin">Administrator</SelectItem>
+                        {/* <SelectItem value="admin">Administrator</SelectItem> */}
                       </SelectContent>
                     </Select>
                   </FormControl>

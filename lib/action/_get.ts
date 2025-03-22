@@ -1,4 +1,3 @@
-'use server'
 import { db } from "@/config/db";
 import { eq } from "drizzle-orm";
 import {
@@ -16,38 +15,67 @@ export const Get = {
         .from(usersTable)
         .where(eq(usersTable.email, email))
         .limit(1);
-      
+
       return user[0];
     } catch (error) {
       console.error("Error fetching user by email:", error);
       return null;
     }
   },
-  PlayerByUserId: (userId: number) => {
-    return db
-      .select()
-      .from(playersTable)
-      .where(eq(playersTable.userId, userId));
+
+  PlayerByUserId: async (userId: number) => {
+    try {
+      const player = await db
+        .select()
+        .from(playersTable)
+        .where(eq(playersTable.userId, userId));
+
+      return player[0];
+    } catch (error) {
+      console.error("Error fetching player by user ID:", error);
+      return null;
+    }
   },
-  TeamBySecretCode: (secretCode: string) => {
-    return db
-      .select()
-      .from(teamsTable)
-      .where(eq(teamsTable.secretCode, secretCode));
+
+  TeamBySecretCode: async (secretCode: string) => {
+    try {
+      const team = await db
+        .select()
+        .from(teamsTable)
+        .where(eq(teamsTable.secretCode, secretCode));
+      return team[0];
+    } catch (error) {
+      console.error("Error fetching team by secret code:", error);
+      return null;
+    }
   },
-  Games: () => {
-    return db.select().from(gamesTable);
+
+  Games: async () => {
+    return await db.select().from(gamesTable);
   },
-  TeamByCaptainId: (captainId: number) => {
-    return db
-      .select()
-      .from(teamsTable)
-      .where(eq(teamsTable.captainId, captainId));
+
+  TeamByCaptainId: async (captainId: number) => {
+    try {
+      const team = await db
+        .select()
+        .from(teamsTable)
+        .where(eq(teamsTable.captainId, captainId));
+      return team[0];
+    } catch (error) {
+      console.error("Error fetching team by captain ID:", error);
+      return null;
+    }
   },
-  PlayersByTeamId: (teamId: number) => {
-    return db
-      .select()
-      .from(playersTable)
-      .where(eq(playersTable.teamId, teamId));
+
+  PlayersByTeamId: async (teamId: number) => {
+    try {
+      return await db
+        .select()
+        .from(playersTable)
+        .where(eq(playersTable.teamId, teamId));
+    } catch (error) {
+      console.error("Error fetching players by team ID:", error);
+      return [];
+    }
   },
 };
