@@ -7,7 +7,7 @@ export default function ProfileSkeleton() {
       {/* Profile Picture Skeleton */}
       <div className="space-y-2">
         <Skeleton className="h-5 w-32" />
-        <div className="flex items-center gap-4 justify-center">
+        <div className="flex items-center gap-4">
           <Skeleton className="h-20 w-20 rounded-full" />
         </div>
       </div>

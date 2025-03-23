@@ -54,33 +54,31 @@ export default function UserSignUpForm() {
   });
 
   useEffect(() => {
-    if (user) {
-      form.reset({
-        name: user.firstName || "",
-        username: user.username || "",
-        email: user.emailAddresses[0]?.emailAddress || "",
-        imageUrl: user.imageUrl,
-        discordHandle: "",
-        role: "player",
-        isSubscribed: false,
-      });
-      setPreviewImage(user.imageUrl);
-    }
+    if (!user) return;
+
+    const { firstName, username, emailAddresses, imageUrl } = user;
+
+    form.reset({
+      name: firstName || "",
+      username: username || "",
+      email: emailAddresses[0]?.emailAddress || "",
+      imageUrl,
+      discordHandle: "",
+      role: "player",
+      isSubscribed: false,
+    });
+
+    setPreviewImage(imageUrl);
   }, [user, form]);
 
   useEffect(() => {
-    if (user) {
-      const currentUsername = user.username;
-      const currentEmail = user.emailAddresses[0]?.emailAddress;
-      const formUsername = form.getValues("username");
-      const formEmail = form.getValues("email");
+    if (!user) return;
 
-      if (currentUsername !== formUsername || currentEmail !== formEmail) {
-        setIsUserUser(false);
-      } else {
-        setIsUserUser(true);
-      }
-    }
+    const { username: currentUsername, emailAddresses } = user;
+    const currentEmail = emailAddresses[0]?.emailAddress;
+    const { username: formUsername, email: formEmail } = form.getValues();
+
+    setIsUserUser(currentUsername === formUsername && currentEmail === formEmail);
   }, [user, form]);
 
 

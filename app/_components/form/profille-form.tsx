@@ -34,6 +34,7 @@ import { Update } from "@/lib/action/_post";
 import { DatabaseUser, ProfileFormValues } from "@/lib/placeholder-data";
 import { ProfileFormSchema, roleEnum } from "@/lib/form-schema";
 import { Get } from "@/lib/action/_get";
+import { handleImageUpload } from "@/lib/image-upload";
 
 export default function UserProfilePage() {
   const router = useRouter();
@@ -93,16 +94,6 @@ export default function UserProfilePage() {
 
     fetchUserData();
   }, [clerkUser, form, router]);
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    setSelectedImageFile(file);
-    const reader = new FileReader();
-    reader.onload = () => setPreviewImage(reader.result as string);
-    reader.readAsDataURL(file);
-  };
 
   const handleFormSubmit = async (values: ProfileFormValues) => {
     if (!clerkUser || !databaseUser) return;
@@ -179,7 +170,7 @@ export default function UserProfilePage() {
             render={() => (
               <FormItem>
                 <FormLabel>Profile Picture</FormLabel>
-                <div className="sm:flex space-y-4 sm:space-y-0 items-center gap-4 justify-center">
+                <div className="sm:flex space-y-4 sm:space-y-0 items-center gap-4">
                   {previewImage && (
                     <Image
                       src={previewImage}
@@ -194,7 +185,7 @@ export default function UserProfilePage() {
                       <Input
                         type="file"
                         accept="image/*"
-                        onChange={handleImageUpload}
+                        onChange={(event)=>handleImageUpload(event, setSelectedImageFile, setPreviewImage)}
                         className="cursor-pointer"
                       />
                     </FormControl>

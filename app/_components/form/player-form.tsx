@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -24,10 +23,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CheckCheck } from "lucide-react";
-import { Get } from "@/lib/action/_get";
 import { PlayerFormValues } from "@/lib/placeholder-data";
 import { PlayerFormSchema } from "@/lib/form-schema";
-import { Post } from "@/lib/action/_post";
+import { handleTeamLookup } from "@/lib/team-look-up";
+import { lookUpGames } from "@/lib/games-look-up";
+import { onSubmitForm } from "@/lib/action/_onSubmit-form";
 
 export default function PlayerSignUpForm() {
   const { user } = useUser();
@@ -48,146 +48,16 @@ export default function PlayerSignUpForm() {
     },
   });
 
-  // Handle team lookup based on secret code
-  const handleTeamLookup = async (secret_code: string) => {
-    if (!secret_code) return;
-
-    try {
-      const team = await Get.TeamBySecretCode(secret_code);
-
-      if (team) {
-        setTeamId(team.id);
-        toast({
-          title: "Team found!",
-          description: `You joined ${team.name}.`,
-        });
-      } else {
-        setTeamId(null);
-        toast({
-          title: "Invalid Code",
-          description: "No team found with this secret code.",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error("Error finding team:", error);
-      toast({
-        title: "Submission Failed",
-        description: "An error occurred while saving the player to team",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const lookUpGames = async () => {
-    try {
-      const games = await Get.Games();
-      setGameNames(games.map((game) => game.name));
-    } catch (error) {
-      console.log("Error fetching games:", error);
-      toast({
-        title: "Fetch Failed",
-        description: "An error occurred while fetching games",
-        variant: "destructive",
-      });
-    }
-  };
-
   useEffect(() => {
-    lookUpGames();
+    lookUpGames(setGameNames);
   }, [user, form, router]);
-
-  async function onSubmit(data: PlayerFormValues) {
-    setIsLoading(true);
-
-    try {
-      if (!user) {
-        toast({
-          title: "Error",
-          description: "User not authenticated.",
-          variant: "destructive",
-        });
-        router.push("/sign-in");
-        return;
-      }
-
-      const userEmail = user.emailAddresses[0]?.emailAddress || "";
-      const userName = user.username || "";
-
-      const existingUser = await Get.UserByEmail(userEmail);
-
-      if (existingUser?.name !== userName) {
-        toast({
-          title: "Error",
-          description: "User not found!!",
-          variant: "destructive",
-        });
-        router.push("/user-sign-up");
-        return;
-      }
-
-      const userId = existingUser.id; 
-      if (existingUser.role !== "player") {
-        toast({
-          title: "Error",
-          description: "You are not authorized to register as a player.",
-          variant: "destructive",
-        });
-        router.push("/user-sign-up");
-        return;
-      }
-
-      // Check if the player already exists
-      const existingPlayer = await Get.PlayerByUserId(userId);
-
-      if (existingPlayer) {
-        toast({
-          title: "Error",
-          description: "You are already registered as a player.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      const games = await Get.Games();
-
-      //player data
-      const playerData = {
-        userId: userId,
-        teamId: teamId,
-        gameId: games.find((game) => game.name === data.game)?.id || 1,
-        gameHandle: data.game_handle.slice(0, 255) || null,
-        rank: data.rank?.slice(0, 100) || null,
-        uid: data.uid.slice(0, 255),
-        level: data.level,
-      };
-
-      // Insert player into the database
-      await Post.PlayerData(playerData);
-
-      toast({
-        title: "Success!",
-        description: "Player registered successfully.",
-      });
-      router.push("/schedule");
-    } catch (error) {
-      console.error("Error saving player:", error);
-      toast({
-        title: "Submission Failed",
-        description: "An error occurred.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  }
 
   return (
     <section>
       <div className="max-w-5xl m-auto w-full">
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit((data)=>onSubmitForm.Player(data, user, teamId, setIsLoading, router))}
             className="space-y-6 p-5 md:p-11"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -313,7 +183,7 @@ export default function PlayerSignUpForm() {
                       <Input
                         {...field}
                         placeholder="Enter team secret code (optional)"
-                        onBlur={(e) => handleTeamLookup(e.target.value)}
+                        onBlur={(e) => handleTeamLookup(e.target.value, setTeamId)}
                       />
                     </FormControl>
                     <FormMessage />

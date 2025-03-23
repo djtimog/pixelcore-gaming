@@ -38,7 +38,7 @@ const TeamSignUpForm = () => {
   const [teamPlayers, setTeamPlayers] = useState<TeamPlayersData[]>([]);
   const [existingTeam, setExistingTeam] = useState<TeamData | null>(null);
   const router = useRouter();
-  const [userId , setUserId] = useState<number>(0)
+  const [userId, setUserId] = useState<number>(0)
 
   const form = useForm<TeamFormValues>({
     resolver: zodResolver(TeamFormSchema),

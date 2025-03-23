@@ -20,6 +20,8 @@ interface ConfirmationDialogProps {
   triggerText: string;
   triggerIcon?: ReactNode;
   className?: string;
+  variant?: "link" | "default" | "destructive" | "outline" | "secondary" | "ghost" | null;
+  size?: "default" | "sm" | "lg" | "icon" | null;
 }
 
 export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
@@ -29,11 +31,13 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
   triggerText,
   triggerIcon,
   className,
+  variant,
+  size
 }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className={cn(className)}>
+        <Button className={cn(className)} variant={variant} size={size}>
           {triggerIcon}
           {triggerText}
         </Button>

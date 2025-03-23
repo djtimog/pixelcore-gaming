@@ -1,9 +1,9 @@
 import { SignedIn, SignedOut } from "@clerk/nextjs";
-import ProfileImage from "@/components/ui/profile-image";
 
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { AccountDropdown } from "./account-dropdown";
 
 export default function Auth() {
   return (
@@ -14,7 +14,7 @@ export default function Auth() {
         </Link>
       </SignedOut>
       <SignedIn>
-        <ProfileImage />
+        <AccountDropdown />
       </SignedIn>
     </>
   );
