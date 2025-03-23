@@ -52,8 +52,8 @@ const TeamSignUpForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (user) {
-        const userEmail = user.emailAddresses[0]?.emailAddress!;
-        const userName = user.username!;
+        const userEmail = user.emailAddresses[0]?.emailAddress || "";
+        const userName = user.username || "";
 
         const existingUser = await Get.UserByEmail(userEmail);
 
