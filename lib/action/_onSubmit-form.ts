@@ -76,7 +76,7 @@ export const onSubmitForm = {
 
       const existingUser = await Get.UserByEmail(userEmail);
 
-      if (existingUser?.name !== userName) {
+      if (existingUser?.email !== userEmail) {
         toast({
           title: "Error",
           description: "User not found!!",
@@ -128,7 +128,7 @@ export const onSubmitForm = {
         title: "Success!",
         description: "Player registered successfully.",
       });
-      router.push("/schedule");
+      router.push("/player-info");
     } catch (error) {
       console.error("Error saving player:", error);
       toast({

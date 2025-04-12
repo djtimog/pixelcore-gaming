@@ -7,11 +7,7 @@ import PlayerFormSkeleton from "@/components/ui/skeleton/player-form-skeleton";
 import { Get } from "@/lib/action/_get";
 import { getRolePath } from "@/lib/getRole";
 
-export default function TeamProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const PlayerInfoProvider = ({ children }: { children: React.ReactNode }) => {
   const { user } = useUser();
   const router = useRouter();
   const [pageLoading, setPageLoading] = useState(true);
@@ -43,13 +39,13 @@ export default function TeamProvider({
               );
 
               if (existingPlayer) {
-                toast({
-                  title: "Alert",
-                  description: "You have an account already!",
-                });
-                router.push("/");
-              } else {
-                setPageLoading(false);
+                  setPageLoading(false);
+                } else {
+                  toast({
+                    title: "Alert",
+                    description: "You don't have an account yet!",
+                  });
+                  router.push("/player-sign-up");
               }
             } catch (error) {
               console.log(error);
@@ -92,12 +88,15 @@ export default function TeamProvider({
       setPageLoading(true);
     }
   }, [user, router]);
+
   return (
     <main className="container mx-auto px-4 py-8 space-y-10">
       <p className="uppercase outlined-text text-lg sm:text-xl md:text-2xl lg:text-3xl text-center">
-       Team Profile
+        Player Infomation
       </p>
-      {children}
+      {!pageLoading ? children : <PlayerFormSkeleton />}
     </main>
   );
-}
+};
+
+export default PlayerInfoProvider;

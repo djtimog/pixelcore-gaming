@@ -139,14 +139,12 @@ const TeamSignUpForm = () => {
       };
 
       if (existingTeam) {
-        // Update existing team
         await Update.TeamData(existingTeam.id, teamData);
         toast({
           title: "Success!",
           description: "Team updated successfully",
         });
       } else {
-        // Create new team
         await Post.TeamData(teamData);
         toast({
           title: "Success!",

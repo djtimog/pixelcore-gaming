@@ -24,6 +24,7 @@ import {
   LinkIcon,
   LogOut,
   Settings,
+  Sparkles,
   TicketSlash,
   UserPen,
   UserRoundCog,
@@ -76,11 +77,13 @@ export function AccountDropdown() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <Info size={20} /> Player Info
+            <Link href="/profile" className="space-x-3 flex w-full">
+              <Info size={20} /> <span>Player Info</span>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <BadgePlus size={20} />
-            Create a Team
+            <Sparkles size={20} />
+            Upgrade to Pro
           </DropdownMenuItem>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>Invite a Friend</DropdownMenuSubTrigger>

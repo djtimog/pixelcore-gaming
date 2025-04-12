@@ -43,7 +43,7 @@ const PlayerProvider = ({ children }: { children: React.ReactNode }) => {
                   title: "Alert",
                   description: "You have an account already!",
                 });
-                router.push("/");
+                router.push("/team-sign-up");
               } else {
                 setPageLoading(false);
               }

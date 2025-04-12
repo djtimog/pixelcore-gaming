@@ -1,8 +1,8 @@
 "use client";
-import Link from "next/link";
-import Image from "next/image";
-import logo from "@/public/logo.png";
-import { usePathname } from "next/navigation";
+import React from "react";
+import { Separator } from "@/components/ui/separator";
+import { SidebarTrigger } from "../sidebar";
+import { CreatBreadCrumb } from "./get-breadcrumb";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import {
   Drawer,
@@ -13,47 +13,29 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import Auth from "@/components/ui/auth";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedOut } from "@clerk/nextjs";
 import { AlignJustify, LogIn, X } from "lucide-react";
-import ProfileImage from "@/components/ui/profile-image";
+
 import { Button } from "@/components/ui/button";
-import LanguageButton from "../ui/language-switcher";
+import LanguageButton from "../language-switcher";
+import Image from "next/image";
+import logo from "@/public/logo.png";
+import Link from "next/link";
+import { navItems } from "@/components/header";
+import { usePathname } from "next/navigation";
 
-export const navItems = [
-  { label: "Home", href: "/" },
-  { label: "Dashboard", href: "/dashboard" },
-  { label: "Schedule", href: "/schedule" },
-  { label: "About us", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
-
-const Header = () => {
+function DashboardHeader() {
   const pathname = usePathname();
 
-
   return (
-    <header className="sticky top-0 z-50 bg-inherit p-4">
-      <div className="md:px mx-auto flex items-center justify-between px-5 lg:container xl:px-11">
-        <div className="flex items-center">
-          <Link href="/">
-            <Image src={logo} alt="Logo" width={70} height={80} />
-          </Link>
-        </div>
+    <header className="flex h-16 shrink-0 items-center justify-between gap-2 shadow-md transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+      <div className="flex items-center gap-2 px-4">
+        <SidebarTrigger className="-ml-1" />
+        <Separator orientation="vertical" className="mr-2 h-4" />
+        <CreatBreadCrumb />
+      </div>
 
-        <nav className="hidden items-center space-x-6 md:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className={pathname === item.href ? "text-lg text-[#14C570]" : ""}
-              passHref
-              data-translate
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
+      <div className="px-4">
         <div className="hidden items-center space-x-4 md:flex">
           <LanguageButton />
 
@@ -66,9 +48,8 @@ const Header = () => {
           <Drawer>
             <DrawerTrigger asChild>
               <div className="flex justify-center space-x-5">
-                <SignedIn>
-                  <ProfileImage />
-                </SignedIn>
+                <Auth />
+
                 <Button
                   size={"icon"}
                   className="rounded-full hover:text-primary"
@@ -98,11 +79,7 @@ const Header = () => {
                         <div className="cursor-pointer">
                           <DrawerClose asChild>
                             <Link href="/sign-in" className="hidden sm:block">
-                              <Button
-                                size={"sm"}
-                              >
-                                Sign In
-                              </Button>
+                              <Button size={"sm"}>Sign In</Button>
                             </Link>
                           </DrawerClose>
 
@@ -128,7 +105,10 @@ const Header = () => {
                 </DrawerHeader>
                 <ul>
                   {navItems.map((item) => (
-                    <li key={item.label} className="my-2 hover:bg-secondary px-4 py-2 rounded-md">
+                    <li
+                      key={item.label}
+                      className="my-2 rounded-md px-4 py-2 hover:bg-secondary"
+                    >
                       <DrawerClose asChild>
                         <Link
                           href={item.href}
@@ -152,6 +132,6 @@ const Header = () => {
       </div>
     </header>
   );
-};
+}
 
-export default Header;
+export default DashboardHeader;

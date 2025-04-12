@@ -45,6 +45,7 @@ export default function UserProfilePage() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const [databaseUser, setDatabaseUser] = useState<DatabaseUser | null>(null);
+  const [userIsPlayer, setUserIsPlayer] = useState<boolean>(true);
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(ProfileFormSchema),
@@ -91,6 +92,20 @@ export default function UserProfilePage() {
         router.push("/");
       }
     };
+
+    const fetchPlayerData = async()=>{
+      const userEmail = clerkUser?.emailAddresses[0]?.emailAddress!;
+      
+      const existingUser = await Get.UserByEmail(userEmail);
+  
+      if (existingUser) {
+        const userRole = existingUser.role;
+
+            const existingPlayer = await Get.PlayerByUserId(
+              existingUser.id
+            );
+          }
+    }
 
     fetchUserData();
   }, [clerkUser, form, router]);
@@ -185,7 +200,13 @@ export default function UserProfilePage() {
                       <Input
                         type="file"
                         accept="image/*"
-                        onChange={(event)=>handleImageUpload(event, setSelectedImageFile, setPreviewImage)}
+                        onChange={(event) =>
+                          handleImageUpload(
+                            event,
+                            setSelectedImageFile,
+                            setPreviewImage
+                          )
+                        }
                         className="cursor-pointer"
                       />
                     </FormControl>
@@ -316,6 +337,16 @@ export default function UserProfilePage() {
               </FormItem>
             )}
           />
+
+          {/* Additional Information */}
+
+          {userIsPlayer && (
+            <div className="">
+              <p className="uppercase outlined-text text-lg sm:text-xl md:text-2xl lg:text-3xl text-center">
+                Player Infomation
+              </p>
+            </div>
+          )}
 
           {/* Action Buttons */}
           <div className="flex gap-4 justify-end">
