@@ -77,3 +77,29 @@ export type UserFormValues = z.infer<typeof UserFormSchema>;
 export type DatabaseUser = typeof usersTable.$inferSelect;
 
 export type TeamFormValues = z.infer<typeof TeamFormSchema>;
+
+export interface TournamentCardProps {
+  imageUrl: string
+  title: string
+  prize: number
+  game: string
+  players: number
+  time: string
+  date: string
+  host: string
+  rules: string[]
+  detailsLink: string
+  applyLink: string
+  hostLink: string
+}
+
+interface EventData {
+  title: string
+  description: string
+  imageUrl: string
+  readMoreLink: string
+}
+
+export interface EventsCarouselProps {
+  events: EventData[]
+}
