@@ -4,6 +4,9 @@ import {
   TeamCarousel,
 } from "@/components/ui/dashboard/carousel";
 import { TournamentCard } from "@/components/ui/dashboard/card/touranament";
+import { Button } from "@/components/ui/button";
+import { Trophy } from "lucide-react";
+import Link from "next/link";
 
 export default function Page() {
   return (
@@ -37,15 +40,22 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="mb-10">
+      <div className="mb-5">
         <h2 className="outlined-text mb-5 text-2xl tracking-wide">
           All Tournaments
         </h2>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-5">
           {Tournaments.map((tournament, index) => (
             <TournamentCard key={index} {...tournament} />
           ))}
         </div>
+        <Link href="#">
+          <Button className="rounded-lg w-full">
+            View All 
+            <span className="hidden sm:block">Tournament</span>
+            <Trophy /> 
+          </Button>
+        </Link>
       </div>
     </div>
   );

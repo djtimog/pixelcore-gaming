@@ -76,7 +76,7 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
 
 export function TeamCarousel({ teams }: TeamCarouselProps) {
   return (
-      <div className="relative w-full h-72 overflow-hidden">
+      <div className="relative w-full h-64 overflow-hidden">
         <Carousel
         opts={{
           align: "start",
