@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import Autoplay from "embla-carousel-autoplay"
-import { Card, CardContent } from "@/components/ui/card"
+import Autoplay from "embla-carousel-autoplay";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselApi,
@@ -9,35 +9,29 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
-import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
-import Link from "next/link"
-import { Button } from "../button"
-import { BookOpen } from "lucide-react"
-import { useIsMobile } from "@/hooks/use-mobile"
-import { EventsCarouselProps } from "@/lib/placeholder-data"
+} from "@/components/ui/carousel";
+import { useEffect, useRef, useState } from "react";
+import { EventsCarouselProps, TeamCarouselProps } from "@/lib/placeholder-data";
+import { TeamCard } from "./card/team";
+import { EventCard } from "./card/event";
 
 export function EventsCarousel({ events }: EventsCarouselProps) {
-  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: false }))
-  const isMobile = useIsMobile()
+  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: false }));
 
-  const [api, setApi] = useState<CarouselApi>()
-  const [current, setCurrent] = useState(0)
-  const [count, setCount] = useState(0)
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!api) return
+    if (!api) return;
 
-    setCount(api.scrollSnapList().length)
-    setCurrent(api.selectedScrollSnap() + 1)
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
 
     api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1)
-    })
-  }, [api])
-
-  const getSliceNumber = () => (isMobile ? 15 : 30)
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
 
   return (
     <div className="mb-5">
@@ -52,33 +46,8 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
             <CarouselItem key={index}>
               <div className="p-1">
                 <Card>
-                  <CardContent className="relative flex max-h-96 w-full items-center justify-center overflow-hidden rounded-lg p-0">
-                    <Image
-                      src={event.imageUrl}
-                      alt={event.title}
-                      width={5000}
-                      height={1000}
-                      className="h-full w-full rounded-lg object-cover"
-                    />
-                    <div className="absolute bottom-0 top-0 z-10 flex h-full w-full items-center justify-start bg-white bg-opacity-30 px-10 dark:bg-secondary dark:opacity-70">
-                      <div className="w-full max-w-md">
-                        <h3 className="mb-1 text-2xl font-bold tracking-widest md:mb-3 truncate">
-                          {event.title}
-                        </h3>
-                        <p className="mb-3 text-sm md:mb-7">
-                          {event.description
-                            .split(" ")
-                            .slice(0, getSliceNumber())
-                            .join(" ")}
-                          ...
-                        </p>
-                        <Link href={event.readMoreLink}>
-                          <Button>
-                            Read More <BookOpen />
-                          </Button>
-                        </Link>
-                      </div>
-                    </div>
+                  <CardContent className="p-0">
+                    <EventCard {...event}/>
                   </CardContent>
                 </Card>
               </div>
@@ -102,5 +71,35 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
         ))}
       </div>
     </div>
-  )
+  );
+}
+
+export function TeamCarousel({ teams }: TeamCarouselProps) {
+  return (
+      <div className="relative w-full h-72 overflow-hidden">
+        <Carousel
+        opts={{
+          align: "start",
+        }}
+        className="max-w-full absolute top-0 left-0 right-0 z-10"
+        >
+        <CarouselContent className="flex">
+          {teams.map((team, index) => (
+          <CarouselItem key={index} className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
+            <div className="p-1 w-min mx-auto">
+            <Card className="w-max h-max">
+              <CardContent className="flex w-max h-max items-center justify-center p-6">
+              <TeamCard {...team} key={index} />
+              </CardContent>
+            </Card>
+            </div>
+          </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious className="left-1" variant="secondary" />
+        <CarouselNext className="right-1" variant="secondary" />
+        </Carousel>
+      </div>
+
+  );
 }

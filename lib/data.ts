@@ -371,3 +371,70 @@ export const dummyEvents = [
     readMoreLink: "#"
   }
 ]
+
+export const dummyTeams = [
+  {
+    name: "Shadow Reapers",
+    logoUrl: "/team-logo.avif",
+    manager: {
+      name: "Ava Knight",
+      avatarUrl: "/about/team/ceo.jpeg"
+    },
+    managerProfileLink: "#"
+  },
+  {
+    name: "Omega Blaze",
+    logoUrl: "/team-logo.avif",
+    manager: {
+      name: "Jason Storm",
+      avatarUrl: "/about/team/ceo.jpeg"
+    },
+    managerProfileLink: "#"
+  },
+  {
+    name: "Phantom Force",
+    logoUrl: "/team-logo.avif",
+    manager: {
+      name: "Luna Ray",
+      avatarUrl: "/about/team/ceo.jpeg"
+    },
+    managerProfileLink: "#"
+  },
+  {
+    name: "Iron Valkyries",
+    logoUrl: "/team-logo.avif",
+    manager: {
+      name: "Marcus Hale",
+      avatarUrl: "/about/team/ceo.jpeg"
+    },
+    managerProfileLink: "#"
+  },
+  {
+    name: "Crimson Titans",
+    logoUrl: "/team-logo.avif",
+    manager: {
+      name: "Nina Frost",
+      avatarUrl: "/about/team/ceo.jpeg"
+    },
+    managerProfileLink: "#"
+  },
+  {
+    name: "Phantom Force",
+    logoUrl: "/team-logo.avif",
+    manager: {
+      name: "Luna Ray",
+      avatarUrl: "/about/team/ceo.jpeg"
+    },
+    managerProfileLink: "#"
+  },
+  {
+    name: "Iron Valkyries",
+    logoUrl: "/team-logo.avif",
+    manager: {
+      name: "Marcus Hale",
+      avatarUrl: "/about/team/ceo.jpeg"
+    },
+    managerProfileLink: "#"
+  },
+
+]

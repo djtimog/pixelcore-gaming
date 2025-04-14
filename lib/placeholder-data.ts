@@ -93,7 +93,7 @@ export interface TournamentCardProps {
   hostLink: string
 }
 
-interface EventData {
+export interface EventCardProps {
   title: string
   description: string
   imageUrl: string
@@ -101,5 +101,19 @@ interface EventData {
 }
 
 export interface EventsCarouselProps {
-  events: EventData[]
+  events: EventCardProps[]
+}
+
+export interface TeamCardProps {
+  name: string
+  logoUrl: string
+  manager: {
+    name: string
+    avatarUrl: string
+  }
+  managerProfileLink: string
+}
+
+export interface TeamCarouselProps {
+  teams: TeamCardProps[]
 }
