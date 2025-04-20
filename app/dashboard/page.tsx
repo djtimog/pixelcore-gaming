@@ -51,15 +51,15 @@ export default function Dashboard() {
 
 {/* this */}
       <div className="mb-5">
-        <div className="flex gap-2 justify-between items-center">
-          <h2 className="outlined-text mb-5 text-2xl tracking-wide truncate">
+        <div className="flex gap-2 justify-between items-center mb-5 ">
+          <h2 className="outlined-text text-2xl tracking-wide truncate">
             All Tournaments
           </h2>
 
           <Link href="#">
             <Button className="rounded-full border" variant={"ghost"}>
-              <Trophy /> 
               View All 
+              <Trophy /> 
               <span className="hidden lg:block">Tournament</span>
             </Button>
           </Link>

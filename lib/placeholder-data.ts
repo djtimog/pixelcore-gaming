@@ -91,6 +91,7 @@ export interface TournamentCardProps {
   detailsLink: string
   applyLink: string
   hostLink: string
+  starred?:boolean
 }
 
 export interface EventCardProps {

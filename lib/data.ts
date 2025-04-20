@@ -285,7 +285,8 @@ export const Tournaments = [
     rules: ["Do not kill your teammates", "Do not use cheats or hacks"],
     detailsLink: "#",
     applyLink: "#",
-    hostLink: "#"
+    hostLink: "#",
+    starred: true,
   },
   {
     imageUrl: "/fallback-tournament.jpg",
@@ -299,7 +300,8 @@ export const Tournaments = [
     rules: ["No smurfing", "Toxic behavior will result in disqualification"],
     detailsLink: "#",
     applyLink: "#",
-    hostLink: "#"
+    hostLink: "#",
+    starred: true,
   },
   {
     imageUrl: "/fallback-tournament.jpg",
@@ -330,7 +332,8 @@ export const Tournaments = [
     ],
     detailsLink: "#",
     applyLink: "#",
-    hostLink: "#"
+    hostLink: "#",
+    starred: true,
   },
 ];
 

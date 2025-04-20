@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { DollarSign, Gamepad2, Info, UsersRound } from "lucide-react";
+import { DollarSign, Gamepad2, Info, Star, UsersRound } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { TournamentCardProps } from "@/lib/placeholder-data";
+import { useState } from "react";
 
 export const TournamentCard = ({
   imageUrl,
@@ -25,16 +26,29 @@ export const TournamentCard = ({
   detailsLink,
   applyLink,
   hostLink,
+  starred
 }: TournamentCardProps) => {
+  const [isStarred, setIsStarred] = useState(!!starred);
+
+  const starHandler = () => {
+    // MORE FUNCTIONS
+    setIsStarred(!isStarred);
+  };
+
   return (
     <div>
-      <div className="mb-3 flex h-48 w-full items-center justify-center overflow-hidden rounded-lg bg-gray-200 hover:border-2">
+      <div className="relative mb-3 flex h-48 w-full items-center justify-center overflow-hidden rounded-lg bg-gray-200 hover:border-2">
         <Image
           src={imageUrl}
           alt={title}
           width={200}
           height={200}
           className="w-full object-cover"
+        />
+
+        <Star
+          className={`absolute right-0 top-0 m-2 ${isStarred ? "text-primary font-extrabold" : ""}`}
+          onClick={starHandler}
         />
       </div>
 
