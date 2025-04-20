@@ -113,9 +113,9 @@ function DashboardHeader() {
                         <Link
                           href={item.href}
                           className={
-                            pathname === item.href
+                            `${pathname === item.href
                               ? "text-lg text-[#14C570]"
-                              : ""
+                              : ""} w-full flex items-center justify-start`
                           }
                           passHref
                         >

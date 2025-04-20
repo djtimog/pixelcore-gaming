@@ -3,12 +3,12 @@ import {
   EventsCarousel,
   TeamCarousel,
 } from "@/components/ui/dashboard/carousel";
-import { TournamentCard } from "@/components/ui/dashboard/card/touranament";
+import { TournamentCard } from "@/components/ui/dashboard/card/tournament";
 import { Button } from "@/components/ui/button";
 import { Trophy } from "lucide-react";
 import Link from "next/link";
 
-export default function Page() {
+export default function Dashboard() {
   return (
     <div>
       <div className="mb-10">
@@ -33,29 +33,44 @@ export default function Page() {
 
       <div className="mb-10">
         <h2 className="outlined-text mb-5 text-2xl tracking-wide">
-          Top 10 Teams
+          Recommended Teams
+        </h2>
+        <div>
+          <TeamCarousel teams={dummyTeams} recommended={true} />
+        </div>
+      </div>
+
+      <div className="mb-10">
+        <h2 className="outlined-text mb-5 text-2xl tracking-wide">
+          Top 10 Best Teams
         </h2>
         <div>
           <TeamCarousel teams={dummyTeams} />
         </div>
       </div>
 
+{/* this */}
       <div className="mb-5">
-        <h2 className="outlined-text mb-5 text-2xl tracking-wide">
-          All Tournaments
-        </h2>
+        <div className="flex gap-2 justify-between items-center">
+          <h2 className="outlined-text mb-5 text-2xl tracking-wide truncate">
+            All Tournaments
+          </h2>
+
+          <Link href="#">
+            <Button className="rounded-full border" variant={"ghost"}>
+              <Trophy /> 
+              View All 
+              <span className="hidden lg:block">Tournament</span>
+            </Button>
+          </Link>
+        </div>
+
+
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-5">
           {Tournaments.map((tournament, index) => (
             <TournamentCard key={index} {...tournament} />
           ))}
         </div>
-        <Link href="#">
-          <Button className="rounded-lg w-full">
-            View All 
-            <span className="hidden sm:block">Tournament</span>
-            <Trophy /> 
-          </Button>
-        </Link>
       </div>
     </div>
   );

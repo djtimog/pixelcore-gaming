@@ -47,7 +47,7 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
               <div className="p-1">
                 <Card>
                   <CardContent className="p-0">
-                    <EventCard {...event}/>
+                    <EventCard {...event} />
                   </CardContent>
                 </Card>
               </div>
@@ -74,32 +74,44 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
   );
 }
 
-export function TeamCarousel({ teams }: TeamCarouselProps) {
+export function TeamCarousel({
+  teams,
+  recommended,
+}: {
+  teams: TeamCarouselProps;
+  recommended?: boolean;
+}) {
   return (
-      <div className="relative w-full h-64 overflow-hidden">
-        <Carousel
+    <div className="relative h-80 w-full overflow-hidden">
+      <Carousel
         opts={{
           align: "start",
         }}
-        className="max-w-full absolute top-0 left-0 right-0 z-10"
-        >
+        className="absolute left-0 right-0 top-0 z-10 max-w-full"
+      >
         <CarouselContent className="flex">
           {teams.map((team, index) => (
-          <CarouselItem key={index} className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
-            <div className="p-1 w-min mx-auto">
-            <Card className="w-max h-max">
-              <CardContent className="flex w-max h-max items-center justify-center p-6">
-              <TeamCard {...team} key={index} />
-              </CardContent>
-            </Card>
-            </div>
-          </CarouselItem>
+            <CarouselItem
+              key={index}
+              className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
+            >
+              <div className="mx-auto w-min p-1">
+                <Card className="h-max w-max">
+                  <CardContent className="flex h-max w-max items-center justify-center p-6">
+                    <TeamCard
+                      team={team}
+                      recommended={recommended ? recommended : false}
+                      key={index}
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+            </CarouselItem>
           ))}
         </CarouselContent>
         <CarouselPrevious className="left-1" variant="secondary" />
         <CarouselNext className="right-1" variant="secondary" />
-        </Carousel>
-      </div>
-
+      </Carousel>
+    </div>
   );
 }

@@ -112,8 +112,7 @@ export interface TeamCardProps {
     avatarUrl: string
   }
   managerProfileLink: string
+  game?: string
 }
 
-export interface TeamCarouselProps {
-  teams: TeamCardProps[]
-}
+export type TeamCarouselProps = TeamCardProps[]
