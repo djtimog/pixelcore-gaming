@@ -18,16 +18,18 @@ export function CreatBreadCrumb() {
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        <BreadcrumbItem className="hidden md:flex items-center gap-3">
-          {otherPages.map((page, index) => (
-            <BreadcrumbLink href={`/${page}`} key={index} className="flex items-center gap-2">
-              {page === ""
-                ? "Home"
-                : page.charAt(0).toUpperCase() + page.slice(1)}
-        <BreadcrumbSeparator className="hidden md:block" />
-            </BreadcrumbLink>
-          ))}
-        </BreadcrumbItem>
+        {otherPages.map((page, index) => (
+          <div key={index} className="hidden items-center gap-1 md:flex">
+            <BreadcrumbItem>
+              <BreadcrumbLink href={`/${page}`}>
+                {page === ""
+                  ? "Home"
+                  : page.charAt(0).toUpperCase() + page.slice(1)}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator className="hidden md:block" />
+          </div>
+        ))}
         <BreadcrumbItem>
           <BreadcrumbPage className="font-bold">
             {recentPage.charAt(0).toUpperCase() + recentPage.slice(1)}

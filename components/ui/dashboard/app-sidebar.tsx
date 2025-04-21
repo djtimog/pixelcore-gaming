@@ -44,7 +44,7 @@ const data = {
     },
     {
       title: "Referrals",
-      url: "/dashboard/refer",
+      url: "/dashboard/refers",
       icon: LinkIcon,
     },
     {
