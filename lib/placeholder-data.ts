@@ -6,6 +6,7 @@ import {
   TeamFormSchema,
 } from "./form-schema";
 import { z } from "zod";
+import { LucideIcon } from "lucide-react";
 
 export type UserData = {
   name: string;
@@ -117,3 +118,11 @@ export interface TeamCardProps {
 }
 
 export type TeamCarouselProps = TeamCardProps[]
+
+export type ReferItemProps = {
+  name: string;
+  description: string;
+  Icon: LucideIcon;
+  ActionIcon: LucideIcon;
+  action: () => Promise<void>;
+};

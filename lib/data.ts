@@ -1,3 +1,5 @@
+import { Copy, Link2, LinkIcon, Share, TicketSlash } from "lucide-react";
+
 export const teams = [
   {
     game: "Call of Duty",
@@ -441,3 +443,57 @@ export const dummyTeams = [
   },
 
 ]
+
+export const refersData = [
+  {
+    name: "Copy Referral Link",
+    description: "Copy Link and Invite Friends",
+    Icon: LinkIcon,
+    ActionIcon: Copy,
+    action: async () => {
+      try {
+        await navigator.clipboard.writeText(
+          "https://pixelcoreesport.com/referral-link",
+        ); // Replace with real link
+      } catch (err) {
+        console.error("Failed to copy:", err);
+      }
+    },
+  },
+  {
+    name: "Copy Referral Code",
+    description: "Copy Code and Invite Friends",
+    Icon: TicketSlash,
+    ActionIcon: Copy,
+    action: async () => {
+      try {
+        await navigator.clipboard.writeText("PIXELCORE123"); // Replace with real code
+      } catch (err) {
+        console.error("Failed to copy:", err);
+      }
+    },
+  },
+  {
+    name: "Share",
+    description: "Share Link Across your Apps",
+    Icon: Link2,
+    ActionIcon: Share,
+    action: async () => {
+      const shareData = {
+        title: "PixelCore Esport",
+        text: "🎮 Join PixelCore Esport – host your own tournaments, compete in epic battles, and climb the leaderboards! Let’s play and win together! 🏆🔥",
+        url: "https://pixelcoreesport.com/referral-link", // Add code or tracking if needed
+      };
+
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+        } catch (err) {
+          console.error("Error sharing:", err);
+        }
+      } else {
+        alert("Sharing is not supported on this browser");
+      }
+    },
+  },
+];
