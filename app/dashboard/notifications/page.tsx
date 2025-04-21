@@ -54,13 +54,15 @@ export default function Notifications() {
   const markAllRead = () => {
     // db more funcation
     notifications.forEach((notification) => (notification.isRead = false));
-    getUnReadNotifications()
+    getUnReadNotifications();
   };
 
   return (
     <Card className={"min-h-screen border-0 bg-inherit"}>
       <CardHeader>
-        <CardTitle className="outlined-text text-2xl tracking-wide truncate">Notifications</CardTitle>
+        <CardTitle className="outlined-text truncate text-2xl tracking-wide">
+          Notifications
+        </CardTitle>
         <CardDescription>
           You have {unReadMessage} unread messages.
         </CardDescription>
@@ -77,11 +79,11 @@ export default function Notifications() {
                 Send notifications to device.
               </p>
             </div>
-            <Switch id="pushNotification"/>
+            <Switch id="pushNotification" />
           </div>
         </label>
 
-        <div className="w-full border" />
+        <div className="w-full border border-primary" />
 
         <div>
           {notifications.map((notification, index) => {
@@ -90,8 +92,8 @@ export default function Notifications() {
             );
 
             useEffect(() => {
-              if(!notification.isRead){
-                setReadNotification(false)
+              if (!notification.isRead) {
+                setReadNotification(false);
               }
             }, [notification.isRead]);
 
@@ -126,7 +128,11 @@ export default function Notifications() {
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" onClick={markAllRead} disabled={unReadMessage === 0}>
+        <Button
+          className="w-full"
+          onClick={markAllRead}
+          disabled={unReadMessage === 0}
+        >
           <Check /> Mark all as read
         </Button>
       </CardFooter>
