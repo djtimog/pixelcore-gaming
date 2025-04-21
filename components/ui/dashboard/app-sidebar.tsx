@@ -2,14 +2,16 @@
 
 import * as React from "react";
 import {
-  BookOpen,
   Frame,
+  LinkIcon,
   Map,
   MessageCircle,
   PieChart,
   Settings2,
   SquareTerminal,
   Trophy,
+  Bell,
+  Clock,
 } from "lucide-react";
 
 import { NavMain } from "@/components/ui/dashboard/nav-main";
@@ -19,19 +21,38 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/public/logo.png";
 import { useUser } from "@clerk/nextjs";
+import { NavTop } from "./nav-top";
 
 const data = {
+  navTop: [
+    {
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: SquareTerminal,
+    },
+    {
+      title: "Schedule",
+      url: "/dashboard/schedule",
+      icon: Clock,
+    },
+    {
+      title: "Referrals",
+      url: "/dashboard/refer",
+      icon: LinkIcon,
+    },
+    {
+      title: "Notifications",
+      url: "/dashboard/notifications",
+      icon: Bell,
+    },
+  ],
   navMain: [
     {
       title: "Tournaments",
@@ -138,17 +159,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton tooltip={"Dashboard"}>
-                <SquareTerminal />
-                <span>Dashboard</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
-
+        <NavTop items={data.navTop} />
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>

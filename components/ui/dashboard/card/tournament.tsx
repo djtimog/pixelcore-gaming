@@ -26,7 +26,7 @@ export const TournamentCard = ({
   detailsLink,
   applyLink,
   hostLink,
-  starred
+  starred,
 }: TournamentCardProps) => {
   const [isStarred, setIsStarred] = useState(!!starred);
 
@@ -46,10 +46,15 @@ export const TournamentCard = ({
           className="w-full object-cover"
         />
 
-        <Star
-          className={`absolute right-0 top-0 m-2 ${isStarred ? "text-primary font-extrabold" : ""}`}
+        <div
+          className={`absolute right-0 top-0 m-2 flex items-end justify-center gap-1 cursor-pointer ${isStarred ? "text-primary" : ""}`}
           onClick={starHandler}
-        />
+        >
+          <Star />
+          <p className="text-xs">
+            32
+          </p>
+        </div>
       </div>
 
       <div className="mb-3 space-y-1">
