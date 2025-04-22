@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { DollarSign, Gamepad2, Info, Star, UsersRound } from "lucide-react";
+import { DollarSign, Gamepad2, Info, Share, Star, UsersRound } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -116,9 +116,31 @@ export const TournamentCard = ({
         </div>
       </div>
 
-      <Link href={applyLink}>
-        <Button className="w-full rounded-lg">Apply Now</Button>
-      </Link>
+      <div className="flex gap-2">
+        <Link href={applyLink} className="grow shrink">
+          <Button className="w-full rounded-lg">Apply Now</Button>
+        </Link>
+
+        {/* to do more link shaaring here */}
+
+        <Button size="icon" variant="ghost" onClick={async () => {
+                  const shareData = {
+                    title: "PixelCore Esport",
+                    text: "🎮 Join PixelCore Esport – host your own tournaments, compete in epic battles, and climb the leaderboards! Let’s play and win together! 🏆🔥",
+                    url: "https://pixelcoreesport.com/referral-link", // Add code or tracking if needed
+                  };
+  
+                  if (navigator.share) {
+                    try {
+                      await navigator.share(shareData);
+                    } catch (err) {
+                      console.error("Error sharing:", err);
+                    }
+                  } else {
+                    alert("Sharing is not supported on this browser");
+                  }
+                }}> <Share /></Button>
+      </div>
     </div>
   );
 };

@@ -12,6 +12,8 @@ import { ReferItemProps } from "@/lib/placeholder-data";
 import { refersData } from "@/lib/data";
 import { RefersCard } from "@/components/ui/dashboard/card/refer";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { RefersTable } from "@/components/ui/dashboard/table/refers";
 
 const RefersItem = ({
   name,
@@ -73,7 +75,7 @@ export default function Refers() {
         <h3 className="outlined-text mb-7 text-xl font-bold tracking-wide">
           Referrals
         </h3>
-        {referrals.length === 0 ? (
+        {referrals.length === 1 ? (
           <div className="text-center space-y-5">
             <p className="text-md text-muted-foreground">
               You have 0 referrals.
@@ -101,7 +103,9 @@ export default function Refers() {
               </Button>
           </div>
         ) : (
-          <p>1 referrals</p>
+          <div>
+            <RefersTable />
+          </div>
         )}
       </CardContent>
     </Card>
