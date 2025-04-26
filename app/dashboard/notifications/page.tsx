@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BellRing, Check } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,7 @@ const notifications = [
     title: "You have a new message!",
     description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatibus, deserunt. Veniam similique maiores, tempore tenetur distinctio voluptate soluta corporis atque?",
     sentTime: "1 hour ago",
-    isRead: false,
+    isRead: true,
   },
   {
     title: "Your subscription is expiring soon!",
@@ -33,14 +33,14 @@ export default function Notifications() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [readStates, setReadStates] = useState<boolean[]>(notifications.map(n => n.isRead));
 
+  const updateUnreadCount = useCallback(() => {
+    const count = readStates.filter((state) => state).length;
+    setUnreadCount(count);
+  }, [readStates]);
+  
   useEffect(() => {
     updateUnreadCount();
-  }, [unreadCount, readStates]);
-
-  const updateUnreadCount = (states = readStates) => {
-    const count = states.filter((state) => state).length;
-    setUnreadCount(count);
-  };
+  }, [updateUnreadCount]);
   
 
   const markAllAsRead = () => {
@@ -55,7 +55,7 @@ export default function Notifications() {
     const newReadStates = [...readStates];
     newReadStates[index] = false;
     setReadStates(newReadStates);
-    updateUnreadCount(newReadStates);
+    updateUnreadCount();
   };
   
 

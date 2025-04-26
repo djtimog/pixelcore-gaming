@@ -12,7 +12,6 @@ import { ReferItemProps } from "@/lib/placeholder-data";
 import { refersData } from "@/lib/data";
 import { RefersCard } from "@/components/ui/dashboard/card/refer";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { RefersTable } from "@/components/ui/dashboard/table/refers";
 
 const RefersItem = ({

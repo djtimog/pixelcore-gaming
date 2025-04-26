@@ -93,19 +93,19 @@ export default function UserProfilePage() {
       }
     };
 
-    const fetchPlayerData = async()=>{
-      const userEmail = clerkUser?.primaryEmailAddress?.emailAddress||"";
+    // const fetchPlayerData = async()=>{
+    //   const userEmail = clerkUser?.primaryEmailAddress?.emailAddress||"";
       
-      const existingUser = await Get.UserByEmail(userEmail);
+    //   const existingUser = await Get.UserByEmail(userEmail);
   
-      if (existingUser) {
-        // const userRole = existingUser.role;
+    //   if (existingUser) {
+    //     // const userRole = existingUser.role;
 
-            // const existingPlayer = await Get.PlayerByUserId(
-            //   existingUser.id
-            // );
-          }
-    }
+    //         // const existingPlayer = await Get.PlayerByUserId(
+    //         //   existingUser.id
+    //         // );
+    //       }
+    // }
 
     fetchUserData();
   }, [clerkUser, form, router]);

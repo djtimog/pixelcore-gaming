@@ -95,7 +95,7 @@ export default function TeamProvider({
       <p className="outlined-text text-center text-lg uppercase sm:text-xl md:text-2xl lg:text-3xl">
         Team Profile
       </p>
-      {pageLoading ? <div>loading...</div> : { children }}
+      {pageLoading ? <div>loading...</div> :  children }
     </main>
   );
 }
