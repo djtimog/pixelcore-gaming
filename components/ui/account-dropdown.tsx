@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import ProfileImage from "@/components/ui/profile-image";
 import {
-  BadgePlus,
   Bell,
   CalendarCheck2,
   Cog,

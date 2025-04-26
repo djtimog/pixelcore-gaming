@@ -45,7 +45,7 @@ export default function UserProfilePage() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const [databaseUser, setDatabaseUser] = useState<DatabaseUser | null>(null);
-  const [userIsPlayer, setUserIsPlayer] = useState<boolean>(true);
+  // const [userIsPlayer, setUserIsPlayer] = useState<boolean>(true);
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(ProfileFormSchema),
@@ -94,16 +94,16 @@ export default function UserProfilePage() {
     };
 
     const fetchPlayerData = async()=>{
-      const userEmail = clerkUser?.emailAddresses[0]?.emailAddress!;
+      const userEmail = clerkUser?.primaryEmailAddress?.emailAddress||"";
       
       const existingUser = await Get.UserByEmail(userEmail);
   
       if (existingUser) {
-        const userRole = existingUser.role;
+        // const userRole = existingUser.role;
 
-            const existingPlayer = await Get.PlayerByUserId(
-              existingUser.id
-            );
+            // const existingPlayer = await Get.PlayerByUserId(
+            //   existingUser.id
+            // );
           }
     }
 
@@ -340,13 +340,13 @@ export default function UserProfilePage() {
 
           {/* Additional Information */}
 
-          {userIsPlayer && (
+          {/* {userIsPlayer && (
             <div className="">
               <p className="uppercase outlined-text text-lg sm:text-xl md:text-2xl lg:text-3xl text-center">
                 Player Infomation
               </p>
             </div>
-          )}
+          )} */}
 
           {/* Action Buttons */}
           <div className="flex gap-4 justify-end">

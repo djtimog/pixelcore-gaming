@@ -3,7 +3,7 @@ import { useUser } from "@clerk/nextjs";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
-import PlayerFormSkeleton from "@/components/ui/skeleton/player-form-skeleton";
+// import PlayerFormSkeleton from "@/components/ui/skeleton/player-form-skeleton";
 import { Get } from "@/lib/action/_get";
 import { getRolePath } from "@/lib/getRole";
 
@@ -38,9 +38,7 @@ export default function TeamProvider({
           const userRole = existingUser.role;
           if (userRole === "player") {
             try {
-              const existingPlayer = await Get.PlayerByUserId(
-                existingUser.id
-              );
+              const existingPlayer = await Get.PlayerByUserId(existingUser.id);
 
               if (existingPlayer) {
                 toast({
@@ -88,16 +86,16 @@ export default function TeamProvider({
 
     if (user) {
       fetchUserDetails();
-    }else{
+    } else {
       setPageLoading(true);
     }
   }, [user, router]);
   return (
-    <main className="container mx-auto px-4 py-8 space-y-10">
-      <p className="uppercase outlined-text text-lg sm:text-xl md:text-2xl lg:text-3xl text-center">
-       Team Profile
+    <main className="container mx-auto space-y-10 px-4 py-8">
+      <p className="outlined-text text-center text-lg uppercase sm:text-xl md:text-2xl lg:text-3xl">
+        Team Profile
       </p>
-      {children}
+      {pageLoading ? <div>loading...</div> : { children }}
     </main>
   );
 }

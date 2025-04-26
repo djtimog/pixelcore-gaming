@@ -35,7 +35,7 @@ export default function Notifications() {
 
   useEffect(() => {
     updateUnreadCount();
-  }, []);
+  }, [unreadCount, readStates]);
 
   const updateUnreadCount = (states = readStates) => {
     const count = states.filter((state) => state).length;

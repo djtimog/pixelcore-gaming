@@ -72,7 +72,7 @@ export const onSubmitForm = {
       if (!user) return;
 
       const userEmail = user.emailAddresses[0]?.emailAddress || "";
-      const userName = user.username || "";
+      // const userName = user.username || "";
 
       const existingUser = await Get.UserByEmail(userEmail);
 
