@@ -1,4 +1,5 @@
 import { Copy, Link2, LinkIcon, Share, TicketSlash } from "lucide-react";
+import { RefersAccount } from "./placeholder-data";
 
 export const teams = [
   {
@@ -495,5 +496,113 @@ export const refersData = [
         alert("Sharing is not supported on this browser");
       }
     },
+  },
+];
+
+export const referralData: RefersAccount[] = [
+  {
+    id: 1,
+    imageUrl: "",
+    name: "ken99",
+    email: "ken99@example.com",
+    createdAt: new Date(100000000000),
+  },
+  {
+    id: 2,
+    imageUrl: "",
+    name: "bbe45",
+    email: "Abe45@example.com",
+    createdAt: new Date(10000000000),
+  },
+  {
+    id: 3,
+    imageUrl: "",
+    name: "Monserrat44",
+    email: "Monserrat44@example.com",
+    createdAt: new Date(1000000000000),
+  },
+  {
+    id: 4,
+    imageUrl: "",
+    name: "yilas22",
+    email: "Silas22@example.com",
+    createdAt: new Date(10000000000000),
+  },
+  {
+    id: 5,
+    imageUrl: "",
+    name: "dcarmella",
+    email: "Tarmella@example.com",
+    createdAt: new Date(1000000000),
+  },
+  {
+    id: 6,
+    imageUrl: "",
+    name: "ken99",
+    email: "ken99@example.com",
+    createdAt: new Date(100000000000),
+  },
+  {
+    id: 7,
+    imageUrl: "",
+    name: "Abe45",
+    email: "Abe45@example.com",
+    createdAt: new Date(10000000000),
+  },
+  {
+    id: 8,
+    imageUrl: "",
+    name: "yonserrat44",
+    email: "Monserrat44@example.com",
+    createdAt: new Date(1000000000000),
+  },
+  {
+    id: 799,
+    imageUrl: "",
+    name: "filas22",
+    email: "Silas22@example.com",
+    createdAt: new Date(10000000000000),
+  },
+  {
+    id: 1011,
+    imageUrl: "",
+    name: "Scarmella",
+    email: "Tarmella@example.com",
+    createdAt: new Date(1000000000),
+  },
+  {
+    id: 110,
+    imageUrl: "",
+    name: "hen99",
+    email: "ken99@example.com",
+    createdAt: new Date(100000000000),
+  },
+  {
+    id: 52,
+    imageUrl: "",
+    name: "Abe45",
+    email: "Abe45@example.com",
+    createdAt: new Date(10000000000),
+  },
+  {
+    id: 23,
+    imageUrl: "",
+    name: "Monserrat44",
+    email: "Monserrat44@example.com",
+    createdAt: new Date(1000000000000),
+  },
+  {
+    id: 14,
+    imageUrl: "",
+    name: "Tilas22",
+    email: "Silas22@example.com",
+    createdAt: new Date(10000000000000),
+  },
+  {
+    id: 15,
+    imageUrl: "",
+    name: "Socarmella",
+    email: "Tarmella@example.com",
+    createdAt: new Date(1000000000),
   },
 ];

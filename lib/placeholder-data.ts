@@ -126,3 +126,11 @@ export type ReferItemProps = {
   ActionIcon: LucideIcon;
   action: () => Promise<void>;
 };
+
+export type RefersAccount = {
+  id: number;
+  imageUrl?: string;
+  name: string;
+  email: string;
+  createdAt: Date;
+};
