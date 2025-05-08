@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BellRing, Check } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -33,14 +33,14 @@ export default function Notifications() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [readStates, setReadStates] = useState<boolean[]>(notifications.map(n => n.isRead));
 
-  const updateUnreadCount = useCallback(() => {
+  const updateUnreadCount = () => {
     const count = readStates.filter((state) => state).length;
     setUnreadCount(count);
-  }, [readStates]);
+  }
   
   useEffect(() => {
     updateUnreadCount();
-  }, [updateUnreadCount]);
+  }, [unreadCount]);
   
 
   const markAllAsRead = () => {

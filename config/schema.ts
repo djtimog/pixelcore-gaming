@@ -34,6 +34,7 @@ export const teamsTable = pgTable("teams", {
   secretCode: varchar("secret_code", { length: 7 }).notNull().default(generateSecretCode()), // Auto-generated
   createdAt: timestamp("created_at").defaultNow(),
   gameId: integer("game_id").notNull().references(() => gamesTable.id), // Foreign key to games table
+  uid: varchar("uid", { length: 255 }).notNull(), // Unique identifier for the player
 });
 
 // Players Table
@@ -47,6 +48,7 @@ export const playersTable = pgTable("players", {
   uid: varchar("uid", { length: 255 }).notNull(), // Unique identifier for the player
   level: integer("level").default(1), // Optional player level
   isCaptain: boolean("is_captain").default(false), // Is the player a team captain?
+  imageUrl: varchar("image_url", { length: 255 }).notNull(), // Optional profile image URL
 });
 
 // Tournaments Table
