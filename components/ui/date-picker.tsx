@@ -1,27 +1,32 @@
-"use client"
 
-import * as React from "react"
-import { Calendar as CalendarIcon } from "lucide-react"
-import { addDays, format } from "date-fns"
-import { DateRange } from "react-day-picker"
-import { cn } from "@/lib/utils"
-import { Button } from "./button"
-import { Calendar } from "./calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "./popover"
+"use client";
+
+import * as React from "react";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { DateRange, Matcher } from "react-day-picker";
+import { cn } from "@/lib/utils";
+import { Button } from "./button";
+import { Calendar } from "./calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 
 interface Props {
-  date: DateRange | undefined
-  setDate: (range: DateRange | undefined) => void
-  placeholder?: string
+  date: DateRange | undefined;
+  setDate: (range: DateRange | undefined) => void;
+  placeholder?: string;
+  disabled?: Matcher | Matcher[];
 }
 
-export function DateRangePicker({ date, setDate, placeholder }: Props) {
+export function DateRangePicker({ date, setDate, placeholder, disabled }: Props) {
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant={"outline"}
-          className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+          variant="outline"
+          className={cn(
+            "w-full justify-start text-left font-normal",
+            !date && "text-muted-foreground"
+          )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
           {date?.from ? (
@@ -43,25 +48,26 @@ export function DateRangePicker({ date, setDate, placeholder }: Props) {
           selected={date}
           onSelect={setDate}
           numberOfMonths={2}
+          disabled={disabled} // 👈 pass down the disabled prop
         />
       </PopoverContent>
     </Popover>
-  )
+  );
 }
-
 
 interface DatePickerProps {
-  date: Date | undefined
-  setDate: (date: Date | undefined) => void
-  placeholder?: string
+  date: Date | undefined;
+  setDate: (date: Date | undefined) => void;
+  placeholder?: string;
+  disabled?: Matcher | Matcher[];
 }
 
-export function DatePicker({ date, setDate, placeholder }: DatePickerProps) {
+export function DatePicker({ date, setDate, placeholder, disabled }: DatePickerProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant={"outline"}
+          variant="outline"
           className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
@@ -74,8 +80,9 @@ export function DatePicker({ date, setDate, placeholder }: DatePickerProps) {
           selected={date}
           onSelect={setDate}
           initialFocus
+          disabled={disabled} 
         />
       </PopoverContent>
     </Popover>
-  )
+  );
 }
