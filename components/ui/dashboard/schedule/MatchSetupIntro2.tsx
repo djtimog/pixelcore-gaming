@@ -1,81 +1,54 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
-import { DateRange } from "react-day-picker";
-import { Label } from "../../label";
-import { DatePicker, DateRangePicker } from "../../date-picker";
-import { Input } from "../../input";
 import { isBefore } from "date-fns";
-import { Card, CardHeader, CardTitle } from "../../card";
-import { Button } from "../../button";
+import { UseFormReturn } from "react-hook-form";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const MatchSetupIntro2 = ({
-  nextStep,
-  previousStep,
-}: {
-  nextStep: () => void;
-  previousStep: () => void;
-}) => {
-  const [formData, setFormData] = useState({
-    time: "",
-    startDate: "",
-    endDate: "",
-    registrationStartDate: "",
-    registrationEndDate: "",
-  });
+import { TournamentFormValues } from "@/lib/placeholder-data";
+import { DatePicker, TimeWithTimezonePicker } from "../../date-and-time-picker";
+import { Card, CardHeader, CardTitle } from "../../card";
+import { Button } from "../../button";
 
-  const [registrationRange, setRegistrationRange] = useState<DateRange>();
-  const [tournamentDate, setTournamentDate] = useState<Date>();
-  const [tournamentEndDate, setTournamentEndDate] = useState<Date>();
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "../../form";
+import { useScheduleStep } from "@/app/dashboard/schedule/page";
+
+const MatchSetupIntro2 = ({
+  form,
+}: {
+  form: UseFormReturn<TournamentFormValues>;
+}) => {
+  const { handleNextStep , handlePreviousStep } = useScheduleStep()
+  const today = new Date();
   const [errors, setErrors] = useState<string | null>(null);
 
-  const today = new Date();
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
-  };
+  const registrationStart = form.watch("registrationStartDate");
+  const registrationEnd = form.watch("registrationEndDate");
+  const tournamentStart = form.watch("startDate");
+  const tournamentEnd = form.watch("endDate");
+  const time = form.watch("time");
 
   useEffect(() => {
-    let errorMessage = null;
+    let errorMessage: string | null = null;
 
-    if (registrationRange?.from && isBefore(registrationRange.from, today)) {
+    if (registrationStart && isBefore(registrationStart, today)) {
       errorMessage = "Registration start date cannot be in the past.";
     } else if (
-      registrationRange?.from &&
-      registrationRange?.to &&
-      tournamentDate &&
-      isBefore(tournamentDate, registrationRange.to)
+      registrationEnd &&
+      tournamentStart &&
+      isBefore(tournamentStart, registrationEnd)
     ) {
-      errorMessage = "Tournament date cannot be before registration end date.";
-    }
-
-    if (registrationRange?.from && registrationRange?.to) {
-      setFormData((prev) => ({
-        ...prev,
-        registrationStartDate: `${registrationRange?.from?.toLocaleDateString()}`,
-        registrationEndDate: `${registrationRange?.to?.toLocaleDateString()}`,
-      }));
-    }
-
-    if (tournamentDate) {
-      setFormData((prev) => ({
-        ...prev,
-        startDate: tournamentDate.toLocaleDateString(),
-      }));
-    }
-
-    if (tournamentEndDate) {
-      setFormData((prev) => ({
-        ...prev,
-        endDate: tournamentEndDate.toLocaleDateString(),
-      }));
+      errorMessage = "Tournament start date must be after registration ends.";
     }
 
     setErrors(errorMessage);
-  }, [registrationRange, tournamentDate, tournamentEndDate]);
+  }, [registrationStart, registrationEnd, tournamentStart]);
 
   return (
     <div className="mx-auto mt-10 max-w-4xl p-4">
@@ -86,73 +59,152 @@ const MatchSetupIntro2 = ({
           </CardTitle>
         </CardHeader>
         <div className="grid gap-5 p-5">
-          <div className="space-y-3">
-            <Label>Registration Period</Label>
-            <DateRangePicker
-              date={registrationRange}
-              setDate={setRegistrationRange}
-              placeholder="Select registration period"
-              disabled={{ before: today }}
-            />
-          </div>
+          {/* Registration Start Date */}
+          <FormField
+            control={form.control}
+            name="registrationStartDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Registration Start Date</FormLabel>
+                <FormControl>
+                  <DatePicker
+                    date={field.value}
+                    setDate={(date) => {
+                      if (!date) return;
+                      return form.setValue("registrationStartDate", date);
+                    }}
+                    placeholder="Select start date"
+                    disabled={{ before: today }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className="space-y-3">
-            <Label>Tournament Start Date</Label>
-            <DatePicker
-              date={tournamentDate}
-              setDate={setTournamentDate}
-              placeholder="Select tournament date"
-              disabled={
-                registrationRange?.to
-                  ? { before: registrationRange.to }
-                  : { before: today }
-              }
-            />
-          </div>
+          {/* Registration End Date */}
+          <FormField
+            control={form.control}
+            name="registrationEndDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Registration End Date</FormLabel>
+                <FormControl>
+                  <DatePicker
+                    date={field.value}
+                    setDate={(date) => {
+                      if (!date) return;
+                      return form.setValue("registrationEndDate", date);
+                    }}
+                    placeholder="Select end date"
+                    disabled={
+                      registrationStart
+                        ? { before: registrationStart }
+                        : { before: today }
+                    }
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className="space-y-3">
-            <Label htmlFor="time">Match Time</Label>
-            <Input
-              id="time"
-              type="time"
-              value={formData.time}
-              onChange={handleChange}
-              className="w-full rounded-md bg-background"
-            />
-          </div>
+          {/* Tournament Start Date */}
+          <FormField
+            control={form.control}
+            name="startDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tournament Start Date</FormLabel>
+                <FormControl>
+                  <DatePicker
+                    date={field.value}
+                    setDate={(date) => {
+                      if (!date) return;
+                      return form.setValue("startDate", date);
+                    }}
+                    placeholder="Select tournament start date"
+                    disabled={
+                      registrationEnd
+                        ? { before: registrationEnd }
+                        : { before: today }
+                    }
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className="space-y-3">
-            <Label>Tournament End Date</Label>
-            <DatePicker
-              date={tournamentEndDate}
-              setDate={setTournamentEndDate}
-              placeholder="Select tournament end-date"
-              disabled={
-                tournamentDate
-                  ? { before: tournamentDate }
-                  : { before: today }
-              }
-            />
-          </div>
+          {/* Match Time & Timezone */}
+          <FormField
+            control={form.control}
+            name="time"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Match Time & Timezone</FormLabel>
+                <FormControl>
+                  <TimeWithTimezonePicker
+                    time={field.value}
+                    timezone={form.watch("timezone")}
+                    onTimeChange={(val) => form.setValue("time", val)}
+                    onTimezoneChange={(tz) => form.setValue("timezone", tz)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
+          {/* Tournament End Date */}
+          <FormField
+            control={form.control}
+            name="endDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tournament End Date</FormLabel>
+                <FormControl>
+                  <DatePicker
+                    date={field.value}
+                    setDate={(date) => {
+                      if (!date) return;
+                      return form.setValue("endDate", date);
+                    }}
+                    placeholder="Select end date"
+                    disabled={
+                      tournamentStart
+                        ? { before: tournamentStart }
+                        : { before: today }
+                    }
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Validation Errors */}
           {errors && (
             <p className="mt-2 text-sm font-medium text-red-500">{errors}</p>
           )}
         </div>
       </Card>
 
+      {/* Navigation Buttons */}
       <div className="mt-6 flex items-center justify-between">
         <Button
           className="flex items-center gap-2 rounded-md"
-          onClick={previousStep}
+          onClick={handlePreviousStep}
         >
           <ChevronLeft className="h-4 w-4" />
           <span>Previous</span>
         </Button>
         <Button
           className="flex items-center gap-2 rounded-md"
-          onClick={nextStep}
-          disabled={formData.registrationEndDate === "" || formData.startDate === "" || formData.time === ""}
+          onClick={handleNextStep}
+          disabled={
+            !registrationStart || !registrationEnd || !tournamentStart || !time ||!tournamentEnd
+          }
         >
           <span>Next</span>
           <ChevronRight className="h-4 w-4" />

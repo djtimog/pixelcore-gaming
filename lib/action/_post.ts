@@ -1,11 +1,12 @@
 import { db } from "@/config/db";
-import { playersTable, teamsTable, usersTable } from "@/config/schema";
+import { playersTable, teamsTable, tournamentsTable, usersTable } from "@/config/schema";
 import { eq } from "drizzle-orm";
 import {
   PlayerData,
   UpdateTeamData,
   UpdateUserData,
   UserData,
+  TournamentData,
 } from "../placeholder-data";
 
 export const Post = {
@@ -15,9 +16,12 @@ export const Post = {
   PlayerData: (playerData: PlayerData) => {
     return db.insert(playersTable).values(playerData);
   },
-  TeamData: (teamData: UpdateTeamData) => {
-    return db.insert(teamsTable).values(teamData);
-  },
+  // TeamData: (teamData: UpdateTeamData) => {
+  //   return db.insert(teamsTable).values(teamData);
+  // },
+  TournamentData: (tournamentData: TournamentData) => {
+    return db.insert(tournamentsTable).values(tournamentData);
+  }
 };
 
 export const Update = {

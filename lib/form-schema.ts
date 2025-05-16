@@ -64,3 +64,53 @@ export const TeamFormSchema = z.object({
     .max(255, { message: "Image URL cannot exceed 255 characters" })
     .optional(),
 });
+
+export const TournamentFormSchema = z.object({
+  name: z.string().min(1, "Name is required").max(255),
+  description: z.string().optional(),
+  startDate: z.coerce.date({
+    required_error: "Start date is required",
+  }),
+  endDate: z.coerce.date({
+    required_error: "End date is required",
+  }),
+  imageUrl: z.string().url("Must be a valid URL").max(255),
+  registrationStartDate: z.coerce.date({
+    required_error: "Registration start date is required",
+  }),
+  registrationEndDate: z.coerce.date({
+    required_error: "Registration end date is required",
+  }),
+  gameId: z.number({
+    required_error: "Game is required",
+    invalid_type_error: "Game must be a number",
+  }),
+  organizerId: z.number({
+    required_error: "Organizer is required",
+    invalid_type_error: "Organizer must be a number",
+  }),
+  prizePool: z.string().max(255).optional().default("0"),
+  maxTeams: z
+    .number({
+      required_error: "Max teams is required",
+      invalid_type_error: "Max teams must be a number",
+    })
+    .int()
+    .positive("Must be greater than 0"),
+  maxPlayersPerTeam: z
+    .number({
+      required_error: "Max players per team is required",
+      invalid_type_error: "Max players per team must be a number",
+    })
+    .int()
+    .positive("Must be greater than 0"),
+  rules: z.string().optional(),
+  status: z
+    .enum(["upcoming", "ongoing", "completed"])
+    .optional()
+    .default("upcoming"),
+  time: z.string().min(1, "Match time is required").max(50),
+  timezone: z.string().min(1, "Timezone is required").max(50),
+});
+
+

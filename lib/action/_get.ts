@@ -50,9 +50,53 @@ export const Get = {
     }
   },
 
-  Games: async () => {
-    return await db.select().from(gamesTable);
+  Games: async (search = "") => {
+    const API_KEY = process.env.NEXT_PUBLIC_RAWG_API_KEY;
+    const url = `https://api.rawg.io/api/games?key=${API_KEY}&page_size=40`;
+  
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Failed to fetch games");
+  
+    const data = await res.json();
+  
+    // Define keywords to look for in tournament-friendly games
+    const tournamentKeywords = [
+      "multiplayer",
+      "online",
+      "competitive",
+      "battle",
+      "shooter",
+      "fps",
+      "tournament",
+      "soccer",
+      "fighting",
+      "esports",
+      "match",
+      "arena",
+      "team",
+      "call of duty",
+      "valorant",
+      "fifa",
+      "csgo",
+      "rocket league",
+      "pubg",
+      "fortnite",
+      "apex",
+      "overwatch",
+      "league of legends",
+      "dota",
+    ];
+  
+    // Filter games based on the name or genre/description (if available)
+    const filtered = data.results.filter((game: any) => {
+      const combinedText =
+        `${game.name} ${game.slug} ${game.genres?.map((g: any) => g.name).join(" ")}`.toLowerCase();
+      return tournamentKeywords.some((kw) => combinedText.includes(kw));
+    });
+  
+    return filtered;
   },
+  
 
   TeamByCaptainId: async (captainId: number) => {
     try {

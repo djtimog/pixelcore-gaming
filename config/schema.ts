@@ -48,16 +48,17 @@ export const playersTable = pgTable("players", {
   uid: varchar("uid", { length: 255 }).notNull(), // Unique identifier for the player
   level: integer("level").default(1), // Optional player level
   isCaptain: boolean("is_captain").default(false), // Is the player a team captain?
-  imageUrl: varchar("image_url", { length: 255 }).notNull(), // Optional profile image URL
 });
 
 // Tournaments Table
 export const tournamentsTable = pgTable("tournaments", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
+  uid: varchar("uid", { length: 255 }).notNull(),
   description: text("description"),
   startDate: date("start_date").notNull(),
   endDate: date("end_date").notNull(),
+  imageUrl: varchar("image_url", { length: 255 }).notNull(), // Optional URL
   registrationStartDate: date("registration_start_date").notNull(),
   registrationEndDate: date("registration_end_date").notNull(),
   gameId: integer("game_id").notNull().references(() => gamesTable.id), // Foreign key to games table
@@ -67,6 +68,9 @@ export const tournamentsTable = pgTable("tournaments", {
   maxPlayersPerTeam: integer("max_players_per_team").notNull(), // Maximum players per team
   rules: text("rules"), // Tournament rules
   status: varchar("status", { length: 50 }).default("upcoming"), // e.g., "upcoming", "ongoing", "completed"
+  time: varchar("time", { length: 50 }).default("00:00"), // Time of the tournament
+  registrationStatus: varchar("registration_status", { length: 50 }).default("open"), // e.g., "open", "closed"
+  timezone: varchar("timezone", { length: 50 }).default("UTC"), // Timezone for the tournament
 });
 
 // Matches Table

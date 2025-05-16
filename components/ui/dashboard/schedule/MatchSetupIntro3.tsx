@@ -1,33 +1,37 @@
 "use client";
 
-import React, { useState } from "react";
-import { Label } from "../../label";
+import React from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { UseFormReturn } from "react-hook-form";
+
+import { TournamentFormValues } from "@/lib/placeholder-data";
+import { useScheduleStep } from "@/app/dashboard/schedule/page";
+
 import { Input } from "../../input";
 import { Textarea } from "../../textarea";
+import { Label } from "../../label";
 import { Card, CardHeader, CardTitle } from "../../card";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "../../button";
 
-const MatchSetupIntro3 = ({
-    nextStep,
-    previousStep,
-  }: {
-    nextStep: () => void;
-    previousStep: () => void;
-  }) => {
-  const [formData, setFormData] = useState({
-    maxPlayers: "",
-    maxTeams: "",
-    prizePool: "",
-    rules: "",
-  });
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "../../form";
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
-  };
+const MatchSetupIntro3 = ({
+  form,
+}: {
+  form: UseFormReturn<TournamentFormValues>;
+}) => {
+  const { handleNextStep, handlePreviousStep } = useScheduleStep();
+
+  const maxPlayers = form.watch("maxPlayersPerTeam");
+  const maxTeams = form.watch("maxTeams");
+  const prizePool = form.watch("prizePool");
+
   return (
     <div className="mx-auto mt-10 max-w-4xl p-4">
       <Card className="border-primary">
@@ -37,74 +41,105 @@ const MatchSetupIntro3 = ({
           </CardTitle>
         </CardHeader>
         <div className="grid gap-6 p-5">
-          <div className="space-y-2">
-            <Label htmlFor="maxPlayers">Max Players Per Team</Label>
-            <Input
-              id="maxPlayers"
-              type="number"
-              min={5}
-              value={formData.maxPlayers}
-              onChange={handleChange}
-              placeholder="Enter max players per team"
-            />
-          </div>
+          {/* Max Players */}
+          <FormField
+            control={form.control}
+            name="maxPlayersPerTeam"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Max Players Per Team</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    max={5}
+                    min={1}
+                    placeholder="Enter max players per team"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="maxTeams">Max Teams</Label>
-            <Input
-              id="maxTeams"
-              type="number"
-              min={1}
-              value={formData.maxTeams}
-              onChange={handleChange}
-              placeholder="Enter maximum number of teams"
-            />
-          </div>
+          {/* Max Teams */}
+          <FormField
+            control={form.control}
+            name="maxTeams"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Max Teams</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min={2}
+                    placeholder="Enter maximum number of teams"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="prizePool">Prize Pool</Label>
-            <Input
-              id="prizePool"
-              type="text"
-              value={formData.prizePool}
-              onChange={(e) => {
-                // Optional: Format input to always start with $
-                const inputValue = e.target.value.replace(/[^0-9.]/g, "");
-                const formatted = inputValue ? `$${inputValue}` : "";
-                handleChange({
-                  ...e,
-                  target: { ...e.target, value: formatted, id: "prizePool" },
-                });
-              }}
-              placeholder="$1000"
-            />
-          </div>
+          {/* Prize Pool */}
+          <FormField
+            control={form.control}
+            name="prizePool"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Prize Pool</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="$1000"
+                    value={field.value}
+                    onChange={(e) => {
+                      const inputValue = e.target.value.replace(/[^0-9.]/g, "");
+                      const formatted = inputValue ? `$${inputValue}` : "";
+                      field.onChange(formatted);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="rules">Tournament Rules</Label>
-            <Textarea
-              id="rules"
-              value={formData.rules}
-              onChange={handleChange}
-              placeholder="Enter rules separated by commas (e.g., No cheating, Must check-in 30 mins early, Team leader must report score)"
-              rows={4}
-            />
-          </div>
+          {/* Tournament Rules */}
+          <FormField
+            control={form.control}
+            name="rules"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tournament Rules</FormLabel>
+                <FormControl>
+                  <Textarea
+                    rows={4}
+                    placeholder="Enter rules separated by commas (e.g., No cheating, Must check-in 30 mins early, Team leader must report score)"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
       </Card>
 
+      {/* Navigation Buttons */}
       <div className="mt-6 flex items-center justify-between">
         <Button
           className="flex items-center gap-2 rounded-md"
-          onClick={previousStep}
+          onClick={handlePreviousStep}
         >
           <ChevronLeft className="h-4 w-4" />
           <span>Previous</span>
         </Button>
         <Button
           className="flex items-center gap-2 rounded-md"
-          onClick={nextStep}
-          disabled={formData.maxPlayers === "" || formData.prizePool === "" || formData.maxTeams === ""}
+          onClick={handleNextStep}
+          disabled={!maxPlayers || !maxTeams || !prizePool}
         >
           <span>Next</span>
           <ChevronRight className="h-4 w-4" />

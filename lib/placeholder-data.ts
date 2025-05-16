@@ -4,6 +4,7 @@ import {
   ProfileFormSchema,
   UserFormSchema,
   TeamFormSchema,
+  TournamentFormSchema,
 } from "./form-schema";
 import { z } from "zod";
 import { LucideIcon } from "lucide-react";
@@ -69,6 +70,26 @@ export type TeamPlayersData = {
   level: number | null;
   isCaptain: boolean | null;
 };
+
+export type TournamentData = {
+  id: number;
+  name: string;
+  uid: string;
+  description: string | null;
+  startDate: string; 
+  endDate: string; 
+  imageUrl: string;
+  registrationStartDate: string;
+  registrationEndDate: string;
+  gameId: number;
+  organizerId: number;
+  prizePool: string | null;
+  maxTeams: number;
+  maxPlayersPerTeam: number;
+  rules: string | null;
+  status: string | null;
+};
+
 export type ProfileFormValues = z.infer<typeof ProfileFormSchema>;
 
 export type PlayerFormValues = z.infer<typeof PlayerFormSchema>;
@@ -78,6 +99,8 @@ export type UserFormValues = z.infer<typeof UserFormSchema>;
 export type DatabaseUser = typeof usersTable.$inferSelect;
 
 export type TeamFormValues = z.infer<typeof TeamFormSchema>;
+
+export type TournamentFormValues = z.infer<typeof TournamentFormSchema>;
 
 export interface TournamentCardProps {
   imageUrl: string
