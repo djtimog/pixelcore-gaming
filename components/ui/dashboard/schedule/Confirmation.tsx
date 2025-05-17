@@ -1,6 +1,9 @@
 "use client";
 
-import { useScheduleStep } from "@/app/dashboard/schedule/page";
+import {
+  useScheduleImage,
+  useScheduleStep,
+} from "@/app/_components/context/schedule";
 import {
   Card,
   CardContent,
@@ -17,9 +20,13 @@ import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { Get } from "@/lib/action/_get";
 import { GameType } from "../card/game";
+import Image from "next/image";
+import { Pencil } from "lucide-react";
 
 const TournamentConfirmation = () => {
   const { handleNextStep, handlePreviousStep } = useScheduleStep();
+  const { image } = useScheduleImage();
+
   const form = useFormContext<TournamentFormValues>();
   const values = form.getValues();
 
@@ -55,6 +62,17 @@ const TournamentConfirmation = () => {
         </CardHeader>
 
         <CardContent className="space-y-4">
+          {image && (
+            <div className="relative w-full overflow-hidden">
+              <Image
+                src={URL.createObjectURL(image)}
+                alt="Uploaded Preview"
+                className="h-48 w-full rounded-md object-cover"
+                width={200}
+                height={200}
+              />
+            </div>
+          )}
           <div>
             <h3 className="text-lg font-medium">Tournament Info</h3>
             <p>

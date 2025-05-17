@@ -7,13 +7,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { GameCard, GameType } from "../card/game";
 import { ChevronRight, Search, Frown } from "lucide-react";
 import { Button } from "../../button";
-import { useScheduleStep } from "@/app/dashboard/schedule/page";
 import { UseFormReturn } from "react-hook-form";
 import { TournamentFormValues } from "@/lib/placeholder-data";
 import { Card, CardHeader, CardTitle } from "../../card";
+import { useScheduleStep } from "@/app/_components/context/schedule";
 
 const PLATFORMS = ["All", "PC", "Mobile", "PlayStation", "Xbox", "Nintendo"];
-const GAMES_PER_PAGE = 20;
+const GAMES_PER_PAGE = 15;
 
 const GamePicker = ({
   form,
@@ -62,14 +62,14 @@ const GamePicker = ({
 
   return (
     <div className="mx-auto max-w-6xl p-4">
-      <Card className="border-primary">
+      <Card className="border-primary p-2">
         <CardHeader>
           <CardTitle className="outlined-text text-center text-3xl tracking-wide">
             Select a Game
           </CardTitle>
         </CardHeader>
 
-        <div className="space-y-6 px-6 pb-8">
+        <div className="space-y-6 px-4 pb-7">
           {/* Search & Next Button */}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex grow items-center space-x-3 rounded-md border-2 px-3 py-1">
@@ -107,7 +107,7 @@ const GamePicker = ({
           </div>
 
           {/* Game Cards */}
-          <ScrollArea className="h-[700px] pr-2">
+          <ScrollArea className="h-screen px-5 py-2">
             {paginatedGames.length > 0 ? (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
                 {paginatedGames.map((game, index) => (

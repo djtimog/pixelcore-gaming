@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 
 import { TournamentFormValues } from "@/lib/placeholder-data";
-import { useScheduleStep } from "@/app/dashboard/schedule/page";
+import { useScheduleStep } from "@/app/_components/context/schedule";
 
 import { Input } from "../../input";
 import { Textarea } from "../../textarea";

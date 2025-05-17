@@ -11,7 +11,7 @@ import { Card, CardHeader, CardTitle } from "../../card";
 import { TournamentFormValues } from "@/lib/placeholder-data";
 import { UseFormReturn } from "react-hook-form";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../form";
-import { useScheduleStep } from "@/app/dashboard/schedule/page";
+import { useScheduleImage, useScheduleStep } from "@/app/_components/context/schedule";
 
 const MatchSetupIntro1 = ({
   form
@@ -19,13 +19,11 @@ const MatchSetupIntro1 = ({
   form: UseFormReturn<TournamentFormValues>;
 }) => {
   const { handleNextStep , handlePreviousStep } = useScheduleStep()
+  
   const fileTypes = ["JPG", "PNG", "GIF"];
 
-  const [image, setImage] = useState<File | null>(null);
+  const { image , handleFileChange} = useScheduleImage()
 
-  const handleFileChange = (file: File) => {
-    setImage(file);
-  };
 
   return (
     <div className="mx-auto mt-10 max-w-4xl p-4">

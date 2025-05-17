@@ -75,7 +75,7 @@ export default function Notifications() {
           <BellRing />
           <div className="flex-1 space-y-1">
             <p className="text-sm font-medium leading-none">Push Notifications</p>
-            <p className="text-sm text-muted-foreground">Send notifications to your device.</p>
+            <p className="text-sm text-muted-foreground">Send notifications to your Email.</p>
           </div>
           <Switch id="pushNotification" />
         </div>

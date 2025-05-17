@@ -1,6 +1,5 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
 import { RequirementCard } from "@/components/ui/dashboard/requirement-card";
 import MatchSetupIntro1 from "@/components/ui/dashboard/schedule/MatchSetupIntro1";
 import MatchSetupIntro2 from "@/components/ui/dashboard/schedule/MatchSetupIntro2";
@@ -11,43 +10,12 @@ import { TournamentFormSchema } from "@/lib/form-schema";
 import { TournamentFormValues } from "@/lib/placeholder-data";
 import { FormProvider, useForm } from "react-hook-form";
 import TournamentConfirmation from "@/components/ui/dashboard/schedule/Confirmation";
-
-type SchdeuleStepType = {
-  step: number;
-  setStep: React.Dispatch<React.SetStateAction<number>>;
-  handleNextStep: () => void;
-  handlePreviousStep: () => void;
-};
-
-const ScheduleStep = createContext<SchdeuleStepType | null>(null);
-
-const ScheduleProvider = ({ children }: { children: React.ReactNode }) => {
-  const [step, setStep] = useState(0);
-
-  const handleNextStep = () => {
-    setStep(step + 1);
-  };
-
-  const handlePreviousStep = () => {
-    setStep(step - 1);
-  };
-  return (
-    <ScheduleStep.Provider
-      value={{ step, setStep, handleNextStep, handlePreviousStep }}
-    >
-      {children}
-    </ScheduleStep.Provider>
-  );
-};
-
-export const useScheduleStep = () => {
-  const context = useContext(ScheduleStep);
-
-  if (!context) {
-    throw Error("You have to be in the provider");
-  }
-  return context;
-};
+import {
+  ScheduleImageProvider,
+  ScheduleStepProvider,
+  useScheduleStep,
+} from "@/app/_components/context/schedule";
+import PaymentMethodForm from "@/components/ui/dashboard/PaymentMethodform";
 
 export function HostMatchForm() {
   const form = useForm<TournamentFormValues>({
@@ -95,9 +63,9 @@ export function HostMatchForm() {
         <FormProvider {...form}>
           <TournamentConfirmation />
         </FormProvider>
-      )
+      )}
 
-      }
+      {step === 5 && <PaymentMethodForm />}
     </div>
   );
 }
@@ -144,9 +112,11 @@ export default function Schedule() {
           />
         </div>
       ) : (
-        <ScheduleProvider>
-          <HostMatchForm />
-        </ScheduleProvider>
+        <ScheduleStepProvider>
+          <ScheduleImageProvider>
+            <HostMatchForm />
+          </ScheduleImageProvider>
+        </ScheduleStepProvider>
       )}
     </div>
   );

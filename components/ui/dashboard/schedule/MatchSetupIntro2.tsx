@@ -17,7 +17,7 @@ import {
   FormControl,
   FormMessage,
 } from "../../form";
-import { useScheduleStep } from "@/app/dashboard/schedule/page";
+import { useScheduleStep } from "@/app/_components/context/schedule";
 
 const MatchSetupIntro2 = ({
   form,
