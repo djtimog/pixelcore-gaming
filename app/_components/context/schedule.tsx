@@ -11,7 +11,7 @@ type SchdeuleStepType = {
 const ScheduleStep = createContext<SchdeuleStepType | null>(null);
 
 export const ScheduleStepProvider = ({ children }: { children: React.ReactNode }) => {
-  const [step, setStep] = useState(5);
+  const [step, setStep] = useState(0);
 
   const handleNextStep = () => {
     setStep(step + 1);

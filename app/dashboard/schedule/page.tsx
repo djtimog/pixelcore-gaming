@@ -80,7 +80,7 @@ export default function Schedule() {
     {
       text: "You must have at least 10 referrals",
       met: referrals >= 10,
-      fixLink: "/invite-friends",
+      fixLink: "/refers",
     },
     {
       text: "Your account must be verified",

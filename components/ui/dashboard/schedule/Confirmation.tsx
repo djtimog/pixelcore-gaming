@@ -21,11 +21,16 @@ import { useEffect, useState } from "react";
 import { Get } from "@/lib/action/_get";
 import { GameType } from "../card/game";
 import Image from "next/image";
-import { Pencil } from "lucide-react";
+import { onSubmitForm } from "@/lib/action/_onSubmit-form";
+import { useDbUser } from "@/app/_components/context/userDetails";
+import { useRouter } from "next/navigation";
 
 const TournamentConfirmation = () => {
-  const { handleNextStep, handlePreviousStep } = useScheduleStep();
+  const { handlePreviousStep } = useScheduleStep();
   const { image } = useScheduleImage();
+  const [loading, isLoading] = useState(false);
+  const dbUser = useDbUser()
+  const router = useRouter()
 
   const form = useFormContext<TournamentFormValues>();
   const values = form.getValues();
@@ -100,21 +105,30 @@ const TournamentConfirmation = () => {
               <h3 className="text-lg font-medium">Tournament Dates</h3>
               <p>
                 <strong>Start:</strong>{" "}
-                {format(new Date(values.startDate), "PPP")}
+                {values.startDate
+                  ? format(new Date(values.startDate), "PPP")
+                  : "Invalid Date"}
               </p>
               <p>
-                <strong>End:</strong> {format(new Date(values.endDate), "PPP")}
+                <strong>End:</strong>{" "}
+                {values.endDate
+                  ? format(new Date(values.endDate), "PPP")
+                  : "Invalid Date"}
               </p>
             </div>
             <div>
               <h3 className="text-lg font-medium">Registration Dates</h3>
               <p>
                 <strong>Open:</strong>{" "}
-                {format(new Date(values.registrationStartDate), "PPP")}
+                {values.registrationStartDate
+                  ? format(new Date(values.registrationStartDate), "PPP")
+                  : "Invalid Date"}
               </p>
               <p>
                 <strong>Close:</strong>{" "}
-                {format(new Date(values.registrationEndDate), "PPP")}
+                {values.registrationEndDate
+                  ? format(new Date(values.registrationEndDate), "PPP")
+                  : "Invalid Date"}
               </p>
             </div>
           </div>
@@ -140,10 +154,12 @@ const TournamentConfirmation = () => {
               <p>
                 <strong>Timezone:</strong> {values.timezone || "UTC"}
               </p>
-              <p>
-                <strong>Status:</strong>{" "}
+              <div className="flex gap-2">
+                <p>
+                  <strong>Status:</strong>{" "}
+                </p>
                 <Badge>{values.status || "upcoming"}</Badge>
-              </p>
+              </div>
             </div>
           </div>
 
@@ -169,8 +185,11 @@ const TournamentConfirmation = () => {
             ← Go Back and Edit
           </Button>
 
-          <Button onClick={handleNextStep} className="relative w-full sm:w-max">
-            Proceed to Payment 💳
+          <Button
+            onClick={() => onSubmitForm.Tournament(values, isLoading, image, dbUser.id, router)}
+            className="relative w-full sm:w-max"
+          >
+            {loading ? "Submitting..." : "Submit"}
           </Button>
         </CardFooter>
       </Card>

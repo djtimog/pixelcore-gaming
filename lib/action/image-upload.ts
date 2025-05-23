@@ -20,7 +20,7 @@ export const handleImageUpload = (
   }
 };
 
-export const uploadedImageUrl = async (user: ReturnType<typeof useUser>["user"], selectedImageFile: File | null) => {
+export const uploadedProfileImageUrl = async (user: ReturnType<typeof useUser>["user"], selectedImageFile: File | null) => {
   let newImageUrl = user?.imageUrl;
 
   if (!selectedImageFile) {

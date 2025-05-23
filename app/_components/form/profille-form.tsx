@@ -34,7 +34,7 @@ import { Update } from "@/lib/action/_post";
 import { DatabaseUser, ProfileFormValues } from "@/lib/placeholder-data";
 import { ProfileFormSchema, roleEnum } from "@/lib/form-schema";
 import { Get } from "@/lib/action/_get";
-import { handleImageUpload } from "@/lib/image-upload";
+import { handleImageUpload } from "@/lib/action/image-upload";
 
 export default function UserProfilePage() {
   const router = useRouter();
@@ -76,8 +76,8 @@ export default function UserProfilePage() {
             user.role === "player"
               ? "player"
               : user.role === "admin"
-              ? "admin"
-              : "team_manager",
+                ? "admin"
+                : "team_manager",
           imageUrl: clerkUser.imageUrl ?? user.imageUrl ?? "",
           isSubscribed: user.isSubscribed ?? false,
         });
@@ -95,9 +95,9 @@ export default function UserProfilePage() {
 
     // const fetchPlayerData = async()=>{
     //   const userEmail = clerkUser?.primaryEmailAddress?.emailAddress||"";
-      
+
     //   const existingUser = await Get.UserByEmail(userEmail);
-  
+
     //   if (existingUser) {
     //     // const userRole = existingUser.role;
 
@@ -185,14 +185,14 @@ export default function UserProfilePage() {
             render={() => (
               <FormItem>
                 <FormLabel>Profile Picture</FormLabel>
-                <div className="sm:flex space-y-4 sm:space-y-0 items-center gap-4">
+                <div className="items-center gap-4 space-y-4 sm:flex sm:space-y-0">
                   {previewImage && (
                     <Image
                       src={previewImage}
                       alt="Profile"
                       width={96}
                       height={96}
-                      className="rounded-full object-cover w-24 h-24 border"
+                      className="h-24 w-24 rounded-full border object-cover"
                     />
                   )}
                   {isEditing && (
@@ -204,7 +204,7 @@ export default function UserProfilePage() {
                           handleImageUpload(
                             event,
                             setSelectedImageFile,
-                            setPreviewImage
+                            setPreviewImage,
                           )
                         }
                         className="cursor-pointer"
@@ -244,7 +244,7 @@ export default function UserProfilePage() {
                   </FormItem>
                 )}
               />
-            )
+            ),
           )}
 
           {/* Phone Number Field */}
@@ -349,7 +349,7 @@ export default function UserProfilePage() {
           )} */}
 
           {/* Action Buttons */}
-          <div className="flex gap-4 justify-end">
+          <div className="flex justify-end gap-4">
             {!isEditing ? (
               <>
                 <Button
@@ -378,14 +378,14 @@ export default function UserProfilePage() {
                   onConfirm={resetForm}
                   triggerText="Cancel"
                   triggerIcon={<Ban size={18} />}
-                  className="bg-red-500 hover:bg-red-600 gap-2"
+                  className="gap-2 bg-red-500 hover:bg-red-600"
                 />
                 <Button
                   type="submit"
                   disabled={isLoading}
                   className={cn(
-                    "gap-2 w-full bg-[#14C570]",
-                    isLoading && "opacity-75 cursor-not-allowed"
+                    "w-full gap-2 bg-[#14C570]",
+                    isLoading && "cursor-not-allowed opacity-75",
                   )}
                 >
                   <Save size={18} />

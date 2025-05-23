@@ -72,7 +72,6 @@ export type TeamPlayersData = {
 };
 
 export type TournamentData = {
-  id: number;
   name: string;
   uid: string;
   description: string | null;
@@ -87,7 +86,8 @@ export type TournamentData = {
   maxTeams: number;
   maxPlayersPerTeam: number;
   rules: string | null;
-  status: string | null;
+  time: string;
+  timezone: string;
 };
 
 export type ProfileFormValues = z.infer<typeof ProfileFormSchema>;

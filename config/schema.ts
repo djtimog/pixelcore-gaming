@@ -61,7 +61,7 @@ export const tournamentsTable = pgTable("tournaments", {
   imageUrl: varchar("image_url", { length: 255 }).notNull(), // Optional URL
   registrationStartDate: date("registration_start_date").notNull(),
   registrationEndDate: date("registration_end_date").notNull(),
-  gameId: integer("game_id").notNull().references(() => gamesTable.id), // Foreign key to games table
+  gameId: integer("game_id").notNull(),
   organizerId: integer("organizer_id").notNull().references(() => usersTable.id), // Foreign key to users table
   prizePool: varchar("prize_pool", { length: 255 }).default("0"), // Optional prize pool
   maxTeams: integer("max_teams").notNull(), // Maximum number of teams allowed

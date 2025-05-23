@@ -29,7 +29,7 @@ import {
 import { useRouter } from "next/navigation";
 import { UserFormValues } from "@/lib/placeholder-data";
 import { UserFormSchema } from "@/lib/form-schema";
-import { handleImageUpload } from "@/lib/image-upload";
+import { handleImageUpload } from "@/lib/action/image-upload";
 import { onSubmitForm } from "@/lib/action/_onSubmit-form";
 
 export default function UserSignUpForm() {
@@ -78,16 +78,25 @@ export default function UserSignUpForm() {
     const currentEmail = emailAddresses[0]?.emailAddress;
     const { username: formUsername, email: formEmail } = form.getValues();
 
-    setIsUserUser(currentUsername === formUsername && currentEmail === formEmail);
+    setIsUserUser(
+      currentUsername === formUsername && currentEmail === formEmail,
+    );
   }, [user, form]);
-
 
   return (
     <section className="">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit((data) => onSubmitForm.User(data, user, setIsLoading, selectedImageFile, router))}
-          className="space-y-6 p-6 rounded-lg shadow-md"
+          onSubmit={form.handleSubmit((data) =>
+            onSubmitForm.User(
+              data,
+              user,
+              setIsLoading,
+              selectedImageFile,
+              router,
+            ),
+          )}
+          className="space-y-6 rounded-lg p-6 shadow-md"
         >
           {/* Profile Picture */}
           <FormField
@@ -96,12 +105,12 @@ export default function UserSignUpForm() {
             render={() => (
               <FormItem>
                 <FormLabel>Profile Picture</FormLabel>
-                <div className="sm:flex space-y-4 sm:space-y-0 items-center gap-4 justify-center">
+                <div className="items-center justify-center gap-4 space-y-4 sm:flex sm:space-y-0">
                   {previewImage && (
                     <Image
                       src={previewImage}
                       alt="Profile preview"
-                      className="w-20 h-20 rounded-full object-cover overflow-hidden"
+                      className="h-20 w-20 overflow-hidden rounded-full object-cover"
                       width={1000}
                       height={1000}
                     />
@@ -110,7 +119,13 @@ export default function UserSignUpForm() {
                     <Input
                       type="file"
                       accept="image/*"
-                      onChange={(event)=>handleImageUpload(event, setSelectedImageFile, setPreviewImage)}
+                      onChange={(event) =>
+                        handleImageUpload(
+                          event,
+                          setSelectedImageFile,
+                          setPreviewImage,
+                        )
+                      }
                     />
                   </FormControl>
                 </div>
@@ -119,7 +134,7 @@ export default function UserSignUpForm() {
             )}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Name */}
             <FormField
               control={form.control}
@@ -270,7 +285,7 @@ export default function UserSignUpForm() {
 
           <div className="text-center">
             {!isUserUser && (
-              <p className="text-red-500 text-sm mb-4">
+              <p className="mb-4 text-sm text-red-500">
                 Email or Username does not match authentication provider data
               </p>
             )}
