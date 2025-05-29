@@ -29,8 +29,8 @@ const TournamentConfirmation = () => {
   const { handlePreviousStep } = useScheduleStep();
   const { image } = useScheduleImage();
   const [loading, isLoading] = useState(false);
-  const dbUser = useDbUser()
-  const router = useRouter()
+  const { dbUser } = useDbUser();
+  const router = useRouter();
 
   const form = useFormContext<TournamentFormValues>();
   const values = form.getValues();
@@ -186,7 +186,15 @@ const TournamentConfirmation = () => {
           </Button>
 
           <Button
-            onClick={() => onSubmitForm.Tournament(values, isLoading, image, dbUser.id, router)}
+            onClick={() =>
+              onSubmitForm.Tournament(
+                values,
+                isLoading,
+                image,
+                dbUser.id,
+                router,
+              )
+            }
             className="relative w-full sm:w-max"
           >
             {loading ? "Submitting..." : "Submit"}

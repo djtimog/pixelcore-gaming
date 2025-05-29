@@ -103,9 +103,10 @@ export type TeamFormValues = z.infer<typeof TeamFormSchema>;
 export type TournamentFormValues = z.infer<typeof TournamentFormSchema>;
 
 export interface TournamentCardProps {
+  id: number
   imageUrl: string
   title: string
-  prize: number
+  prize: string | number
   game: string
   players: number
   time: string
@@ -114,8 +115,6 @@ export interface TournamentCardProps {
   rules: string[]
   detailsLink: string
   applyLink: string
-  hostLink: string
-  starred?:boolean
 }
 
 export interface EventCardProps {

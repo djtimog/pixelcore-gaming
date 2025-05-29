@@ -9,7 +9,6 @@ import { useScheduleStep } from "@/app/_components/context/schedule";
 
 import { Input } from "../../input";
 import { Textarea } from "../../textarea";
-import { Label } from "../../label";
 import { Card, CardHeader, CardTitle } from "../../card";
 import { Button } from "../../button";
 
@@ -20,6 +19,13 @@ import {
   FormControl,
   FormMessage,
 } from "../../form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../select";
 
 const MatchSetupIntro3 = ({
   form,
@@ -49,13 +55,22 @@ const MatchSetupIntro3 = ({
               <FormItem>
                 <FormLabel>Max Players Per Team</FormLabel>
                 <FormControl>
-                  <Input
-                    type="number"
-                    max={5}
-                    min={1}
-                    placeholder="Enter max players per team"
-                    {...field}
-                  />
+                  <Select
+                    value={field.value ? field.value.toString() : "1"}
+                    onValueChange={(value) => field.onChange(Number(value))}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Pick Team Players" />
+                    </SelectTrigger>
+
+                    <SelectContent>
+                      <SelectItem value={"1"}>Solo</SelectItem>
+                      <SelectItem value={"2"}>Duo (2 Players)</SelectItem>
+                      <SelectItem value={"3"}>Trio (3 Players)</SelectItem>
+                      <SelectItem value={"4"}>Squad (4 Players)</SelectItem>
+                      <SelectItem value={"5"}>5 Players</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>

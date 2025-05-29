@@ -3,7 +3,9 @@ import { eq } from "drizzle-orm";
 import {
   gamesTable,
   playersTable,
+  starredTournamentsTable,
   teamsTable,
+  tournamentsTable,
   usersTable,
 } from "@/config/schema";
 
@@ -59,7 +61,6 @@ export const Get = {
   
     const data = await res.json();
   
-    // Define keywords to look for in tournament-friendly games
     const tournamentKeywords = [
       "multiplayer",
       "online",
@@ -122,4 +123,27 @@ export const Get = {
       return [];
     }
   },
+
+  Tournaments:async()=>{
+    try {
+      const tournaments = await db.select().from(tournamentsTable)
+      return tournaments;
+    } catch (error) {
+      console.error("Error fetching tournaments:", error);
+      return [];
+    }
+  },
+
+  StarredTournamentByPlayerId: async (playerId: number) => {
+    try {
+      const starredTournaments = await db
+        .select()
+        .from(starredTournamentsTable)
+        .where(eq(starredTournamentsTable.playerId, playerId));
+      return starredTournaments;
+    } catch (error) {
+      console.error("Error fetching starred tournaments by player ID:", error);
+      return [];
+    }
+  }
 };

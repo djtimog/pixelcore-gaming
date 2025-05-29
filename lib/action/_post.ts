@@ -1,5 +1,5 @@
 import { db } from "@/config/db";
-import { playersTable, teamsTable, tournamentsTable, usersTable } from "@/config/schema";
+import { playersTable, starredTournamentsTable, teamsTable, tournamentsTable, usersTable } from "@/config/schema";
 import { eq } from "drizzle-orm";
 import {
   PlayerData,
@@ -21,6 +21,12 @@ export const Post = {
   // },
   TournamentData: (tournamentData: TournamentData) => {
     return db.insert(tournamentsTable).values(tournamentData);
+  },
+  StarTournament: (tournamentId: number, playerId: number) => {
+    return db.insert(starredTournamentsTable).values({
+      tournamentId,
+      playerId,
+    });
   }
 };
 
@@ -40,4 +46,11 @@ export const Delete = {
   Player: (playerId: number) => {
     return playerId;
   },
+  StarTournament: (starTournamentId: number) => {
+    return db
+      .delete(starredTournamentsTable)
+      .where(
+        eq(starredTournamentsTable.id, starTournamentId),
+      );
+  }
 };

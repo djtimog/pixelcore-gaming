@@ -1,6 +1,6 @@
 import { toast } from "@/hooks/use-toast";
 import { Get } from "@/lib/action/_get";
-import { Post } from "@/lib/action/_post";
+import { Delete, Post } from "@/lib/action/_post";
 import {
   PlayerFormValues,
   TournamentFormValues,
@@ -10,7 +10,7 @@ import { useUser } from "@clerk/nextjs";
 import { v4 as uuidv4 } from "uuid";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { Dispatch, SetStateAction } from "react";
-import { uploadImageWithFile }from "@/lib/action/uploadImage";
+import { uploadImageWithFile } from "@/lib/action/uploadImage";
 import { uploadedProfileImageUrl } from "./image-upload";
 
 export const onSubmitForm = {
@@ -212,7 +212,41 @@ export const onSubmitForm = {
       });
     } finally {
       setIsLoading(false);
-      router.push("/dashboard/tournaments")
+      router.push("/dashboard/tournaments");
+    }
+  },
+  StarTourament: async (
+    isStarred: boolean,
+    setIsStarred: Dispatch<SetStateAction<boolean>>,
+    tournamentId: number,
+    playerId: number
+  ) => {
+    const starredTournaments = await Get.StarredTournamentByPlayerId(0);
+
+    starredTournaments.forEach((tournament) => {
+      tournament.tournamentId === tournamentId ? setIsStarred(true) : setIsStarred(false);
+    });
+
+    if (isStarred) {
+      try {
+        const starredTournament = starredTournaments.find(
+          (tournament) => tournament.tournamentId === tournamentId,
+        );
+
+        await Delete.StarTournament(starredTournament?.id || 0);
+      } catch (error) {
+        console.error("Error unstarring tournament:", error);
+      } finally {
+        setIsStarred(false);
+      }
+    } else {
+      try {
+        await Post.StarTournament(tournamentId, playerId);
+      } catch (error) {
+        console.error("Error starring tournament:", error);
+      } finally {
+        setIsStarred(true);
+      }
     }
   },
 };

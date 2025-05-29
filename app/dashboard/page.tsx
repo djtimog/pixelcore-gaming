@@ -7,8 +7,11 @@ import { TournamentCard } from "@/components/ui/dashboard/card/tournament";
 import { Button } from "@/components/ui/button";
 import { Trophy } from "lucide-react";
 import Link from "next/link";
+import { Get } from "@/lib/action/_get";
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const FetchedTournaments = await Get.Tournaments();
+
   return (
     <div>
       <div className="mb-10">
@@ -25,8 +28,24 @@ export default function Dashboard() {
           Recommended Tournament
         </h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {Tournaments.map((tournament, index) => (
-            <TournamentCard key={index} {...tournament} />
+          {FetchedTournaments.map((tournament, index) => (
+            <TournamentCard
+              key={index}
+              id={tournament.id}
+              imageUrl={tournament.imageUrl}
+              title={tournament.name}
+              prize={tournament.prizePool || "$0"}
+              game={`${tournament.gameId}`}
+              time={tournament.startDate}
+              date={tournament.endDate}
+              host={`${tournament.organizerId}`}
+              rules={
+                tournament.rules?.split(",").map((rule) => rule.trim()) || []
+              }
+              detailsLink={`/dashboard/tournaments/${tournament.uid}`}
+              players={0}
+              applyLink={`/dashboard/tournaments/${tournament.uid}`}
+            />
           ))}
         </div>
       </div>
@@ -49,27 +68,26 @@ export default function Dashboard() {
         </div>
       </div>
 
-{/* this */}
+      {/* this */}
       <div className="mb-5">
-        <div className="flex gap-2 justify-between items-center mb-5 ">
-          <h2 className="outlined-text text-2xl tracking-wide truncate">
+        <div className="mb-5 flex items-center justify-between gap-2">
+          <h2 className="outlined-text truncate text-2xl tracking-wide">
             All Tournaments
           </h2>
 
           <Link href="#">
             <Button className="rounded-full border" variant={"ghost"}>
-              View All 
-              <Trophy /> 
+              View All
+              <Trophy />
               <span className="hidden lg:block">Tournament</span>
             </Button>
           </Link>
         </div>
 
-
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-5">
-          {Tournaments.map((tournament, index) => (
+        <div className="mb-5 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {/* {Tournaments.map((tournament, index) => (
             <TournamentCard key={index} {...tournament} />
-          ))}
+          ))} */}
         </div>
       </div>
     </div>

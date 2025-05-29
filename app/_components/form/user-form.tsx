@@ -235,35 +235,7 @@ export default function UserSignUpForm() {
               )}
             />
 
-            {/* Role */}
-            <FormField
-              control={form.control}
-              name="role"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Account Type</FormLabel>
-                  <FormControl>
-                    <Select
-                      {...field}
-                      onValueChange={(value) => field.onChange(value)}
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Pick a Role" />
-                      </SelectTrigger>
-
-                      <SelectContent>
-                        <SelectItem value="player">Player</SelectItem>
-                        <SelectItem value="team_manager">
-                          Team Manager
-                        </SelectItem>
-                        {/* <SelectItem value="admin">Administrator</SelectItem> */}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            
           </div>
 
           {/* Subscription */}

@@ -11,12 +11,12 @@ export default function DashboardLayout({
   return (
     <DbUserDetailsProvider>
       <SidebarProvider>
-        <AppSidebar />
-        <SidebarInset>
-          <DashboardHeader />
+          <AppSidebar />
+          <SidebarInset>
+            <DashboardHeader />
 
-          <div className="px-5 py-3">{children}</div>
-        </SidebarInset>
+            <div className="px-5 py-3">{children}</div>
+          </SidebarInset>
       </SidebarProvider>
     </DbUserDetailsProvider>
   );

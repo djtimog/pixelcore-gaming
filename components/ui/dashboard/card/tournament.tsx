@@ -2,7 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { DollarSign, Gamepad2, Info, Share, Star, UsersRound } from "lucide-react";
+import {
+  DollarSign,
+  Gamepad2,
+  Info,
+  Share,
+  Star,
+  UsersRound,
+} from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -12,8 +19,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { TournamentCardProps } from "@/lib/placeholder-data";
 import { useState } from "react";
+import { onSubmitForm } from "@/lib/action/_onSubmit-form";
+import { useDbUser } from "@/app/_components/context/userDetails";
 
 export const TournamentCard = ({
+  id,
   imageUrl,
   title,
   prize,
@@ -25,19 +35,13 @@ export const TournamentCard = ({
   rules,
   detailsLink,
   applyLink,
-  hostLink,
-  starred,
 }: TournamentCardProps) => {
-  const [isStarred, setIsStarred] = useState(!!starred);
-
-  const starHandler = () => {
-    // MORE FUNCTIONS
-    setIsStarred(!isStarred);
-  };
+  const { dbPlayer } = useDbUser();
+  const [isStarred, setIsStarred] = useState<boolean>(false);
 
   return (
     <div>
-      <div className="relative mb-3 flex h-48 w-full items-center justify-center overflow-hidden rounded-lg bg-gray-200 hover:border-2">
+      <div className="relative mb-3 flex h-48 w-full items-center justify-center overflow-hidden rounded-lg bg-gray-200">
         <Image
           src={imageUrl}
           alt={title}
@@ -47,13 +51,17 @@ export const TournamentCard = ({
         />
 
         <div
-          className={`absolute right-0 top-0 m-2 flex items-end justify-center gap-1 cursor-pointer ${isStarred ? "text-primary" : ""}`}
-          onClick={starHandler}
+          className={`absolute right-0 top-0 m-1 mr-2 cursor-pointer text-sm ${isStarred ? "text-primary" : "dark:text-black"}`}
+          onClick={() => {
+            onSubmitForm.StarTourament(
+              isStarred,
+              setIsStarred,
+              id,
+              dbPlayer.id,
+            );
+          }}
         >
-          <Star />
-          <p className="text-xs">
-            32
-          </p>
+          <span className="text-3xl">{isStarred ? "★" : "☆"}</span>
         </div>
       </div>
 
@@ -61,7 +69,6 @@ export const TournamentCard = ({
         <div className="flex items-center justify-between gap-2">
           <h3 className="text-md truncate font-bold text-primary">{title}</h3>
           <span className="flex text-xs text-primary">
-            <DollarSign size={16} strokeWidth={1} className="mx-1" />
             {prize.toLocaleString()}
           </span>
         </div>
@@ -82,12 +89,7 @@ export const TournamentCard = ({
         </p>
 
         <div className="flex items-center justify-between gap-2">
-          <p className="truncate text-xs text-gray-500">
-            Hosted by:{" "}
-            <Link href={hostLink} className="truncate text-primary">
-              {host}
-            </Link>
-          </p>
+          <p className="truncate text-xs text-gray-500">Hosted by: {host}</p>
 
           <Link
             href={detailsLink}
@@ -117,29 +119,36 @@ export const TournamentCard = ({
       </div>
 
       <div className="flex gap-2">
-        <Link href={applyLink} className="grow shrink">
+        <Link href={applyLink} className="shrink grow">
           <Button className="w-full rounded-lg">Apply Now</Button>
         </Link>
 
         {/* to do more link shaaring here */}
 
-        <Button size="icon" variant="ghost" onClick={async () => {
-                  const shareData = {
-                    title: "PixelCore Esport",
-                    text: "🎮 Join PixelCore Esport – host your own tournaments, compete in epic battles, and climb the leaderboards! Let’s play and win together! 🏆🔥",
-                    url: "https://pixelcoreesport.com/referral-link", // Add code or tracking if needed
-                  };
-  
-                  if (navigator.share) {
-                    try {
-                      await navigator.share(shareData);
-                    } catch (err) {
-                      console.error("Error sharing:", err);
-                    }
-                  } else {
-                    alert("Sharing is not supported on this browser");
-                  }
-                }}> <Share /></Button>
+        <Button
+          size="icon"
+          variant="ghost"
+          onClick={async () => {
+            const shareData = {
+              title: "PixelCore Esport",
+              text: "🎮 Join PixelCore Esport – host your own tournaments, compete in epic battles, and climb the leaderboards! Let’s play and win together! 🏆🔥",
+              url: "https://pixelcoreesport.com/referral-link", // Add code or tracking if needed
+            };
+
+            if (navigator.share) {
+              try {
+                await navigator.share(shareData);
+              } catch (err) {
+                console.error("Error sharing:", err);
+              }
+            } else {
+              alert("Sharing is not supported on this browser");
+            }
+          }}
+        >
+          {" "}
+          <Share />
+        </Button>
       </div>
     </div>
   );
