@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -5,11 +6,14 @@ import { Button } from "../../button";
 import { BookOpen } from "lucide-react";
 import { EventCardProps } from "@/lib/placeholder-data";
 import { getSliceNumber } from "@/lib/get-slice-number";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function EventCard({   title,
     description,
     imageUrl,
     readMoreLink}: EventCardProps) {
+
+      const isMobile = useIsMobile()
   return (
     <div className="relative flex max-h-96 w-full items-center justify-center overflow-hidden rounded-lg p-0">
       <Image
@@ -25,7 +29,7 @@ export function EventCard({   title,
             {title}
           </h3>
           <p className="mb-3 text-sm md:mb-7">
-            {description.split(" ").slice(0, getSliceNumber()).join(" ")}
+            {description.split(" ").slice(0, getSliceNumber(isMobile)).join(" ")}
             ...
           </p>
           <Link href={readMoreLink}>
