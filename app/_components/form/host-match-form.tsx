@@ -31,11 +31,11 @@ export const HostMatchForm = () => {
 
   // Map step numbers to components
   const stepComponents = [
-    <GamePicker form={form} />,
-    <MatchSetupIntro1 form={form} />,
-    <MatchSetupIntro2 form={form} />,
-    <MatchSetupIntro3 form={form} />,
-    <TournamentConfirmation />,
+    <GamePicker form={form} key={1}/>,
+    <MatchSetupIntro1 form={form} key={2}/>,
+    <MatchSetupIntro2 form={form} key={3}/>,
+    <MatchSetupIntro3 form={form} key={4}/>,
+    <TournamentConfirmation key={5}/>,
   ];
 
   return (
