@@ -17,11 +17,6 @@ import {
 } from "@/app/_components/context/schedule";
 import PaymentMethodForm from "@/components/ui/dashboard/PaymentMethodform";
 
-export const metadata = {
-  title: "Schedule a Match",
-  description: "Set up your tournament match easily",
-};
-
 export function HostMatchForm(): JSX.Element {
   const form = useForm<TournamentFormValues>({
     resolver: zodResolver(TournamentFormSchema),
