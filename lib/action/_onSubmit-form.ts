@@ -123,8 +123,7 @@ export const onSubmitForm = {
       const playerData = {
         userId: userId,
         teamId: teamId,
-        gameId:
-          games.find((game: typeof games) => game.name === data.game)?.id || 1,
+        gameId: games.find((game) => game.name === data.game)?.id || 0,
         gameHandle: data.game_handle.slice(0, 255) || null,
         rank: data.rank?.slice(0, 100) || null,
         uid: data.uid.slice(0, 255),
@@ -219,10 +218,10 @@ export const onSubmitForm = {
     isStarred: boolean,
     setIsStarred: Dispatch<SetStateAction<boolean>>,
     tournamentId: number,
-    playerId: number
+    playerId: number,
   ) => {
-    const starredTournaments = await Get.StarredTournamentByPlayerId(playerId)
-    
+    const starredTournaments = await Get.StarredTournamentByPlayerId(playerId);
+
     if (isStarred) {
       try {
         const starredTournament = starredTournaments.find(
