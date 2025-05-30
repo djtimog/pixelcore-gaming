@@ -4,16 +4,15 @@ import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { TournamentCard } from "@/components/ui/dashboard/card/tournament";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Get } from "@/lib/action/_get";
-import { StarredTournament } from "./starred/page";
-import { Ghost, LoaderCircle, Search } from "lucide-react";
+import { DbTournamentDataType } from "@/lib/placeholder-data";
+import { Ghost, Search } from "lucide-react";
 import { TournamentCardSkeleton } from "@/components/ui/skeleton/tournament-card";
 
 const AllTournaments = () => {
-  const [tournaments, setTournaments] = useState<StarredTournament[]>([]);
+  const [tournaments, setTournaments] = useState<DbTournamentDataType[]>([]);
   const [filteredTournaments, setFilteredTournaments] = useState<
-    StarredTournament[]
+    DbTournamentDataType[]
   >([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -51,7 +50,7 @@ const AllTournaments = () => {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h1 className="text-2xl font-bold text-primary">All Tournaments</h1>
+        <h1 className="text-3xl outlined-text text-center tracking-wide">All Tournaments</h1>
         <p className="text-gray-500">
           Browse and discover exciting competitions
         </p>
@@ -118,7 +117,7 @@ const AllTournaments = () => {
               }
               detailsLink={`/dashboard/tournaments/${tournament.uid}`}
               players={0}
-              applyLink={`/dashboard/tournaments/${tournament.uid}`}
+              applyLink={`/dashboard/tournaments/${tournament.uid}/apply`}
             />
           ))}
         </div>

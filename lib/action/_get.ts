@@ -134,6 +134,20 @@ export const Get = {
     }
   },
 
+  TournamentByUid: async (uid: string) => {
+    try {
+      const tournament = await db
+        .select()
+        .from(tournamentsTable)
+        .where(eq(tournamentsTable.uid, uid))
+        .limit(1);
+      return tournament[0];
+    } catch (error) {
+      console.error("Error fetching tournament by UID:", error);
+      return null;
+    }
+  },
+
   StarredTournamentByPlayerId: async (playerId: number) => {
     try {
       const starredTournaments = await db

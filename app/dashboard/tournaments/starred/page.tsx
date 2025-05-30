@@ -7,31 +7,11 @@ import { TournamentCard } from "@/components/ui/dashboard/card/tournament";
 import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-
-export type StarredTournament = {
-  name: string;
-  status: string | null;
-  id: number;
-  uid: string;
-  description: string | null;
-  startDate: string;
-  endDate: string;
-  imageUrl: string;
-  registrationStartDate: string;
-  registrationEndDate: string;
-  gameId: number;
-  organizerId: number;
-  prizePool: string | null;
-  maxTeams: number;
-  maxPlayersPerTeam: number;
-  rules: string | null;
-  time: string | null;
-  timezone: string | null;
-};
+import { DbTournamentDataType } from "@/lib/placeholder-data";
 
 function Starred() {
   const db = useDbUser();
-  const [tournaments, setTournaments] = useState<StarredTournament[]>([]);
+  const [tournaments, setTournaments] = useState<DbTournamentDataType[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -85,7 +65,7 @@ function Starred() {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h1 className="text-2xl font-bold text-primary">
+        <h1 className="text-3xl font-bold outlined-text tracking-wide">
           Your Starred Tournaments
         </h1>
         <p className="text-sm text-muted-foreground">

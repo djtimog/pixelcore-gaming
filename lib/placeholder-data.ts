@@ -75,8 +75,8 @@ export type TournamentData = {
   name: string;
   uid: string;
   description: string | null;
-  startDate: string; 
-  endDate: string; 
+  startDate: string;
+  endDate: string;
   imageUrl: string;
   registrationStartDate: string;
   registrationEndDate: string;
@@ -88,6 +88,27 @@ export type TournamentData = {
   rules: string | null;
   time: string;
   timezone: string;
+};
+
+export type DbTournamentDataType = {
+  name: string;
+  status: string | null;
+  id: number;
+  uid: string;
+  description: string | null;
+  startDate: string;
+  endDate: string;
+  imageUrl: string;
+  registrationStartDate: string;
+  registrationEndDate: string;
+  gameId: number;
+  organizerId: number;
+  prizePool: string | null;
+  maxTeams: number;
+  maxPlayersPerTeam: number;
+  rules: string | null;
+  time: string | null;
+  timezone: string | null;
 };
 
 export type ProfileFormValues = z.infer<typeof ProfileFormSchema>;
@@ -103,44 +124,44 @@ export type TeamFormValues = z.infer<typeof TeamFormSchema>;
 export type TournamentFormValues = z.infer<typeof TournamentFormSchema>;
 
 export interface TournamentCardProps {
-  id: number
-  uid:string
-  imageUrl: string
-  title: string
-  prize: string | number
-  game: string
-  players: number
-  time: string
-  date: string
-  host: string
-  rules: string[]
-  detailsLink: string
-  applyLink: string
+  id: number;
+  uid: string;
+  imageUrl: string;
+  title: string;
+  prize: string | number;
+  game: string;
+  players: number;
+  time: string;
+  date: string;
+  host: string;
+  rules: string[];
+  detailsLink: string;
+  applyLink: string;
 }
 
 export interface EventCardProps {
-  title: string
-  description: string
-  imageUrl: string
-  readMoreLink: string
+  title: string;
+  description: string;
+  imageUrl: string;
+  readMoreLink: string;
 }
 
 export interface EventsCarouselProps {
-  events: EventCardProps[]
+  events: EventCardProps[];
 }
 
 export interface TeamCardProps {
-  name: string
-  logoUrl: string
+  name: string;
+  logoUrl: string;
   manager: {
-    name: string
-    avatarUrl: string
-  }
-  managerProfileLink: string
-  game?: string
+    name: string;
+    avatarUrl: string;
+  };
+  managerProfileLink: string;
+  game?: string;
 }
 
-export type TeamCarouselProps = TeamCardProps[]
+export type TeamCarouselProps = TeamCardProps[];
 
 export type ReferItemProps = {
   name: string;
