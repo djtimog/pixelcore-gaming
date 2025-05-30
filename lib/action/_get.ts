@@ -62,7 +62,7 @@ export const Get = {
 
     const data = await res.json();
 
-    const filtered = data.results.map((game: any) => {
+    const filtered = data.results.map((game:GameType) => {
       return {
         id: game.id,
         name: game.name,
@@ -71,7 +71,7 @@ export const Get = {
         esrb_rating: game.esrb_rating
           ? { name: game.esrb_rating.name }
           : undefined,
-        platforms: game.platforms.map((platform: any) => ({
+        platforms: game.platforms.map((platform) => ({
           platform: {
             id: platform.platform.id,
             name: platform.platform.name,

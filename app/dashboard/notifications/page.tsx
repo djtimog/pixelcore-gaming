@@ -33,14 +33,15 @@ export default function Notifications() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [readStates, setReadStates] = useState<boolean[]>(notifications.map(n => n.isRead));
 
-  const updateUnreadCount = () => {
-    const count = readStates.filter((state) => state).length;
-    setUnreadCount(count);
-  }
+ const updateUnreadCount = useCallback(() => {
+  const count = readStates.filter((state) => state).length;
+  setUnreadCount(count);
+}, [readStates]);
+
   
   useEffect(() => {
     updateUnreadCount();
-  }, [unreadCount, updateUnreadCount]);
+  }, [updateUnreadCount]);
   
 
   const markAllAsRead = () => {

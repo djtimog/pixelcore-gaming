@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { isBefore } from "date-fns";
+import React, { useEffect, useMemo, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -9,7 +8,7 @@ import { TournamentFormValues } from "@/lib/placeholder-data";
 import { DatePicker, TimeWithTimezonePicker } from "../../date-and-time-picker";
 import { Card, CardHeader, CardTitle } from "../../card";
 import { Button } from "../../button";
-
+import { isBefore, startOfToday } from "date-fns";
 import {
   FormField,
   FormItem,
@@ -25,7 +24,6 @@ const MatchSetupIntro2 = ({
   form: UseFormReturn<TournamentFormValues>;
 }) => {
   const { handleNextStep , handlePreviousStep } = useScheduleStep()
-  const today = new Date();
   const [errors, setErrors] = useState<string | null>(null);
 
   const registrationStart = form.watch("registrationStartDate");
@@ -34,21 +32,24 @@ const MatchSetupIntro2 = ({
   const tournamentEnd = form.watch("endDate");
   const time = form.watch("time");
 
-  useEffect(() => {
-    let errorMessage: string | null = null;
+const today = useMemo(() => startOfToday(), []);
 
-    if (registrationStart && isBefore(registrationStart, today)) {
-      errorMessage = "Registration start date cannot be in the past.";
-    } else if (
-      registrationEnd &&
-      tournamentStart &&
-      isBefore(tournamentStart, registrationEnd)
-    ) {
-      errorMessage = "Tournament start date must be after registration ends.";
-    }
+useEffect(() => {
+  let errorMessage: string | null = null;
 
-    setErrors(errorMessage);
-  }, [registrationStart, registrationEnd, tournamentStart, today]);
+  if (registrationStart && isBefore(registrationStart, today)) {
+    errorMessage = "Registration start date cannot be in the past.";
+  } else if (
+    registrationEnd &&
+    tournamentStart &&
+    isBefore(tournamentStart, registrationEnd)
+  ) {
+    errorMessage = "Tournament start date must be after registration ends.";
+  }
+
+  setErrors(errorMessage);
+}, [registrationStart, registrationEnd, tournamentStart, today]);
+
 
   return (
     <div className="mx-auto mt-10 max-w-4xl p-4">

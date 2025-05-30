@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 export default function Provider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [showHeader, setShowHeader] = useState<boolean>();
-  const validPaths: string[] = ["/", "/about", "/team", "/contact"];
+const validPaths = useMemo(() => ["/", "/about", "/team", "/contact"], []);
 
   useEffect(() => {
     const checkPath = () => {
