@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  DollarSign,
   Gamepad2,
   Info,
   LoaderCircle,
@@ -67,7 +66,7 @@ export const TournamentCard = ({
   const shareData = {
     title: `${title} - PixelCore Esport`,
     text: `🎮 Compete in ${title} playing ${game}! 🏆 Prize pool: $${prize.toLocaleString()}.\nJoin now and show your skills! 🔥`,
-    url: `https://pixelcoreesport.com/tournaments/${uid}`,
+    url: `https://pixelcore-gaming.vercel.app/tournaments/${uid}`,
   };
   return (
     <div>

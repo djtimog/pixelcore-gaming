@@ -40,7 +40,7 @@ export default function Notifications() {
   
   useEffect(() => {
     updateUnreadCount();
-  }, [unreadCount]);
+  }, [unreadCount, updateUnreadCount]);
   
 
   const markAllAsRead = () => {

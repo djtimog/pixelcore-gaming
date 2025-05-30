@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Label } from "../../label";
 import { FileUploader } from "react-drag-drop-files";
 import Image from "next/image";

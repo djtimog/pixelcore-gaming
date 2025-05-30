@@ -48,7 +48,7 @@ const MatchSetupIntro2 = ({
     }
 
     setErrors(errorMessage);
-  }, [registrationStart, registrationEnd, tournamentStart]);
+  }, [registrationStart, registrationEnd, tournamentStart, today]);
 
   return (
     <div className="mx-auto mt-10 max-w-4xl p-4">

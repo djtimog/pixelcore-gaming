@@ -29,7 +29,7 @@ const PaymentMethodForm = () => {
         <CardTitle className="text-lg">Payment Method</CardTitle>
         <p className="text-sm text-muted-foreground">
           Add a new payment method to your account.
-        </p>
+        </p>{method}
       </CardHeader>
 
       <CardContent className="space-y-4">

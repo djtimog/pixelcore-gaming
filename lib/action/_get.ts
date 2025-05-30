@@ -1,13 +1,14 @@
 import { db } from "@/config/db";
 import { eq } from "drizzle-orm";
 import {
-  gamesTable,
   playersTable,
   starredTournamentsTable,
   teamsTable,
   tournamentsTable,
   usersTable,
 } from "@/config/schema";
+import { GameType } from "@/components/ui/dashboard/card/game";
+
 
 export const Get = {
   UserByEmail: async (email: string) => {
@@ -52,52 +53,41 @@ export const Get = {
     }
   },
 
-  Games: async (search = "") => {
+  Games: async (): Promise<GameType[]> => {
     const API_KEY = process.env.NEXT_PUBLIC_RAWG_API_KEY;
     const url = `https://api.rawg.io/api/games?key=${API_KEY}&page_size=40`;
-  
+
     const res = await fetch(url);
     if (!res.ok) throw new Error("Failed to fetch games");
-  
+
     const data = await res.json();
-  
-    const tournamentKeywords = [
-      "multiplayer",
-      "online",
-      "competitive",
-      "battle",
-      "shooter",
-      "fps",
-      "tournament",
-      "soccer",
-      "fighting",
-      "esports",
-      "match",
-      "arena",
-      "team",
-      "call of duty",
-      "valorant",
-      "fifa",
-      "csgo",
-      "rocket league",
-      "pubg",
-      "fortnite",
-      "apex",
-      "overwatch",
-      "league of legends",
-      "dota",
-    ];
-  
-    // Filter games based on the name or genre/description (if available)
-    const filtered = data.results.filter((game: any) => {
-      const combinedText =
-        `${game.name} ${game.slug} ${game.genres?.map((g: any) => g.name).join(" ")}`.toLowerCase();
-      return tournamentKeywords.some((kw) => combinedText.includes(kw));
+
+    const filtered = data.results.map((game: any) => {
+      return {
+        id: game.id,
+        name: game.name,
+        background_image: game.background_image,
+        released: game.released,
+        esrb_rating: game.esrb_rating
+          ? { name: game.esrb_rating.name }
+          : undefined,
+        platforms: game.platforms.map((platform: any) => ({
+          platform: {
+            id: platform.platform.id,
+            name: platform.platform.name,
+          },
+          requirements: platform.requirements
+            ? {
+                minimum: platform.requirements.minimum,
+                recommended: platform.requirements.recommended,
+              }
+            : undefined,
+        })),
+      };
     });
-  
+
     return filtered;
   },
-  
 
   TeamByCaptainId: async (captainId: number) => {
     try {
@@ -124,9 +114,9 @@ export const Get = {
     }
   },
 
-  Tournaments:async()=>{
+  Tournaments: async () => {
     try {
-      const tournaments = await db.select().from(tournamentsTable)
+      const tournaments = await db.select().from(tournamentsTable);
       return tournaments;
     } catch (error) {
       console.error("Error fetching tournaments:", error);
@@ -159,5 +149,5 @@ export const Get = {
       console.error("Error fetching starred tournaments by player ID:", error);
       return [];
     }
-  }
+  },
 };

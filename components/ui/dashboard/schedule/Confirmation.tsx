@@ -44,9 +44,9 @@ const TournamentConfirmation = () => {
         const selectedGame = games.find(
           (game: GameType) => game.id === values.gameId,
         );
-        setGameName(selectedGame.name);
+        setGameName(selectedGame?.name || "Unknown Game");
       } catch (err) {
-        console.error("Failed to load game details");
+        console.error("Failed to load game details" + err);
       }
     };
 

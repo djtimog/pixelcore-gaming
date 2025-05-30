@@ -22,7 +22,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       }
     };
     checkPath();
-  }, [pathname]);
+  }, [pathname, validPaths]);
 
   return (
     <ThemeProvider

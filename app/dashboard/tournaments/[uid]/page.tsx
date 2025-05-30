@@ -42,7 +42,7 @@ function TournamentDetailsPage() {
       }
     };
     fetchTournament();
-  }, [uid]);
+  }, [uid, router]);
 
   if (loading)
     return (

@@ -40,12 +40,12 @@ const AllTournaments = () => {
     setFilteredTournaments(filtered);
   };
 
-  const handleFilter = () => {
-    const upcoming = tournaments.filter(
-      (t) => new Date(t.startDate) > new Date(),
-    );
-    setFilteredTournaments(upcoming);
-  };
+  // const handleFilter = () => {
+  //   const upcoming = tournaments.filter(
+  //     (t) => new Date(t.startDate) > new Date(),
+  //   );
+  //   setFilteredTournaments(upcoming);
+  // };
 
   return (
     <div className="space-y-6">

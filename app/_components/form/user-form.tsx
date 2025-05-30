@@ -19,13 +19,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useUser } from "@clerk/nextjs";
 import { BookmarkCheck } from "lucide-react";
 import Image from "next/image";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useRouter } from "next/navigation";
 import { UserFormValues } from "@/lib/placeholder-data";
 import { UserFormSchema } from "@/lib/form-schema";
