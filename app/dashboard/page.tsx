@@ -1,4 +1,4 @@
-import { dummyEvents, dummyTeams, Tournaments } from "@/lib/data";
+import { dummyEvents, dummyTeams } from "@/lib/data";
 import {
   EventsCarousel,
   TeamCarousel,
@@ -27,17 +27,18 @@ export default async function Dashboard() {
         <h2 className="outlined-text mb-5 text-2xl tracking-wide">
           Recommended Tournament
         </h2>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {FetchedTournaments.map((tournament, index) => (
             <TournamentCard
               key={index}
+              uid={tournament.uid}
               id={tournament.id}
               imageUrl={tournament.imageUrl}
               title={tournament.name}
               prize={tournament.prizePool || "$0"}
               game={`${tournament.gameId}`}
-              time={tournament.startDate}
-              date={tournament.endDate}
+              time={`${tournament.time} ${tournament.timezone}`}
+              date={tournament.startDate}
               host={`${tournament.organizerId}`}
               rules={
                 tournament.rules?.split(",").map((rule) => rule.trim()) || []

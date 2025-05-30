@@ -85,7 +85,7 @@ export const onSubmitForm = {
 
       const existingUser = await Get.UserByEmail(userEmail);
 
-      if (existingUser?.email !== userEmail) {
+      if (existingUser?.email !== userEmail || !existingUser) {
         toast({
           title: "Error",
           description: "User not found!!",
@@ -221,12 +221,8 @@ export const onSubmitForm = {
     tournamentId: number,
     playerId: number
   ) => {
-    const starredTournaments = await Get.StarredTournamentByPlayerId(0);
-
-    starredTournaments.forEach((tournament) => {
-      tournament.tournamentId === tournamentId ? setIsStarred(true) : setIsStarred(false);
-    });
-
+    const starredTournaments = await Get.StarredTournamentByPlayerId(playerId)
+    
     if (isStarred) {
       try {
         const starredTournament = starredTournaments.find(

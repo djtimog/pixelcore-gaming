@@ -104,6 +104,7 @@ export type TournamentFormValues = z.infer<typeof TournamentFormSchema>;
 
 export interface TournamentCardProps {
   id: number
+  uid:string
   imageUrl: string
   title: string
   prize: string | number

@@ -22,14 +22,14 @@ import { Get } from "@/lib/action/_get";
 import { GameType } from "../card/game";
 import Image from "next/image";
 import { onSubmitForm } from "@/lib/action/_onSubmit-form";
-import { useDbUser } from "@/app/_components/context/userDetails";
+import { useDbUser } from "@/app/_components/context/DbUserProvider";
 import { useRouter } from "next/navigation";
 
 const TournamentConfirmation = () => {
   const { handlePreviousStep } = useScheduleStep();
   const { image } = useScheduleImage();
   const [loading, isLoading] = useState(false);
-  const { dbUser } = useDbUser();
+  const db = useDbUser();
   const router = useRouter();
 
   const form = useFormContext<TournamentFormValues>();
@@ -191,7 +191,7 @@ const TournamentConfirmation = () => {
                 values,
                 isLoading,
                 image,
-                dbUser.id,
+                db.user.id,
                 router,
               )
             }

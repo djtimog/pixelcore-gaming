@@ -61,7 +61,7 @@ const data = {
       items: [
         {
           title: "Available",
-          url: "#",
+          url: "/dashboard/tournaments",
         },
         {
           title: "Recent",
@@ -73,7 +73,7 @@ const data = {
         },
         {
           title: "Starred",
-          url: "#",
+          url: "/dashboard/tournaments/starred",
         },
       ],
     },
