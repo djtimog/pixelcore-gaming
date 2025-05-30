@@ -322,7 +322,7 @@
 
 // export default TeamSignUpForm;
 
-export const TeamSignUpForm = () => {
+export default const TeamSignUpForm = () => {
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Team Sign Up Form</h2>
