@@ -322,7 +322,7 @@
 
 // export default TeamSignUpForm;
 
-const TeamSignUpForm = () => {
+export const TeamSignUpForm = () => {
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Team Sign Up Form</h2>
@@ -330,7 +330,7 @@ const TeamSignUpForm = () => {
         This form is currently under development. Please check back later.
       </p>
       {/* Placeholder for future form implementation */}
-      <div className="bg-gray-100 p-4 rounded-lg">
+      <div className="p-4 rounded-lg">
         <p className="text-center text-gray-500">Form will be available soon!</p>
       </div>
     </div>
