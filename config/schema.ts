@@ -23,6 +23,7 @@ export const usersTable = pgTable("users", {
   isVerified: boolean("is_verified").default(false),
   phoneNumber: varchar("phone_number", { length: 15 }), // Optional phone number
   discordHandle: varchar("discord_handle", { length: 50 }), // Optional Discord handle
+  referredBy: integer("referred_by"),
 });
 
 // Games Table
@@ -169,7 +170,7 @@ export const starredTournamentsTable = pgTable("starred_tournaments", {
     .references(() => tournamentsTable.id),
   playerId: integer("player_id")
     .notNull()
-    .references(() => playersTable.id), 
+    .references(() => playersTable.id),
   starredAt: timestamp("starred_at").defaultNow(),
 });
 

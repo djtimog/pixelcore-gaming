@@ -32,6 +32,7 @@ export default function UserSignUpForm() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const router = useRouter();
+  const [referralCode, setReferralCode] = useState<string>("");
 
   const form = useForm<UserFormValues>({
     resolver: zodResolver(UserFormSchema),
@@ -87,6 +88,7 @@ export default function UserSignUpForm() {
               setIsLoading,
               selectedImageFile,
               router,
+              referralCode
             ),
           )}
           className="space-y-6 rounded-lg p-6 shadow-md"
@@ -227,9 +229,14 @@ export default function UserSignUpForm() {
                 </FormItem>
               )}
             />
-
-            
           </div>
+
+          <Input
+            type="text"
+            placeholder="Referral Code (optional)"
+            value={referralCode}
+            onChange={(e) => setReferralCode(e.target.value)}
+          />
 
           {/* Subscription */}
           <FormField
@@ -247,6 +254,7 @@ export default function UserSignUpForm() {
               </FormItem>
             )}
           />
+
 
           <div className="text-center">
             {!isUserUser && (

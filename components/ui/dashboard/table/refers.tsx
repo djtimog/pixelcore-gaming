@@ -13,12 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  ArrowUpDown,
-  Gift,
-  MessageCircle,
-  MoreHorizontal,
-} from "lucide-react";
+import { ArrowUpDown, Gift, MessageCircle, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -41,7 +36,7 @@ import {
 import { UserAvatar } from "../../avatar";
 import { GetReferralCodeById } from "@/lib/referralCodeGenerator";
 import { RefersAccount } from "@/lib/placeholder-data";
-import { referralData as data } from "@/lib/data";
+// import { referralData as data } from "@/lib/data";
 
 const columns: ColumnDef<RefersAccount>[] = [
   {
@@ -127,7 +122,9 @@ const columns: ColumnDef<RefersAccount>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(GetReferralCodeById(refer.id))}
+              onClick={() =>
+                navigator.clipboard.writeText(GetReferralCodeById(refer.id))
+              }
             >
               Copy Referral Code
             </DropdownMenuItem>
@@ -147,7 +144,7 @@ const columns: ColumnDef<RefersAccount>[] = [
   },
 ];
 
-export function RefersTable() {
+export function RefersTable({ data }: { data: RefersAccount[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],

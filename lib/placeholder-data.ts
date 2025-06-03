@@ -168,7 +168,7 @@ export type ReferItemProps = {
   description: string;
   Icon: LucideIcon;
   ActionIcon: LucideIcon;
-  action: () => Promise<void>;
+  action: (userId:number) => Promise<void>;
 };
 
 export type RefersAccount = {

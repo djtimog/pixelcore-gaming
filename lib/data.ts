@@ -1,5 +1,6 @@
 import { Copy, Link2, LinkIcon, Share, TicketSlash } from "lucide-react";
 import { RefersAccount } from "./placeholder-data";
+import { GetReferralCodeById } from "./referralCodeGenerator";
 
 export const teams = [
   {
@@ -318,7 +319,7 @@ export const Tournaments = [
     rules: ["Solo entries only", "Only one account per player"],
     detailsLink: "#",
     applyLink: "#",
-    hostLink: "#"
+    hostLink: "#",
   },
   {
     imageUrl: "/fallback-tournament.jpg",
@@ -346,37 +347,37 @@ export const dummyEvents = [
     description:
       "Join us for a weekend of nonstop gaming action, tournaments, and giveaways. This is the biggest esports festival of the year!",
     imageUrl: "/about/team-image.jpg",
-    readMoreLink: "#"
+    readMoreLink: "#",
   },
   {
     title: "Women in Esports Panel",
     description:
       "An empowering panel featuring top female players and content creators discussing challenges and opportunities in esports.",
     imageUrl: "/about/team-image.jpg",
-    readMoreLink: "#"
+    readMoreLink: "#",
   },
   {
     title: "CODM World Cup Qualifiers",
     description:
       "Watch the top teams battle it out for a spot in the CODM World Cup. Intense gameplay and massive prizes await.",
     imageUrl: "/about/team-image.jpg",
-    readMoreLink: "#"
+    readMoreLink: "#",
   },
   {
     title: "Valorant Bootcamp",
     description:
       "A 3-day immersive Valorant bootcamp for players looking to sharpen their skills with pro-level coaching and scrims.",
     imageUrl: "/about/team-image.jpg",
-    readMoreLink: "#"
+    readMoreLink: "#",
   },
   {
     title: "Streamer Meetup 2025",
     description:
       "A networking event where streamers, fans, and brands come together to build partnerships and celebrate gaming culture.",
     imageUrl: "/about/team-image.jpg",
-    readMoreLink: "#"
-  }
-]
+    readMoreLink: "#",
+  },
+];
 
 export const dummyTeams = [
   {
@@ -384,66 +385,65 @@ export const dummyTeams = [
     logoUrl: "/team-logo.avif",
     manager: {
       name: "Ava Knight",
-      avatarUrl: "/about/team/ceo.jpeg"
+      avatarUrl: "/about/team/ceo.jpeg",
     },
-    managerProfileLink: "#"
+    managerProfileLink: "#",
   },
   {
     name: "Omega Blaze",
     logoUrl: "/team-logo.avif",
     manager: {
       name: "Jason Storm",
-      avatarUrl: "/about/team/ceo.jpeg"
+      avatarUrl: "/about/team/ceo.jpeg",
     },
-    managerProfileLink: "#"
+    managerProfileLink: "#",
   },
   {
     name: "Phantom Force",
     logoUrl: "/team-logo.avif",
     manager: {
       name: "Luna Ray",
-      avatarUrl: "/about/team/ceo.jpeg"
+      avatarUrl: "/about/team/ceo.jpeg",
     },
-    managerProfileLink: "#"
+    managerProfileLink: "#",
   },
   {
     name: "Iron Valkyries",
     logoUrl: "/team-logo.avif",
     manager: {
       name: "Marcus Hale",
-      avatarUrl: "/about/team/ceo.jpeg"
+      avatarUrl: "/about/team/ceo.jpeg",
     },
-    managerProfileLink: "#"
+    managerProfileLink: "#",
   },
   {
     name: "Crimson Titans",
     logoUrl: "/team-logo.avif",
     manager: {
       name: "Nina Frost",
-      avatarUrl: "/about/team/ceo.jpeg"
+      avatarUrl: "/about/team/ceo.jpeg",
     },
-    managerProfileLink: "#"
+    managerProfileLink: "#",
   },
   {
     name: "Phantom Force",
     logoUrl: "/team-logo.avif",
     manager: {
       name: "Luna Ray",
-      avatarUrl: "/about/team/ceo.jpeg"
+      avatarUrl: "/about/team/ceo.jpeg",
     },
-    managerProfileLink: "#"
+    managerProfileLink: "#",
   },
   {
     name: "Iron Valkyries",
     logoUrl: "/team-logo.avif",
     manager: {
       name: "Marcus Hale",
-      avatarUrl: "/about/team/ceo.jpeg"
+      avatarUrl: "/about/team/ceo.jpeg",
     },
-    managerProfileLink: "#"
+    managerProfileLink: "#",
   },
-
-]
+];
 
 export const refersData = [
   {
@@ -451,11 +451,13 @@ export const refersData = [
     description: "Copy Link and Invite Friends",
     Icon: LinkIcon,
     ActionIcon: Copy,
-    action: async () => {
+    action: async (userId:number) => {
+      const link = window.location.href;
+      const referralLink = `${link}?referral=${encodeURIComponent(
+        GetReferralCodeById(userId),
+      )}`;
       try {
-        await navigator.clipboard.writeText(
-          "https://pixelcoreesport.com/referral-link",
-        ); // Replace with real link
+        await navigator.clipboard.writeText(referralLink); // Replace with real link
       } catch (err) {
         console.error("Failed to copy:", err);
       }
@@ -466,9 +468,10 @@ export const refersData = [
     description: "Copy Code and Invite Friends",
     Icon: TicketSlash,
     ActionIcon: Copy,
-    action: async () => {
+    action: async (userId:number) => {
+
       try {
-        await navigator.clipboard.writeText("PIXELCORE123"); // Replace with real code
+        await navigator.clipboard.writeText(GetReferralCodeById(userId)); // Replace with real code
       } catch (err) {
         console.error("Failed to copy:", err);
       }
@@ -479,11 +482,17 @@ export const refersData = [
     description: "Share Link Across your Apps",
     Icon: Link2,
     ActionIcon: Share,
-    action: async () => {
+    action: async (userId:number) => {
+
+      const link = window.location.href;
+      const referralLink = `${link}?referral=${encodeURIComponent(
+        GetReferralCodeById(userId),
+      )}`;
+
       const shareData = {
         title: "PixelCore Esport",
         text: "🎮 Join PixelCore Esport – host your own tournaments, compete in epic battles, and climb the leaderboards! Let’s play and win together! 🏆🔥",
-        url: "https://pixelcoreesport.com/referral-link", // Add code or tracking if needed
+        url: referralLink,
       };
 
       if (navigator.share) {
@@ -499,110 +508,3 @@ export const refersData = [
   },
 ];
 
-export const referralData: RefersAccount[] = [
-  {
-    id: 1,
-    imageUrl: "",
-    name: "ken99",
-    email: "ken99@example.com",
-    createdAt: new Date(100000000000),
-  },
-  {
-    id: 2,
-    imageUrl: "",
-    name: "bbe45",
-    email: "Abe45@example.com",
-    createdAt: new Date(10000000000),
-  },
-  {
-    id: 3,
-    imageUrl: "",
-    name: "Monserrat44",
-    email: "Monserrat44@example.com",
-    createdAt: new Date(1000000000000),
-  },
-  {
-    id: 4,
-    imageUrl: "",
-    name: "yilas22",
-    email: "Silas22@example.com",
-    createdAt: new Date(10000000000000),
-  },
-  {
-    id: 5,
-    imageUrl: "",
-    name: "dcarmella",
-    email: "Tarmella@example.com",
-    createdAt: new Date(1000000000),
-  },
-  {
-    id: 6,
-    imageUrl: "",
-    name: "ken99",
-    email: "ken99@example.com",
-    createdAt: new Date(100000000000),
-  },
-  {
-    id: 7,
-    imageUrl: "",
-    name: "Abe45",
-    email: "Abe45@example.com",
-    createdAt: new Date(10000000000),
-  },
-  {
-    id: 8,
-    imageUrl: "",
-    name: "yonserrat44",
-    email: "Monserrat44@example.com",
-    createdAt: new Date(1000000000000),
-  },
-  {
-    id: 799,
-    imageUrl: "",
-    name: "filas22",
-    email: "Silas22@example.com",
-    createdAt: new Date(10000000000000),
-  },
-  {
-    id: 1011,
-    imageUrl: "",
-    name: "Scarmella",
-    email: "Tarmella@example.com",
-    createdAt: new Date(1000000000),
-  },
-  {
-    id: 110,
-    imageUrl: "",
-    name: "hen99",
-    email: "ken99@example.com",
-    createdAt: new Date(100000000000),
-  },
-  {
-    id: 52,
-    imageUrl: "",
-    name: "Abe45",
-    email: "Abe45@example.com",
-    createdAt: new Date(10000000000),
-  },
-  {
-    id: 23,
-    imageUrl: "",
-    name: "Monserrat44",
-    email: "Monserrat44@example.com",
-    createdAt: new Date(1000000000000),
-  },
-  {
-    id: 14,
-    imageUrl: "",
-    name: "Tilas22",
-    email: "Silas22@example.com",
-    createdAt: new Date(10000000000000),
-  },
-  {
-    id: 15,
-    imageUrl: "",
-    name: "Socarmella",
-    email: "Tarmella@example.com",
-    createdAt: new Date(1000000000),
-  },
-];

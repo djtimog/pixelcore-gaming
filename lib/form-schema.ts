@@ -51,6 +51,7 @@ export const UserFormSchema = z.object({
     .max(255, { message: "Image URL cannot exceed 255 characters" })
     .optional(),
   isSubscribed: z.boolean().default(false),
+  referredBy: z.number().optional(),
 });
 
 export const TeamFormSchema = z.object({

@@ -150,4 +150,17 @@ export const Get = {
       return [];
     }
   },
+
+  UsersByReferredBy: async (referredBy: number) => {
+    try {
+      const users = await db
+        .select()
+        .from(usersTable)
+        .where(eq(usersTable.referredBy, referredBy));
+      return users;
+    } catch (error) {
+      console.error("Error fetching users by referredBy:", error);
+      return [];
+    }
+  }
 };

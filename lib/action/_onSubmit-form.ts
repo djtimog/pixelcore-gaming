@@ -12,6 +12,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { Dispatch, SetStateAction } from "react";
 import { uploadImageWithFile } from "@/lib/action/uploadImage";
 import { uploadedProfileImageUrl } from "./image-upload";
+import { GetIdByReferralCode } from "../referralCodeGenerator";
 
 export const onSubmitForm = {
   User: async (
@@ -20,12 +21,37 @@ export const onSubmitForm = {
     setIsLoading: Dispatch<SetStateAction<boolean>>,
     selectedImageFile: File | null,
     router: AppRouterInstance,
+    referralCode: string,
   ) => {
     setIsLoading(true);
     const updatedImageUrl = await uploadedProfileImageUrl(
       user,
       selectedImageFile,
     );
+    if (referralCode !== "") {
+      try {
+        const referralId = GetIdByReferralCode(referralCode);
+        if (!referralId) {
+          toast({
+            title: "Error",
+            description: "Invalid referral code",
+            variant: "destructive",
+          });
+          setIsLoading(false);
+          return;
+        }
+        data.referredBy = referralId;
+      } catch (error) {
+        console.error("Error fetching referral code:", error);
+        toast({
+          title: "Error",
+          description: "An error occurred while validating the referral code",
+          variant: "destructive",
+        });
+        setIsLoading(false);
+        return;
+      }
+    }
 
     try {
       const userData = {
@@ -39,6 +65,7 @@ export const onSubmitForm = {
         isSubscribed: data.isSubscribed,
         isVerified: false,
         createdAt: new Date(),
+        referredBy: data.referredBy || null,
       };
 
       const existingUser = await Get.UserByEmail(userData.email);
