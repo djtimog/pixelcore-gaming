@@ -133,7 +133,7 @@ const columns: ColumnDef<RefersAccount>[] = [
               Chat
               <MessageCircle />
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem disabled>
               Send a Gift
               <Gift />
             </DropdownMenuItem>

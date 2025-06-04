@@ -9,8 +9,21 @@ import {
 } from "@/config/schema";
 import { GameType } from "@/components/ui/dashboard/card/game";
 
-
 export const Get = {
+  UserById: async (id: number) => {
+    try {
+      const user = await db
+        .select()
+        .from(usersTable)
+        .where(eq(usersTable.id, id))
+        .limit(1);
+
+      return user[0];
+    } catch (error) {
+      console.error("Error fetching user by email:", error);
+      return null;
+    }
+  },
   UserByEmail: async (email: string) => {
     try {
       const user = await db
@@ -62,7 +75,7 @@ export const Get = {
 
     const data = await res.json();
 
-    const filtered = data.results.map((game:GameType) => {
+    const filtered = data.results.map((game: GameType) => {
       return {
         id: game.id,
         name: game.name,
@@ -162,5 +175,5 @@ export const Get = {
       console.error("Error fetching users by referredBy:", error);
       return [];
     }
-  }
+  },
 };

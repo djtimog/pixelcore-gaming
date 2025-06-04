@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../../accordion";
 
 export type GameType = {
   id: number;
@@ -119,3 +121,77 @@ export const GameCard = ({ game, onClick, active }: Props) => {
     </motion.div>
   );
 };
+
+
+export function AccordionGameCard({ game }: { game: GameType }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <Card className="overflow-hidden shadow-md transition-transform hover:scale-[1.01]">
+      <div className="md:flex">
+        <div className="md:w-1/3 w-full h-48 md:h-auto relative">
+          <Image
+            src={game.background_image}
+            alt={game.name}
+            fill
+            className="object-cover"
+          />
+        </div>
+
+        <div className="md:w-2/3 p-4">
+          <CardHeader className="p-0 mb-2">
+            <CardTitle className="text-xl font-semibold">{game.name}</CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            <p className="text-sm text-muted-foreground">Released: {game.released}</p>
+            {game.esrb_rating && (
+              <p className="text-sm text-muted-foreground">ESRB: {game.esrb_rating.name}</p>
+            )}
+
+            <Accordion type="single" collapsible>
+              <AccordionItem value="details">
+                <AccordionTrigger
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="text-sm text-primary mt-4"
+                >
+                  {isOpen ? "Hide Details" : "View More Details"}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm mt-2 space-y-3">
+                  <div>
+                    <p className="font-medium text-muted-foreground">Platforms:</p>
+                    <ul className="list-disc list-inside ml-2">
+                      {game.platforms.map((p, i) => (
+                        <li key={i}>{p.platform.name}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {game.platforms.some((p) => p.requirements?.minimum) && (
+                    <div>
+                      <p className="font-medium text-muted-foreground">PC Requirements:</p>
+                      {game.platforms.map((p, i) =>
+                        p.requirements?.minimum ? (
+                          <div key={i} className="mb-2">
+                            <p className="text-xs font-semibold text-gray-600">{p.platform.name}</p>
+                            <p className="text-sm text-gray-700 whitespace-pre-line">
+                              {p.requirements.minimum}
+                            </p>
+                            {p.requirements.recommended && (
+                              <p className="text-xs mt-1 text-gray-500">
+                                <strong>Recommended:</strong> {p.requirements.recommended}
+                              </p>
+                            )}
+                          </div>
+                        ) : null
+                      )}
+                    </div>
+                  )}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </CardContent>
+        </div>
+      </div>
+    </Card>
+  );
+}

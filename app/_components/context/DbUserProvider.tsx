@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { Get } from "@/lib/action/_get";
 import LogoAnimation from "@/components/ui/loading-logo";
 
-type UserProfile = {
+export type UserProfile = {
   id: number;
   name: string;
   username: string;
@@ -24,9 +24,10 @@ type UserProfile = {
   isVerified: boolean | null;
   phoneNumber: string | null;
   discordHandle: string | null;
+  referredBy: number | null;
 };
 
-type PlayerProfile = {
+export type PlayerProfile = {
   id: number;
   gameId: number;
   uid: string;
