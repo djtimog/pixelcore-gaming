@@ -117,6 +117,8 @@ export type MatchData = {
   gameId: number;
   matchDate: string;
   matchTime: string;
+  round: string;
+  status: string;
 };
 export type ProfileFormValues = z.infer<typeof ProfileFormSchema>;
 
