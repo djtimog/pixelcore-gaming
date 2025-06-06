@@ -3,7 +3,6 @@ import OtherBlogs from "@/components/ui/other-blogs";
 import BlogSkeleton from "@/components/ui/skeleton/blog-skeleton";
 import { blogs } from "@/lib/data";
 import Image from "next/image";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 
 
@@ -31,11 +30,9 @@ export default function BlogId() {
               {activeBlog.date}
             </p>
             <div>
-              <Link href={activeBlog.link}>
                 <h2 className="mb-5 md:mb-7 text-2xl font-bold text-[#14C570]">
                   {activeBlog.title}
                 </h2>
-              </Link>
               <p className="text-md">{activeBlog.description}</p>
             </div>
           </div>

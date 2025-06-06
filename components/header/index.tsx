@@ -21,10 +21,11 @@ import LanguageButton from "../ui/language-switcher";
 
 export const navItems = [
   { label: "Home", href: "/" },
-  { label: "Dashboard", href: "/dashboard" },
-  { label: "Schedule", href: "/schedule" },
+  { label: "Blogs", href: "/blog" },
+  { label: "Schedule", href: "/dashboard/schedule" },
   { label: "About us", href: "/about" },
   { label: "Contact", href: "/contact" },
+
 ];
 
 const Header = () => {

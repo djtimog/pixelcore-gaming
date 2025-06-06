@@ -229,6 +229,9 @@ export const onSubmitForm = {
         title: "Success!",
         description: "Tournament created successfully",
       });
+
+      setIsLoading(false);
+      router.push(`/dashboard/tournaments/${uuid}`);
     } catch (error) {
       console.error("Error saving tournament:", error);
       toast({
@@ -236,9 +239,7 @@ export const onSubmitForm = {
         description: "An error occurred while saving tournament data",
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
-      router.push("/dashboard/tournaments");
+      router.refresh()
     }
   },
   StarTourament: async (

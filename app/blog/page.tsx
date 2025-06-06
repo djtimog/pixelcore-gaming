@@ -1,36 +1,41 @@
 "use client";
-import OtherBlogs from "@/components/ui/other-blogs";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { OtherBlogCard } from "@/components/ui/other-blogs";
 import { blogs } from "@/lib/data";
-import Image from "next/image";
-import Link from "next/link";
+
+import { useState } from "react";
 
 export default function page() {
+  const [search, setSearch] = useState("");
+  const [filteredBlogs, setFilteredBlogs] = useState<typeof blogs>(blogs);
+
+  const handleSearch = () => {
+    const filtered = blogs.filter((blog) =>
+      blog.title.toLowerCase().includes(search.toLowerCase()),
+    );
+    setFilteredBlogs(filtered);
+  };
+
   return (
     <main>
-      <section>
-        <div className="w-full max-h-80 overflow-hidden flex justify-center items-center">
-          <Image
-            src={blogs[0].image}
-            alt={blogs[0].title}
-            width={5000}
-            height={1000}
-            className="w-full object-cover"
+      <section className="p-10">
+        <h2 className="outlined-text mb-7 text-center text-3xl tracking-wide">
+          All Blogs
+        </h2>
+        <div className="mb-5 flex w-full gap-5 px-5">
+          <Input
+            type="text"
+            placeholder="Search tournament by name..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
+          <Button onClick={handleSearch}>Search</Button>
         </div>
-        <div className="space-y-5 px-7 py-3 sm:px-11 sm:py-5">
-          <p className="text-xs mb-3 text-muted-foreground">{blogs[0].date}</p>
-          <div>
-            <Link href={blogs[0].link}>
-              <h2 className="mb-5 md:mb-7 text-2xl font-bold text-[#14C570]">
-                {blogs[0].title}
-              </h2>
-            </Link>
-            <p className="text-md">{blogs[0].description}</p>
-          </div>
-        </div>
-        <div className="my-10 px-7 sm:px-11">
-          <h2 className="mb-7 text-lg font-bold">Other Blogs</h2>
-          <OtherBlogs activeBlogId={blogs[0].id} />
+        <div className="grid grid-cols-2 gap-10 p-5 sm:grid-cols-3 sm:p-7 md:grid-cols-4 md:p-10 lg:grid-cols-5 lg:p-12 xl:grid-cols-5">
+          {filteredBlogs.map((blog) => (
+            <OtherBlogCard key={blog.id} blog={blog} className="w-full" />
+          ))}
         </div>
       </section>
     </main>

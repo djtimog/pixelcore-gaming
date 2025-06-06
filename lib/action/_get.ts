@@ -1,9 +1,14 @@
 import { db } from "@/config/db";
 import { eq } from "drizzle-orm";
 import {
+  matchesTable,
   playersTable,
   starredTournamentsTable,
+  teamRegistrationsTable,
   teamsTable,
+  tournamentAnnouncementsTable,
+  tournamentFeedbackTable,
+  tournamentRoomsTable,
   tournamentsTable,
   usersTable,
 } from "@/config/schema";
@@ -176,4 +181,66 @@ export const Get = {
       return [];
     }
   },
+  TeamRegistrationsByTournamentId: async (tournamentId: number) => {
+    try {
+      const registrations = await db
+        .select()
+        .from(teamRegistrationsTable)
+        .where(eq(teamRegistrationsTable.tournamentId, tournamentId));
+      return registrations;
+    } catch (error) {
+      console.error("Error fetching team registrations by tournament ID:", error);
+      return [];
+    }
+  },
+  AnnouncementsByTournamentId: async (tournamentId: number) => {
+    try {
+      const announcements = await db
+        .select()
+        .from(tournamentAnnouncementsTable)
+        .where(eq(tournamentAnnouncementsTable.tournamentId, tournamentId))
+        .limit(1);
+      return announcements
+    } catch (error) {
+      console.error("Error fetching announcements by tournament ID:", error);
+      return [];
+    }
+  },
+  MatchesByTournamentId: async (tournamentId: number) => {
+    try {
+      const matches = await db
+        .select()
+        .from(matchesTable)
+        .where(eq(matchesTable.tournamentId, tournamentId));
+      return matches;
+    } catch (error) {
+      console.error("Error fetching matches by tournament ID:", error);
+      return [];
+    }
+  }, 
+  FeedbackByTournamentId: async (tournamentId: number) => {
+    try {
+      const feedback = await db
+        .select()
+        .from(tournamentFeedbackTable)
+        .where(eq(tournamentFeedbackTable.tournamentId, tournamentId));
+      return feedback;
+    } catch (error) {
+      console.error("Error fetching feedback by tournament ID:", error);
+      return [];
+    }
+  },
+  RoomByTournamentId: async (tournamentId: number) => {
+    try {
+      const room = await db
+        .select()
+        .from(tournamentRoomsTable)
+        .where(eq(tournamentRoomsTable.tournamentId, tournamentId))
+        .limit(1);
+      return room[0];
+    } catch (error) {
+      console.error("Error fetching room by tournament ID:", error);
+      return null;
+    }
+  }
 };

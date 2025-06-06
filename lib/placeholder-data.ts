@@ -109,8 +109,15 @@ export type DbTournamentDataType = {
   rules: string | null;
   time: string | null;
   timezone: string | null;
+  registrationStatus: string;
 };
 
+export type MatchData = {
+  tournamentId: number;
+  gameId: number;
+  matchDate: string;
+  matchTime: string;
+};
 export type ProfileFormValues = z.infer<typeof ProfileFormSchema>;
 
 export type PlayerFormValues = z.infer<typeof PlayerFormSchema>;
@@ -168,7 +175,7 @@ export type ReferItemProps = {
   description: string;
   Icon: LucideIcon;
   ActionIcon: LucideIcon;
-  action: (userId:number) => Promise<void>;
+  action: (userId: number) => Promise<void>;
 };
 
 export type RefersAccount = {

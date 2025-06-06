@@ -1,5 +1,12 @@
 import { db } from "@/config/db";
-import { playersTable, starredTournamentsTable, teamsTable, tournamentsTable, usersTable } from "@/config/schema";
+import {
+  matchesTable,
+  playersTable,
+  starredTournamentsTable,
+  teamsTable,
+  tournamentsTable,
+  usersTable,
+} from "@/config/schema";
 import { eq } from "drizzle-orm";
 import {
   PlayerData,
@@ -7,6 +14,7 @@ import {
   UpdateUserData,
   UserData,
   TournamentData,
+  MatchData,
 } from "../placeholder-data";
 
 export const Post = {
@@ -27,7 +35,10 @@ export const Post = {
       tournamentId,
       playerId,
     });
-  }
+  },
+  MatchData: (matchData: MatchData) => {
+    return db.insert(matchesTable).values(matchData);
+  },
 };
 
 export const Update = {
@@ -38,7 +49,16 @@ export const Update = {
       .where(eq(usersTable.id, userId));
   },
   TeamData: (teamId: number, teamData: UpdateTeamData) => {
-    return db.update(teamsTable).set(teamData).where(eq(teamsTable, teamId));
+    return db.update(teamsTable).set(teamData).where(eq(teamsTable.id, teamId));
+  },
+  TournamentRegistrationStatus: (
+    tournamnetId: number,
+    tournamentData: { registrationStatus: string },
+  ) => {
+    return db
+      .update(tournamentsTable)
+      .set(tournamentData)
+      .where(eq(tournamentsTable.id, tournamnetId));
   },
 };
 
@@ -49,8 +69,6 @@ export const Delete = {
   StarTournament: (starTournamentId: number) => {
     return db
       .delete(starredTournamentsTable)
-      .where(
-        eq(starredTournamentsTable.id, starTournamentId),
-      );
-  }
+      .where(eq(starredTournamentsTable.id, starTournamentId));
+  },
 };

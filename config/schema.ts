@@ -92,9 +92,9 @@ export const tournamentsTable = pgTable("tournaments", {
   rules: text("rules"), // Tournament rules
   status: varchar("status", { length: 50 }).default("upcoming"), // e.g., "upcoming", "ongoing", "completed"
   time: varchar("time", { length: 50 }).default("00:00"), // Time of the tournament
-  registrationStatus: varchar("registration_status", { length: 50 }).default(
-    "open",
-  ), // e.g., "open", "closed"
+  registrationStatus: varchar("registration_status", { length: 50 })
+    .default("upcoming")
+    .notNull(), // e.g., "open", "closed"
   timezone: varchar("timezone", { length: 50 }).default("UTC"), // Timezone for the tournament
 });
 
@@ -104,9 +104,7 @@ export const matchesTable = pgTable("matches", {
   tournamentId: integer("tournament_id")
     .notNull()
     .references(() => tournamentsTable.id), // Foreign key to tournaments table
-  gameId: integer("game_id")
-    .notNull()
-    .references(() => gamesTable.id), // Foreign key to games table
+  gameId: integer("game_id").notNull(),
   matchDate: date("match_date").notNull(), // Date of the match
   matchTime: time("match_time").notNull(), // Time of the match
   round: varchar("round", { length: 50 }).notNull(), // e.g., "group stage", "quarter-finals", "semi-finals", "finals"
@@ -137,7 +135,6 @@ export const adminsTable = pgTable("admins", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-// Helper function to generate a secret code for teams
 function generateSecretCode(): string {
   return Math.random().toString(36).slice(2, 9).toUpperCase(); // 7-character alphanumeric code
 }

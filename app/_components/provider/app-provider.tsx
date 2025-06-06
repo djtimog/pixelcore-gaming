@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 export default function Provider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [showHeader, setShowHeader] = useState<boolean>();
-const validPaths = useMemo(() => ["/", "/about", "/team", "/contact"], []);
+const validPaths = useMemo(() => ["/", "/about", "/team", "/contact", '/blog'], []);
 
   useEffect(() => {
     const checkPath = () => {

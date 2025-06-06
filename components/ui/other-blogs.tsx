@@ -2,18 +2,25 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { blogs } from "@/lib/data";
+import clsx from "clsx";
 
-const OtherBlogCard = ({ blog }: { blog: (typeof blogs)[0] }) => {
+export const OtherBlogCard = ({
+  blog,
+  className,
+}: {
+  blog: (typeof blogs)[0];
+  className?: string;
+}) => {
   return (
-    <Link href={blog.link}>
-      <div className="w-min space-y-2 cursor-pointer">
-        <div className="w-40 h-52 flex items-center justify-center overflow-hidden">
+    <Link href={`/blog/${blog.id}`}>
+      <div className={clsx("w-40 cursor-pointer space-y-2", className)}>
+        <div className="flex h-52 items-center justify-center overflow-hidden">
           <Image
             src={blog.image}
             alt={blog.title}
             width={300}
             height={300}
-            className="object-contain w-full"
+            className="h-full w-full object-cover"
           />
         </div>
         <p className="text-[#B6B6B6]">{blog.title}</p>
@@ -22,18 +29,14 @@ const OtherBlogCard = ({ blog }: { blog: (typeof blogs)[0] }) => {
   );
 };
 
-const OtherBlogs = (
-  {activeBlogId}:{activeBlogId:string}
-) => {
+const OtherBlogs = ({ activeBlogId }: { activeBlogId: string }) => {
   return (
-    <div className="flex space-x-5 sm:space-x-7 md:space-x-10 overflow-x-auto">
-      {blogs.map((blog)=>(
-        blog.id !== activeBlogId
-          ?
+    <div className="flex space-x-5 overflow-x-auto sm:space-x-7 md:space-x-10">
+      {blogs.map((blog) =>
+        blog.id !== activeBlogId ? (
           <OtherBlogCard key={blog.id} blog={blog} />
-          :null
-      ))
-      }
+        ) : null,
+      )}
     </div>
   );
 };

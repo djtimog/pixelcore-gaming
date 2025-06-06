@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LucideIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
+
 import {
   CalendarDays,
   Clock,
@@ -12,10 +12,19 @@ import {
   Users,
   Pencil,
   Trophy,
+  Info as InfoIcon,
+  Megaphone,
+  Star,
+  MessageSquare,
+  LoaderCircle,
+  LucideIcon,
+  Move3dIcon,
 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { toast } from "@/hooks/use-toast";
 import { Get } from "@/lib/action/_get";
 import {
@@ -23,11 +32,54 @@ import {
   UserProfile,
 } from "@/app/_components/context/DbUserProvider";
 import { DbTournamentDataType } from "@/lib/placeholder-data";
-import Link from "next/link";
 import { HostCard } from "@/components/ui/dashboard/card/host";
-import { AccordionGameCard, GameType } from "@/components/ui/dashboard/card/game";
+import {
+  AccordionGameCard,
+  GameType,
+} from "@/components/ui/dashboard/card/game";
+import { Post, Update } from "@/lib/action/_post";
+import LogoAnimation from "@/components/ui/loading-logo";
+import { onSubmitForm } from "@/lib/action/_onSubmit-form";
 
-function TournamentDetailsPage() {
+type RegistrationEntry = {
+  id: number;
+  teamId: number;
+  tournamentId: number;
+  isAccepted: boolean | null;
+  registeredAt: Date | null;
+};
+
+type Announcement = {
+  id: number;
+  tournamentId: number;
+  title: string;
+  content: string;
+  postedAt: Date | null;
+};
+
+type MatchWithTeams = {
+  id: number;
+  createdAt: Date | null;
+  gameId: number;
+  status: string | null;
+  tournamentId: number;
+  round: string;
+  matchDate: string;
+  matchTime: string;
+  winnerTeamId: number | null;
+};
+
+type FeedbackEntry = {
+  id: number;
+  tournamentId: number;
+  playerId: number;
+  rating: number;
+  comments: string | null;
+  submittedAt: Date | null;
+};
+type RoomInfo = { roomLink: string };
+
+export default function TournamentDetailsPage() {
   const { uid } = useParams();
   const router = useRouter();
   const { player } = useDbUser();
@@ -35,15 +87,28 @@ function TournamentDetailsPage() {
   const [tournament, setTournament] = useState<DbTournamentDataType | null>(
     null,
   );
-  const [host, setHost] = useState<UserProfile>({} as UserProfile);
-  const [game, setGame] = useState<GameType>({} as GameType);
+  const [host, setHost] = useState<UserProfile | null>(null);
+  const [game, setGame] = useState<GameType | null>(null);
+
+  const [registrations, setRegistrations] = useState<RegistrationEntry[]>([]);
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+  const [matches, setMatches] = useState<MatchWithTeams[]>([]);
+  const [feedback, setFeedback] = useState<FeedbackEntry[]>([]);
+  const [room, setRoom] = useState<RoomInfo | null>(null);
+
+  const [isStarred, setIsStarred] = useState(false);
+  const [loadingStarred, setLoadingStarred] = useState(true);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!uid) return;
-    const fetchTournament = async () => {
+
+    const fetchAll = async () => {
       try {
-        const data = await Get.TournamentByUid(uid as string);
+        const data: DbTournamentDataType | null = await Get.TournamentByUid(
+          uid as string,
+        );
         if (!data) {
           toast({
             title: "Tournament Not Found",
@@ -53,107 +118,241 @@ function TournamentDetailsPage() {
           return;
         }
 
-          try {
-            const HostData = await Get.UserById(data.organizerId);
-            if (!HostData) {
-              throw new Error("Organizer not found");
-              toast({
-                title: "Organizer Not Found",
-              });
-            }
-            setHost(HostData);
-          } catch (error) {
-            toast({
-              title: "Error Fetching Organizer Data",
-            });
-            console.error("Error fetching tournament data:", error);
-          }
-        
-        const gameData = await Get.Games();
-        const foundGame = gameData.find((g) => g.id === data.gameId);
+        const hostData = await Get.UserById(data.organizerId);
+        if (!hostData) {
+          toast({
+            title: "Organizer Not Found",
+            description: "Could not fetch organizer data.",
+          });
+          router.push("/dashboard/tournaments");
+          return;
+        }
+
+        // 3. Game info
+        const allGames = await Get.Games();
+        const foundGame = allGames.find((g) => g.id === data.gameId);
         if (!foundGame) {
           toast({
             title: "Game Not Found",
-            description: "The game associated with this tournament does not exist.",
+            description:
+              "The game associated with this tournament does not exist.",
             variant: "destructive",
           });
           router.push("/dashboard/tournaments");
           return;
         }
 
-        setGame(foundGame);
+        // 4. Team registrations
+        const regs = await Get.TeamRegistrationsByTournamentId(data.id);
+        // 5. Announcements
+        const ann = await Get.AnnouncementsByTournamentId(data.id);
+        // 6. Matches + teams
+        const ms = await Get.MatchesByTournamentId(data.id);
+        // 7. Feedback
+        const fb = await Get.FeedbackByTournamentId(data.id);
+        // 8. Room link
+        const rm = await Get.RoomByTournamentId(data.id);
+
         setTournament(data);
-      } catch (error) {
-        console.error("Failed to fetch tournament:", error);
+        setHost(hostData);
+        setGame(foundGame);
+        setRegistrations(regs);
+        setAnnouncements(ann);
+        setMatches(ms);
+        setFeedback(fb);
+        setRoom(rm);
+      } catch (err) {
+        console.error("Error fetching tournament details:", err);
+        toast({
+          title: "Error",
+          description: "Something went wrong while loading tournament data.",
+          variant: "destructive",
+        });
+        router.push("/dashboard/tournaments");
       } finally {
         setLoading(false);
       }
     };
-    fetchTournament();
+
+    fetchAll();
   }, [uid, router]);
 
-  if (loading)
+  useEffect(() => {
+    const fetchStarredStatus = async () => {
+      try {
+        const starredTournaments = await Get.StarredTournamentByPlayerId(
+          player.id,
+        );
+        const isThisStarred = starredTournaments.some(
+          (tournament) => tournament.tournamentId === tournament.id,
+        );
+        setIsStarred(isThisStarred);
+      } catch (error) {
+        console.error("Error fetching starred tournaments:", error);
+      } finally {
+        setLoadingStarred(false);
+      }
+    };
+
+    fetchStarredStatus();
+  }, [tournament, player.id]);
+
+  if (loading) {
     return (
-      <div className="mt-10 text-center">Loading tournament details...</div>
+      <div className="flex h-screen items-center justify-center">
+        <LogoAnimation />
+      </div>
     );
-  if (!tournament) return null;
+  }
+  if (!tournament) return null; // safety
 
   const isOrganizer = tournament.organizerId === player.id;
-
   const now = new Date();
   const regEnd = new Date(tournament.registrationEndDate);
-  const closingSoon =
-    regEnd.getTime() - now.getTime() < 3 * 24 * 60 * 60 * 1000;
-  const registrationOpened = new Date(tournament.registrationStartDate) <= now;
+  const regStart = new Date(tournament.registrationStartDate);
+
+  // 1. Registration logic: close if date passed OR maxTeams reached
+  const registrationClosedByDate = now > regEnd;
+  if (registrationClosedByDate && tournament.registrationStatus === "open") {
+    try {
+      const updateTournament = async () => {
+        await Update.TournamentRegistrationStatus(tournament.id, {
+          registrationStatus: "closed",
+        });
+      };
+
+      updateTournament();
+    } catch (error) {
+      console.error("Error fetching tournament details:", error);
+
+      toast({
+        title: "Tournament Update failed",
+        description: "Try Again Later",
+      });
+      router.push("/dashboard/tournaments");
+    }
+  }
+  const acceptedCount = registrations.filter((r) => r.isAccepted).length;
+  const registrationClosedByCapacity = acceptedCount >= tournament.maxTeams;
+  const registrationOpen =
+    now >= regStart &&
+    !registrationClosedByDate &&
+    !registrationClosedByCapacity;
+
+  if (registrationOpen && tournament.registrationStatus === "upcoming") {
+    try {
+      const updateTournament = async () => {
+        await Update.TournamentRegistrationStatus(tournament.id, {
+          registrationStatus: "open",
+        });
+      };
+
+      updateTournament();
+    } catch (error) {
+      console.error("Error fetching tournament details:", error);
+
+      toast({
+        title: "Tournament Update failed",
+        description: "Try Again Later",
+      });
+      router.push("/dashboard/tournaments");
+    }
+  }
+
+  // 2. Compute progress % for a little progress bar
+  const progressPct = Math.min(
+    (acceptedCount / tournament.maxTeams) * 100,
+    100,
+  );
+
+  // 3. Average feedback rating
+  const avgRating =
+    feedback.length > 0
+      ? +(
+          feedback.reduce((sum, f) => sum + f.rating, 0) / feedback.length
+        ).toFixed(1)
+      : null;
 
   return (
     <motion.div
-      className="container mx-auto py-10"
+      className="container mx-auto px-4 py-10 md:px-0"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <Card className="overflow-hidden rounded-2xl border-none shadow-lg">
-        <div className="relative">
-          <div className="m-4 overflow-hidden rounded-lg bg-gray-300">
-            <Image
-              src={"/fallback-tournament.jpg"}
-              alt={tournament.name}
-              width={1200}
-              height={600}
-              className="h-64 w-full object-cover"
-            />
+      {/* ─── MAIN CARD ─────────────────────────────────────────────────────────── */}
+      <Card className="overflow-hidden rounded-2xl shadow-lg">
+        <div className="relative m-4 overflow-hidden rounded-lg bg-gray-300">
+          <Image
+            src={tournament.imageUrl || "/fallback-tournament.jpg"}
+            alt={tournament.name}
+            width={1200}
+            height={600}
+            className="h-64 w-full object-cover"
+          />
+
+          <div className="absolute right-0 top-0 m-1 mr-2 cursor-pointer text-sm">
+            {loadingStarred ? (
+              <LoaderCircle className="animate-spin text-muted" />
+            ) : (
+              <span
+                className={`text-3xl ${isStarred ? "text-primary" : "text-gray-400"}`}
+                onClick={() =>
+                  onSubmitForm.StarTourament(
+                    isStarred,
+                    setIsStarred,
+                    tournament.id,
+                    player.id,
+                  )
+                }
+              >
+                {isStarred ? "★" : "☆"}
+              </span>
+            )}
           </div>
+
           <div className="absolute left-4 top-4 flex gap-2">
-            <Badge variant="secondary" className="text-xs">
-              {tournament.status}
-            </Badge>
-            {closingSoon && (
+            <Badge className="bg-primary text-xs">{tournament.status}</Badge>
+            {now > regEnd && (
               <Badge variant="destructive" className="animate-pulse text-xs">
-                Closing Soon
+                Registration Closed
+              </Badge>
+            )}
+            {!registrationClosedByDate && registrationClosedByCapacity && (
+              <Badge variant="destructive" className="animate-pulse text-xs">
+                Full (Max Teams Reached)
               </Badge>
             )}
           </div>
         </div>
 
         <CardHeader>
-          <CardTitle className="text-3xl font-bold text-primary">
-            {tournament.name}
+          <CardTitle className="mb-2 text-3xl font-bold text-primary">
+            {tournament.name.toUpperCase()}
           </CardTitle>
-          <p className="mt-2 text-muted-foreground">
+          <p className="mb-7 text-muted-foreground">
             {tournament.description || "No description provided."}
           </p>
 
-          <div className="mt-5">
-            <HostCard host={host} />
-          </div>
+          {/* ─── HOST CARD ─────────────────────────────────────────────────────── */}
+          {host && (
+            <div className="py-4">
+              <HostCard host={host} />
+            </div>
+          )}
         </CardHeader>
 
-        <CardContent>
-          <div className="mb-6 flex gap-3 flex-col">
-            <div className="font-bold flex gap-2"><Gamepad2 /> <span>Game Registered:</span></div>
-            <AccordionGameCard game={game} />
+        <CardContent className="space-y-8">
+          {/* ─── GAME ACCORDION ─────────────────────────────────────────────── */}
+          <div className="my-5">
+            <div className="flex items-center gap-2 text-lg font-semibold">
+              <Gamepad2 size={20} /> <span>Game Registered:</span>
+            </div>
+            {game && <AccordionGameCard game={game} />}
           </div>
-          <div className="grid grid-cols-1 gap-8 text-sm lg:grid-cols-2">
+
+          {/* ─── QUICK STATS GRID ─────────────────────────────────────────────── */}
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            {/* Prize / Dates */}
             <div className="space-y-3">
               <InfoItem
                 Icon={Trophy}
@@ -163,12 +362,12 @@ function TournamentDetailsPage() {
               <InfoItem
                 Icon={CalendarDays}
                 label="Start Date"
-                value={tournament.startDate}
+                value={new Date(tournament.startDate).toLocaleDateString()}
               />
               <InfoItem
                 Icon={CalendarDays}
                 label="End Date"
-                value={tournament.endDate}
+                value={new Date(tournament.endDate).toLocaleDateString()}
               />
               <InfoItem
                 Icon={Clock}
@@ -176,46 +375,225 @@ function TournamentDetailsPage() {
                 value={`${tournament.time} ${tournament.timezone}`}
               />
             </div>
-  
+
+            {/* Registration & Capacity */}
             <div className="space-y-3">
               <InfoItem
                 Icon={CalendarDays}
-                label="Registration"
-                value={`${tournament.registrationStartDate} → ${tournament.registrationEndDate}`}
+                label="Registration Window"
+                value={`${new Date(
+                  tournament.registrationStartDate,
+                ).toLocaleDateString()} → ${new Date(
+                  tournament.registrationEndDate,
+                ).toLocaleDateString()}`}
               />
-              <InfoItem
-                Icon={Users}
-                label="Max Teams"
-                value={tournament.maxTeams}
-              />
+
+              <div className="flex items-center gap-2">
+                <Users size={16} className="text-muted-foreground" />
+                <div>
+                  <p className="text-xs text-muted-foreground">
+                    Teams Registered
+                  </p>
+                  <p className="font-medium">
+                    {acceptedCount} / {tournament.maxTeams}
+                  </p>
+                  <Progress
+                    value={progressPct}
+                    className="h-2 w-full rounded-full"
+                  />
+                </div>
+              </div>
+
               <InfoItem
                 Icon={Users}
                 label="Players per Team"
                 value={tournament.maxPlayersPerTeam}
               />
             </div>
-  
-            <div className="col-span-1 lg:col-span-2">
-              <h4 className="mb-2 text-lg font-semibold">Tournament Rules</h4>
-              <motion.ul
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="list-inside list-disc space-y-1 text-muted-foreground"
-              >
-                {tournament.rules
-                  ?.split(",")
-                  .map((rule, index) => <li key={index}>{rule.trim()}</li>) || (
-                  <li>No rules specified.</li>
-                )}
-              </motion.ul>
+
+            {/* Feedback Summary */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Star size={16} className="text-muted-foreground" />
+                <div>
+                  <p className="text-xs text-muted-foreground">
+                    Average Rating
+                  </p>
+                  <p className="font-medium">
+                    {avgRating !== null ? `${avgRating} / 5` : "No Ratings"}
+                  </p>
+                </div>
+              </div>
+              <Button>Give a Feedback</Button>
+
+              {feedback.length > 0 && (
+                <div>
+                  <p className="text-xs text-muted-foreground">
+                    Latest Feedback
+                  </p>
+                  <blockquote className="mt-1 text-sm italic text-gray-600">
+                    “{feedback[0].comments}” —{" "}
+                    <span className="font-medium">{feedback[0].playerId}</span>
+                    {/* //update */}
+                  </blockquote>
+                </div>
+              )}
             </div>
           </div>
+
+          {/* ─── RULES ────────────────────────────────────────────────────────── */}
+          <div>
+            <h4 className="mb-2 text-lg font-semibold">Tournament Rules</h4>
+            <motion.ul
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="list-inside list-disc space-y-1 text-muted-foreground"
+            >
+              <ul>
+                {tournament.rules
+                  ?.split(",")
+                  .map((rule, i) => <li key={i}>{rule.trim()}</li>) || (
+                  <li>No rules specified.</li>
+                )}
+              </ul>
+            </motion.ul>
+          </div>
+
+          {/* ─── ANNOUNCEMENTS ───────────────────────────────────────────────── */}
+          <div>
+            <div className="mb-2 flex items-center justify-between">
+              <h4 className="flex items-center gap-2 text-lg font-semibold">
+                <Megaphone size={18} /> Announcements
+              </h4>
+              {isOrganizer && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() =>
+                    router.push(
+                      `/dashboard/tournaments/${uid}/announcements/new`,
+                    )
+                  }
+                >
+                  Post Announcement
+                </Button>
+              )}
+            </div>
+            {announcements.length > 0 ? (
+              <ul className="space-y-3">
+                {announcements
+                  .sort(
+                    (a, b) =>
+                      new Date(b.postedAt || "").getTime() -
+                      new Date(a.postedAt || "").getTime(),
+                  )
+                  .map((ann) => (
+                    <li
+                      key={ann.id}
+                      className="rounded-lg border bg-gray-50 p-3"
+                    >
+                      <div className="flex items-center justify-between">
+                        <h5 className="font-medium">{ann.title}</h5>
+                        <span className="text-xs text-muted-foreground">
+                          {new Date(ann.postedAt || "").toLocaleDateString()}
+                        </span>
+                      </div>
+                      <p className="mt-1 text-sm text-gray-600">
+                        {ann.content}
+                      </p>
+                    </li>
+                  ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                No announcements yet.
+              </p>
+            )}
+          </div>
+
+          {/* ─── UPCOMING MATCHES ─────────────────────────────────────────────── */}
+          <div>
+            <div className="mb-2 flex items-center justify-between">
+              <h4 className="flex items-center gap-2 text-lg font-semibold">
+                <Move3dIcon size={18} /> Upcoming Matches
+              </h4>
+              {isOrganizer && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() =>
+                    router.push(`/dashboard/tournaments/${uid}/matches/new`)
+                  }
+                >
+                  Schedule Match
+                </Button>
+              )}
+            </div>
+            {matches.length > 0 ? (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="border-b">
+                    <tr>
+                      <th className="py-2">Date</th>
+                      <th>Time</th>
+                      <th>Round</th>
+                      <th>Teams</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {matches
+                      .filter((m) => new Date(m.matchDate) >= now)
+                      .sort(
+                        (a, b) =>
+                          new Date(a.matchDate).getTime() -
+                          new Date(b.matchDate).getTime(),
+                      )
+                      .map((m) => (
+                        <tr key={m.id} className="border-b hover:bg-gray-50">
+                          <td className="py-2">
+                            {new Date(m.matchDate).toLocaleDateString()}
+                          </td>
+                          <td>{m.matchTime.slice(0, 5)}</td>
+                          {/* <td>{m.round}</td> */}
+                          {/* <td>
+                            {m.teams.map((t) => t.teamName).join(" vs. ")}
+                          </td> */}
+                          <td>{m.status}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                No upcoming matches scheduled.
+              </p>
+            )}
+          </div>
+
+          {/* ─── ROOM LINK (IF ANY) ─────────────────────────────────────────────── */}
+          {room && (
+            <div>
+              <h4 className="mb-2 flex items-center gap-2 text-lg font-semibold">
+                <MessageSquare size={18} /> Tournament Room
+              </h4>
+              <a
+                href={room.roomLink}
+                target="_blank"
+                rel="noreferrer"
+                className="text-sm text-blue-600 underline hover:text-blue-800"
+              >
+                Join Room
+              </a>
+            </div>
+          )}
         </CardContent>
       </Card>
 
-      {/* CTA */}
+      {/* ─── CALL TO ACTION AREA ─────────────────────────────────────────────── */}
       <motion.div
-        className="mt-6 flex justify-end"
+        className="mt-6 flex flex-col gap-3 md:flex-row md:justify-end"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
       >
@@ -223,21 +601,33 @@ function TournamentDetailsPage() {
           <Button
             variant="default"
             onClick={() => router.push(`/dashboard/tournaments/${uid}/edit`)}
+            className="w-full md:w-auto"
           >
             <Pencil className="mr-2 h-4 w-4" />
             Edit Tournament
           </Button>
         )}
-        {registrationOpened && (
-          <Link href="/dashboard/tournaments/${uid}/apply">
-            <Button className="w-full md:w-auto">Apply Now</Button>
-          </Link>
+
+        {registrationOpen ? (
+          <Button
+            className="w-full md:w-auto"
+            onClick={() => router.push(`/dashboard/tournaments/${uid}/apply`)}
+          >
+            Apply Now
+          </Button>
+        ) : (
+          <Button variant="outline" disabled className="w-full md:w-auto">
+            {registrationClosedByDate
+              ? "Registration Closed"
+              : registrationClosedByCapacity
+                ? "Full (No Spots Left)"
+                : "Registration Not Yet Open"}
+          </Button>
         )}
       </motion.div>
     </motion.div>
   );
 }
-
 
 export function InfoItem({
   Icon,
@@ -258,5 +648,3 @@ export function InfoItem({
     </div>
   );
 }
-
-export default TournamentDetailsPage;

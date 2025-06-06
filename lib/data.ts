@@ -138,7 +138,6 @@ export const blogs = [
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
     image: "/blog/active-blog.svg",
-    link: "/blog",
   },
   {
     id: "12345-543-25612",
@@ -147,7 +146,6 @@ export const blogs = [
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
     image: "/blog/other-blog-1.png",
-    link: "/blog/12345-543-25612",
   },
   {
     id: "12345-543-25154",
@@ -156,7 +154,6 @@ export const blogs = [
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
     image: "/blog/other-blog-2.png",
-    link: "/blog/12345-543-25154",
   },
   {
     id: "12345-503-22354",
@@ -165,7 +162,6 @@ export const blogs = [
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
     image: "/blog/other-blog-3.png",
-    link: "/blog/12345-543-22354",
   },
   {
     id: "12345-513-25612",
@@ -174,7 +170,6 @@ export const blogs = [
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
     image: "/blog/other-blog-1.png",
-    link: "/blog/12345-543-25612",
   },
   {
     id: "12345-533-25154",
@@ -183,7 +178,6 @@ export const blogs = [
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
     image: "/blog/other-blog-2.png",
-    link: "/blog/12345-543-25154",
   },
   {
     id: "12345-523-22354",
@@ -192,7 +186,6 @@ export const blogs = [
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. re et dolore magna aliqua. re et dolore magna aliqua. ",
     image: "/blog/other-blog-3.png",
-    link: "/blog/12345-543-22354",
   },
 ];
 
@@ -451,7 +444,7 @@ export const refersData = [
     description: "Copy Link and Invite Friends",
     Icon: LinkIcon,
     ActionIcon: Copy,
-    action: async (userId:number) => {
+    action: async (userId: number) => {
       const link = window.location.href;
       const referralLink = `${link}?referral=${encodeURIComponent(
         GetReferralCodeById(userId),
@@ -468,8 +461,7 @@ export const refersData = [
     description: "Copy Code and Invite Friends",
     Icon: TicketSlash,
     ActionIcon: Copy,
-    action: async (userId:number) => {
-
+    action: async (userId: number) => {
       try {
         await navigator.clipboard.writeText(GetReferralCodeById(userId)); // Replace with real code
       } catch (err) {
@@ -482,8 +474,7 @@ export const refersData = [
     description: "Share Link Across your Apps",
     Icon: Link2,
     ActionIcon: Share,
-    action: async (userId:number) => {
-
+    action: async (userId: number) => {
       const link = window.location.href;
       const referralLink = `${link}?referral=${encodeURIComponent(
         GetReferralCodeById(userId),
@@ -507,4 +498,3 @@ export const refersData = [
     },
   },
 ];
-
