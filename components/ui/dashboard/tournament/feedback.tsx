@@ -3,7 +3,14 @@
 import { useEffect, useState } from "react";
 import { Get } from "@/lib/action/_get";
 import { FeedbackEntry } from "@/lib/placeholder-data";
-import { ArrowRight, Star } from "lucide-react";
+import {
+  ArrowRight,
+  RefreshCcw,
+  RefreshCw,
+  RotateCcw,
+  RotateCw,
+  Star,
+} from "lucide-react";
 import { Button } from "../../button";
 import { Skeleton } from "../../skeleton";
 import { DbTournamentDataType } from "@/lib/placeholder-data";
@@ -12,6 +19,7 @@ import { FeedBackForm } from "@/app/_components/form/feedback-form";
 import { Rating } from "@mui/material";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -26,31 +34,31 @@ export default function FeedbackSummary({
   tournamentData: DbTournamentDataType;
 }) {
   const [feedback, setFeedback] = useState<FeedbackEntry[] | null>(null);
+  const [avgRating, setAvgRating] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const fetchFeedback = async () => {
+    setLoading(true);
+    try {
+      const data = await Get.FeedbackByTournamentId(tournamentData.id);
+
+      if (data && data.length > 0) {
+        const avgRating = parseFloat(
+          (data.reduce((sum, f) => sum + f.rating, 0) / data.length).toFixed(1),
+        );
+        setAvgRating(avgRating);
+
+        setFeedback([...data].reverse());
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error fetching feedback:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchFeedback = async () => {
-      const data = await Get.FeedbackByTournamentId(tournamentData.id);
-      setFeedback(data);
-    };
-
     fetchFeedback();
   }, [tournamentData.id]);
-
-  const avgRating =
-    feedback && feedback.length > 0
-      ? +(
-          feedback.reduce((sum, f) => sum + f.rating, 0) / feedback.length
-        ).toFixed(1)
-      : null;
-
-  const filterFeedback = feedback
-    ?.reverse()
-    ?.filter((f) => (f.rating >= 1 && f.rating <= 5) || true)
-    .slice(0, 1)
-    .map((f) => ({
-      ...f,
-      rating: f.rating < 1 || f.rating > 5 ? 5 : f.rating,
-    }));
 
   return (
     <div>
@@ -88,15 +96,26 @@ export default function FeedbackSummary({
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <p className="text-sm text-muted-foreground">Latest Feedback</p>
-              <AllFeedback
-                tournamentDataId={tournamentData.id}
-                feedback={feedback}
-              />
+              <div className="flex items-center gap-1">
+                <Button
+                  size={"icon"}
+                  variant={"ghost"}
+                  className={`${loading ? "rotate-360 duration-1500 repeat-infinite" : ""}`}
+                  onClick={fetchFeedback}
+                >
+                  <RefreshCw />
+                </Button>
+                {feedback.length > 1 && (
+                  <AllFeedback
+                    tournamentDataId={tournamentData.id}
+                    feedback={feedback}
+                    loading={loading}
+                    refreshFeedback={fetchFeedback}
+                  />
+                )}
+              </div>
             </div>
-            {feedback.length > 1 &&
-              filterFeedback?.map((feedbackEntry) => (
-                <FeedbackCard key={feedbackEntry.id} feedback={feedbackEntry} />
-              ))}
+            {feedback.length > 0 && <FeedbackCard feedback={feedback[0]} />}
           </div>
         ) : (
           <p className="text-sm italic text-muted-foreground">
@@ -112,9 +131,13 @@ export default function FeedbackSummary({
 export function AllFeedback({
   feedback,
   tournamentDataId,
+  loading,
+  refreshFeedback,
 }: {
   feedback: FeedbackEntry[];
   tournamentDataId: number;
+  loading: boolean;
+  refreshFeedback: () => Promise<void>;
 }) {
   return (
     <Dialog>
@@ -124,12 +147,21 @@ export function AllFeedback({
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
+        <Button
+          size={"icon"}
+          variant={"ghost"}
+          className={`absolute right-10 top-1 ${loading ? "rotate-360 duration-1500 repeat-infinite" : ""}`}
+          onClick={refreshFeedback}
+        >
+          <RefreshCw />
+        </Button>
         <DialogHeader>
           <DialogTitle>All Feedbacks</DialogTitle>
           <DialogDescription>
             Here you can view all feedback submitted for this tournament.
           </DialogDescription>
         </DialogHeader>
+        <FeedBackForm tournamentId={tournamentDataId} />
         <ScrollArea className="flex h-[400px] w-full flex-col gap-3">
           <div className="flex flex-col gap-3 px-2">
             {feedback?.map((feedbackEntry) => (
@@ -137,7 +169,6 @@ export function AllFeedback({
             ))}
           </div>
         </ScrollArea>
-        <FeedBackForm tournamentId={tournamentDataId} />
       </DialogContent>
     </Dialog>
   );

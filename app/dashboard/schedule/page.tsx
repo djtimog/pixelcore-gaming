@@ -6,23 +6,37 @@ import {
   ScheduleStepProvider,
 } from "@/app/_components/context/schedule";
 import { HostMatchForm } from "@/app/_components/form/host-match-form";
+import {
+  useDbUser,
+  UserProfile,
+} from "@/app/_components/context/DbUserProvider";
+import { useEffect, useState } from "react";
+import { Get } from "@/lib/action/_get";
 
 export default function Schedule() {
-  const referrals = 11;
-  const isVerified = true;
+  const { user } = useDbUser();
+  const [referrals, setReferrals] = useState<UserProfile[]>([]);
+  useEffect(() => {
+    const fetchReferrals = async () => {
+      const referralsByUserId = await Get.UsersByReferredBy(user.id);
+      setReferrals(referralsByUserId);
+    };
+  }, []);
+
+  const isVerified = user.isVerified;
   const hasNoBans = true;
-  const profileCompleted = true;
+  const profileCompleted = !!user.phoneNumber;
 
   const requirements = [
     {
       text: "You must have at least 10 referrals",
-      met: referrals >= 10,
-      fixLink: "/refers",
+      met: referrals.length >= 10,
+      fixLink: "/dashboard/refers",
     },
     {
       text: "Your account must be verified",
-      met: isVerified,
-      fixLink: "/verify-account",
+      met: isVerified ?? false,
+      fixLink: "/user-sign-up",
     },
     {
       text: "No active bans on your account",
@@ -31,7 +45,7 @@ export default function Schedule() {
     {
       text: "Complete your profile",
       met: profileCompleted,
-      fixLink: "/complete-profile",
+      fixLink: "/profile",
     },
   ];
 

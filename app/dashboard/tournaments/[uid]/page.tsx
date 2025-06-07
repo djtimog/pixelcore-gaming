@@ -48,16 +48,13 @@ import LogoAnimation from "@/components/ui/loading-logo";
 import { onSubmitForm } from "@/lib/action/_onSubmit-form";
 import Link from "next/link";
 import FeedbackSummary from "@/components/ui/dashboard/tournament/feedback";
+import { useUidData } from "@/app/_components/context/UidTournamentProvider";
 
 export default function TournamentDetailsPage() {
   const { uid } = useParams();
   const router = useRouter();
   const { player, user } = useDbUser();
-
-  const [tournament, setTournament] = useState<DbTournamentDataType | null>(
-    null,
-  );
-  const [host, setHost] = useState<UserProfile | null>(null);
+  const { tournament, host } = useUidData();
   const [game, setGame] = useState<GameType | null>(null);
 
   const [registrations, setRegistrations] = useState<RegistrationEntry[]>([]);
@@ -75,31 +72,8 @@ export default function TournamentDetailsPage() {
 
     const fetchAll = async () => {
       try {
-        const data: DbTournamentDataType | null = await Get.TournamentByUid(
-          uid as string,
-        );
-        if (!data) {
-          toast({
-            title: "Tournament Not Found",
-            description: "The tournament you are looking for does not exist.",
-          });
-          router.push("/dashboard/tournaments");
-          return;
-        }
-
-        const hostData = await Get.UserById(data.organizerId);
-        if (!hostData) {
-          toast({
-            title: "Organizer Not Found",
-            description: "Could not fetch organizer data.",
-          });
-          router.push("/dashboard/tournaments");
-          return;
-        }
-
-        // 3. Game info
         const allGames = await Get.Games();
-        const foundGame = allGames.find((g) => g.id === data.gameId);
+        const foundGame = allGames.find((g) => g.id === tournament.gameId);
         if (!foundGame) {
           toast({
             title: "Game Not Found",
@@ -112,17 +86,14 @@ export default function TournamentDetailsPage() {
         }
 
         // 4. Team registrations
-        const regs = await Get.TeamRegistrationsByTournamentId(data.id);
+        const regs = await Get.TeamRegistrationsByTournamentId(tournament.id);
         // 5. Announcements
-        const ann = await Get.AnnouncementsByTournamentId(data.id);
+        const ann = await Get.AnnouncementsByTournamentId(tournament.id);
         // 6. Matches + teams
-        const ms = await Get.MatchesByTournamentId(data.id);
-        // 7. Feedback
+        const ms = await Get.MatchesByTournamentId(tournament.id);
         // 8. Room link
-        const rm = await Get.RoomByTournamentId(data.id);
+        const rm = await Get.RoomByTournamentId(tournament.id);
 
-        setTournament(data);
-        setHost(hostData);
         setGame(foundGame);
         setRegistrations(regs);
         setAnnouncements(ann);
@@ -172,7 +143,8 @@ export default function TournamentDetailsPage() {
       </div>
     );
   }
-  if (!tournament) return null; // safety
+
+  if (!tournament) return null;
 
   const isOrganizer = tournament.organizerId === user.id;
   const now = new Date();
@@ -227,13 +199,10 @@ export default function TournamentDetailsPage() {
     }
   }
 
-  // 2. Compute progress % for a little progress bar
   const progressPct = Math.min(
     (acceptedCount / tournament.maxTeams) * 100,
     100,
   );
-
-  // 3. Average feedback rating
 
   return (
     <motion.div
@@ -306,7 +275,7 @@ export default function TournamentDetailsPage() {
         <CardContent className="space-y-8">
           {/* ─── GAME ACCORDION ─────────────────────────────────────────────── */}
           <div className="my-5">
-            <div className="flex items-center gap-2 text-lg font-semibold">
+            <div className="mb-2 flex items-center gap-2 text-lg font-semibold">
               <Gamepad2 size={20} /> <span>Game Registered:</span>
             </div>
             {game && <AccordionGameCard game={game} />}

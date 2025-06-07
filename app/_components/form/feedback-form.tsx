@@ -1,21 +1,23 @@
 "use client";
-
-import { useForm, Controller } from "react-hook-form";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerFooter,
+} from "@/components/ui/drawer"; // Make sure this path is correct
+import { useRouter } from "next/navigation";
+import { useDbUser } from "../context/DbUserProvider";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { onSubmitForm } from "@/lib/action/_onSubmit-form";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Textarea } from "@/components/ui/textarea";
-import { onSubmitForm } from "@/lib/action/_onSubmit-form";
-import { useDbUser } from "../context/DbUserProvider";
 import { Rating } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { Textarea } from "@/components/ui/textarea";
 
-// Feedback form type
 type FeedbackFormData = {
   rating: number;
   comments: string;
@@ -46,54 +48,54 @@ export function FeedBackForm({ tournamentId }: { tournamentId: number }) {
   };
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
+    <Drawer>
+      <DrawerTrigger asChild>
         <Button variant="outline">Give Feedback</Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-80 bg-secondary">
-        <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
-          <div className="space-y-2">
-            <h4 className="leading-none">Tournament Feedback</h4>
-            <p className="text-sm text-muted-foreground">
-              Share your thoughts about the tournament.
-            </p>
-          </div>
-
-          <div className="z-50 grid gap-2">
+      </DrawerTrigger>
+      <DrawerContent className="px-4 py-6">
+        <DrawerHeader>
+          <DrawerTitle>Give Tournament Feedback</DrawerTitle>
+          <DrawerDescription>
+            Let others know what you thought.
+          </DrawerDescription>
+        </DrawerHeader>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="grid gap-4 px-4 pb-6"
+        >
+          <div className="grid gap-2">
             <Label>Rating</Label>
             <Controller
               control={control}
               name="rating"
               render={({ field }) => (
-                <div className="flex gap-1">
-                  <Rating
-                    className="text-inherit"
-                    name="simple-controlled"
-                    value={field.value}
-                    defaultValue={3}
-                    size="large"
-                    onChange={(_, newValue) => field.onChange(newValue)}
-                  />
-                </div>
+                <Rating
+                  name="rating"
+                  value={field.value}
+                  onChange={(_, value) => field.onChange(value)}
+                  size="large"
+                />
               )}
             />
-
-            <div className="grid gap-2">
-              <Label htmlFor="comments">Comments</Label>
-              <Textarea
-                id="comments"
-                rows={3}
-                placeholder="What did you think?"
-                {...register("comments")}
-              />
-            </div>
           </div>
 
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? "Submitting..." : "Submit Feedback"}
-          </Button>
+          <div className="grid gap-2">
+            <Label htmlFor="comments">Comments</Label>
+            <Textarea
+              id="comments"
+              rows={3}
+              placeholder="What did you think?"
+              {...register("comments")}
+            />
+          </div>
+
+          <DrawerFooter>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "Submitting..." : "Submit Feedback"}
+            </Button>
+          </DrawerFooter>
         </form>
-      </PopoverContent>
-    </Popover>
+      </DrawerContent>
+    </Drawer>
   );
 }
