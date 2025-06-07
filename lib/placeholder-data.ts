@@ -118,8 +118,8 @@ export type MatchData = {
   matchDate: string;
   matchTime: string;
   round: string;
-  status: string;
 };
+
 export type ProfileFormValues = z.infer<typeof ProfileFormSchema>;
 
 export type PlayerFormValues = z.infer<typeof PlayerFormSchema>;
@@ -186,4 +186,49 @@ export type RefersAccount = {
   name: string;
   email: string;
   createdAt: Date;
+};
+
+export type RegistrationEntry = {
+  id: number;
+  teamId: number;
+  tournamentId: number;
+  isAccepted: boolean | null;
+  registeredAt: Date | null;
+};
+
+export type Announcement = {
+  id: number;
+  tournamentId: number;
+  title: string;
+  content: string;
+  postedAt: Date | null;
+};
+
+export type MatchWithTeams = {
+  id: number;
+  createdAt: Date | null;
+  gameId: number;
+  status: string | null;
+  tournamentId: number;
+  round: string;
+  matchDate: string;
+  matchTime: string;
+  winnerTeamId: number | null;
+};
+
+export type FeedbackEntry = {
+  id: number;
+  tournamentId: number;
+  playerId: number;
+  rating: number;
+  comments: string | null;
+  submittedAt: Date | null;
+};
+export type RoomInfo = { roomLink: string };
+
+export type FeedbackData = {
+  rating: number;
+  comments: string;
+  tournamentId: number;
+  playerId: number;
 };

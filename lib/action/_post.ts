@@ -4,6 +4,7 @@ import {
   playersTable,
   starredTournamentsTable,
   teamsTable,
+  tournamentFeedbackTable,
   tournamentsTable,
   usersTable,
 } from "@/config/schema";
@@ -15,6 +16,7 @@ import {
   UserData,
   TournamentData,
   MatchData,
+  FeedbackData,
 } from "../placeholder-data";
 
 export const Post = {
@@ -38,6 +40,9 @@ export const Post = {
   },
   MatchData: (matchData: MatchData) => {
     return db.insert(matchesTable).values(matchData);
+  },
+  FeedbackData: (feedbackData: FeedbackData) => {
+    return db.insert(tournamentFeedbackTable).values(feedbackData);
   },
 };
 

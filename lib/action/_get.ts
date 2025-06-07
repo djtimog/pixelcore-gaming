@@ -58,6 +58,21 @@ export const Get = {
     }
   },
 
+  PlayerById: async (id: number) => {
+    try {
+      const player = await db
+        .select()
+        .from(playersTable)
+        .where(eq(playersTable.id, id))
+        .limit(1);
+
+      return player[0];
+    } catch (error) {
+      console.error("Error fetching player by ID:", error);
+      return null;
+    }
+  },
+
   TeamBySecretCode: async (secretCode: string) => {
     try {
       const team = await db

@@ -2,6 +2,7 @@ import { toast } from "@/hooks/use-toast";
 import { Get } from "@/lib/action/_get";
 import { Delete, Post } from "@/lib/action/_post";
 import {
+  FeedbackData,
   PlayerFormValues,
   TournamentFormValues,
   UserFormValues,
@@ -239,7 +240,7 @@ export const onSubmitForm = {
         description: "An error occurred while saving tournament data",
         variant: "destructive",
       });
-      router.refresh()
+      router.refresh();
     }
   },
   StarTourament: async (
@@ -270,6 +271,24 @@ export const onSubmitForm = {
       } finally {
         setIsStarred(true);
       }
+    }
+  },
+  Feedback: async (feedbackData: FeedbackData, router: AppRouterInstance) => {
+    try {
+      await Post.FeedbackData(feedbackData);
+      toast({
+        title: "Success!",
+        description: "Feedback submitted successfully",
+      });
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+      toast({
+        title: "Submission Failed",
+        description: "An error occurred while submitting feedback",
+        variant: "destructive",
+      });
+    } finally {
+      router.refresh();
     }
   },
 };

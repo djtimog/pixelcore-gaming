@@ -31,7 +31,13 @@ import {
   useDbUser,
   UserProfile,
 } from "@/app/_components/context/DbUserProvider";
-import { DbTournamentDataType } from "@/lib/placeholder-data";
+import {
+  Announcement,
+  DbTournamentDataType,
+  MatchWithTeams,
+  RegistrationEntry,
+  RoomInfo,
+} from "@/lib/placeholder-data";
 import { HostCard } from "@/components/ui/dashboard/card/host";
 import {
   AccordionGameCard,
@@ -40,49 +46,13 @@ import {
 import { Post, Update } from "@/lib/action/_post";
 import LogoAnimation from "@/components/ui/loading-logo";
 import { onSubmitForm } from "@/lib/action/_onSubmit-form";
-
-type RegistrationEntry = {
-  id: number;
-  teamId: number;
-  tournamentId: number;
-  isAccepted: boolean | null;
-  registeredAt: Date | null;
-};
-
-type Announcement = {
-  id: number;
-  tournamentId: number;
-  title: string;
-  content: string;
-  postedAt: Date | null;
-};
-
-type MatchWithTeams = {
-  id: number;
-  createdAt: Date | null;
-  gameId: number;
-  status: string | null;
-  tournamentId: number;
-  round: string;
-  matchDate: string;
-  matchTime: string;
-  winnerTeamId: number | null;
-};
-
-type FeedbackEntry = {
-  id: number;
-  tournamentId: number;
-  playerId: number;
-  rating: number;
-  comments: string | null;
-  submittedAt: Date | null;
-};
-type RoomInfo = { roomLink: string };
+import Link from "next/link";
+import FeedbackSummary from "@/components/ui/dashboard/tournament/feedback";
 
 export default function TournamentDetailsPage() {
   const { uid } = useParams();
   const router = useRouter();
-  const { player } = useDbUser();
+  const { player, user } = useDbUser();
 
   const [tournament, setTournament] = useState<DbTournamentDataType | null>(
     null,
@@ -93,7 +63,6 @@ export default function TournamentDetailsPage() {
   const [registrations, setRegistrations] = useState<RegistrationEntry[]>([]);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [matches, setMatches] = useState<MatchWithTeams[]>([]);
-  const [feedback, setFeedback] = useState<FeedbackEntry[]>([]);
   const [room, setRoom] = useState<RoomInfo | null>(null);
 
   const [isStarred, setIsStarred] = useState(false);
@@ -149,7 +118,6 @@ export default function TournamentDetailsPage() {
         // 6. Matches + teams
         const ms = await Get.MatchesByTournamentId(data.id);
         // 7. Feedback
-        const fb = await Get.FeedbackByTournamentId(data.id);
         // 8. Room link
         const rm = await Get.RoomByTournamentId(data.id);
 
@@ -159,7 +127,6 @@ export default function TournamentDetailsPage() {
         setRegistrations(regs);
         setAnnouncements(ann);
         setMatches(ms);
-        setFeedback(fb);
         setRoom(rm);
       } catch (err) {
         console.error("Error fetching tournament details:", err);
@@ -184,7 +151,8 @@ export default function TournamentDetailsPage() {
           player.id,
         );
         const isThisStarred = starredTournaments.some(
-          (tournament) => tournament.tournamentId === tournament.id,
+          (starredTournament) =>
+            starredTournament.tournamentId === tournament?.id,
         );
         setIsStarred(isThisStarred);
       } catch (error) {
@@ -206,7 +174,7 @@ export default function TournamentDetailsPage() {
   }
   if (!tournament) return null; // safety
 
-  const isOrganizer = tournament.organizerId === player.id;
+  const isOrganizer = tournament.organizerId === user.id;
   const now = new Date();
   const regEnd = new Date(tournament.registrationEndDate);
   const regStart = new Date(tournament.registrationStartDate);
@@ -266,12 +234,6 @@ export default function TournamentDetailsPage() {
   );
 
   // 3. Average feedback rating
-  const avgRating =
-    feedback.length > 0
-      ? +(
-          feedback.reduce((sum, f) => sum + f.rating, 0) / feedback.length
-        ).toFixed(1)
-      : null;
 
   return (
     <motion.div
@@ -411,34 +373,7 @@ export default function TournamentDetailsPage() {
               />
             </div>
 
-            {/* Feedback Summary */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Star size={16} className="text-muted-foreground" />
-                <div>
-                  <p className="text-xs text-muted-foreground">
-                    Average Rating
-                  </p>
-                  <p className="font-medium">
-                    {avgRating !== null ? `${avgRating} / 5` : "No Ratings"}
-                  </p>
-                </div>
-              </div>
-              <Button>Give a Feedback</Button>
-
-              {feedback.length > 0 && (
-                <div>
-                  <p className="text-xs text-muted-foreground">
-                    Latest Feedback
-                  </p>
-                  <blockquote className="mt-1 text-sm italic text-gray-600">
-                    “{feedback[0].comments}” —{" "}
-                    <span className="font-medium">{feedback[0].playerId}</span>
-                    {/* //update */}
-                  </blockquote>
-                </div>
-              )}
-            </div>
+            <FeedbackSummary tournamentData={tournament} />
           </div>
 
           {/* ─── RULES ────────────────────────────────────────────────────────── */}
@@ -578,14 +513,14 @@ export default function TournamentDetailsPage() {
               <h4 className="mb-2 flex items-center gap-2 text-lg font-semibold">
                 <MessageSquare size={18} /> Tournament Room
               </h4>
-              <a
+              <Link
                 href={room.roomLink}
                 target="_blank"
                 rel="noreferrer"
                 className="text-sm text-blue-600 underline hover:text-blue-800"
               >
                 Join Room
-              </a>
+              </Link>
             </div>
           )}
         </CardContent>

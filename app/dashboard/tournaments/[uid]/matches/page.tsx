@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { Get } from "@/lib/action/_get";
 import Link from "next/link";
-import { MoviePlay } from "lucide-react";
+import { Move3dIcon } from "lucide-react";
 
 type MatchWithTeams = {
   id: number;
@@ -28,12 +28,12 @@ export default function TournamentMatchesPage() {
     if (!uid) return;
     const fetchMatches = async () => {
       try {
-        const ms = await Get.MatchesByTournament(uid as string);
+        const ms = await Get.MatchesByTournamentId(uid as number);
         setMatches(
           ms.sort(
             (a, b) =>
-              new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()
-          )
+              new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime(),
+          ),
         );
       } catch (err) {
         console.error("Error fetching matches:", err);
@@ -54,10 +54,10 @@ export default function TournamentMatchesPage() {
   }
 
   return (
-    <div className="container mx-auto py-10 px-4 md:px-0">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold flex items-center gap-2">
-          <MoviePlay size={24} /> Tournament Matches
+    <div className="container mx-auto px-4 py-10 md:px-0">
+      <div className="mb-6 flex items-center justify-between">
+        <h2 className="flex items-center gap-2 text-2xl font-bold">
+          <Move3dIcon size={24} /> Tournament Matches
         </h2>
         <Link href={`/dashboard/tournaments/${uid}/matches/new`}>
           <Button variant="default">Schedule New Match</Button>
@@ -88,7 +88,9 @@ export default function TournamentMatchesPage() {
                   <td>{m.teams.map((t) => t.teamName).join(" vs. ")}</td>
                   <td>{m.status}</td>
                   <td className="text-right">
-                    <Link href={`/dashboard/tournaments/${uid}/matches/${m.id}`}>
+                    <Link
+                      href={`/dashboard/tournaments/${uid}/matches/${m.id}`}
+                    >
                       <Button size="sm" variant="outline">
                         Edit
                       </Button>
