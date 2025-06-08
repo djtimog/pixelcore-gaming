@@ -4,6 +4,7 @@ import {
   playersTable,
   starredTournamentsTable,
   teamsTable,
+  tournamentAnnouncementsTable,
   tournamentFeedbackTable,
   tournamentsTable,
   usersTable,
@@ -17,6 +18,7 @@ import {
   TournamentData,
   MatchData,
   FeedbackData,
+  TournamentAnnouncementData,
 } from "../placeholder-data";
 
 export const Post = {
@@ -43,6 +45,9 @@ export const Post = {
   },
   FeedbackData: (feedbackData: FeedbackData) => {
     return db.insert(tournamentFeedbackTable).values(feedbackData);
+  },
+  AnnouncementData: (announcementData: TournamentAnnouncementData) => {
+    return db.insert(tournamentAnnouncementsTable).values(announcementData);
   },
 };
 

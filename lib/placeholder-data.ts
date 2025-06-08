@@ -232,3 +232,9 @@ export type FeedbackData = {
   tournamentId: number;
   playerId: number;
 };
+
+export type TournamentAnnouncementData = {
+  tournamentId: number;
+  title: string;
+  content: string;
+};

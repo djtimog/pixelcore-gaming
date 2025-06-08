@@ -7,12 +7,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { Get } from "@/lib/action/_get";
 
-type RegistrationEntry = { 
-  id: number; 
-  teamId: number; 
-  teamName: string; 
-  isAccepted: boolean; 
-  registeredAt: string; 
+type RegistrationEntry = {
+  id: number;
+  teamId: number;
+  teamName: string;
+  isAccepted: boolean;
+  registeredAt: string;
 };
 
 export default function TournamentRegistrationsPage() {
@@ -24,13 +24,14 @@ export default function TournamentRegistrationsPage() {
     if (!uid) return;
     const fetchRegs = async () => {
       try {
-        const regs = await Get.TeamRegistrationsByTournament(uid as string);
+        const regs = await Get.TeamRegistrationsByTournamentUid(uid as string);
         // Suppose this now returns teamName + registrationId
         setRegistrations(
           regs.sort(
             (a, b) =>
-              new Date(b.registeredAt).getTime() - new Date(a.registeredAt).getTime()
-          )
+              new Date(b.registeredAt).getTime() -
+              new Date(a.registeredAt).getTime(),
+          ),
         );
       } catch (err) {
         console.error("Error fetching registrations:", err);
@@ -51,8 +52,8 @@ export default function TournamentRegistrationsPage() {
   }
 
   return (
-    <div className="container mx-auto py-10 px-4 md:px-0">
-      <h2 className="text-2xl font-bold mb-6">Team Registrations</h2>
+    <div className="container mx-auto px-4 py-10 md:px-0">
+      <h2 className="mb-6 text-2xl font-bold">Team Registrations</h2>
       {registrations.length > 0 ? (
         <div className="space-y-4">
           {registrations.map((reg) => (
@@ -83,8 +84,8 @@ export default function TournamentRegistrationsPage() {
                           await Get.AcceptRegistration(reg.id);
                           setRegistrations((prev) =>
                             prev.map((r) =>
-                              r.id === reg.id ? { ...r, isAccepted: true } : r
-                            )
+                              r.id === reg.id ? { ...r, isAccepted: true } : r,
+                            ),
                           );
                           toast({
                             title: "Accepted",
@@ -109,7 +110,9 @@ export default function TournamentRegistrationsPage() {
                       onClick={async () => {
                         try {
                           await Get.DeclineRegistration(reg.id);
-                          setRegistrations((prev) => prev.filter((r) => r.id !== reg.id));
+                          setRegistrations((prev) =>
+                            prev.filter((r) => r.id !== reg.id),
+                          );
                           toast({
                             title: "Declined",
                             description: `${reg.teamName} has been declined.`,

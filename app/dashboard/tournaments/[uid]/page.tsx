@@ -49,6 +49,7 @@ import { onSubmitForm } from "@/lib/action/_onSubmit-form";
 import Link from "next/link";
 import FeedbackSummary from "@/components/ui/dashboard/tournament/feedback";
 import { useUidData } from "@/app/_components/context/UidTournamentProvider";
+import AnnouncementSummary from "@/components/ui/dashboard/tournament/announcement";
 
 export default function TournamentDetailsPage() {
   const { uid } = useParams();
@@ -356,63 +357,21 @@ export default function TournamentDetailsPage() {
               <ul>
                 {tournament.rules
                   ?.split(",")
-                  .map((rule, i) => <li key={i}>{rule.trim()}</li>) || (
-                  <li>No rules specified.</li>
-                )}
+                  .map((rule, i) => (
+                    <li key={i}>
+                      {rule.trim().charAt(0).toUpperCase() +
+                        rule.trim().slice(1).toLowerCase()}
+                    </li>
+                  )) || <li>No rules specified.</li>}
               </ul>
             </motion.ul>
           </div>
 
-          {/* ─── ANNOUNCEMENTS ───────────────────────────────────────────────── */}
           <div>
-            <div className="mb-2 flex items-center justify-between">
-              <h4 className="flex items-center gap-2 text-lg font-semibold">
-                <Megaphone size={18} /> Announcements
-              </h4>
-              {isOrganizer && (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() =>
-                    router.push(
-                      `/dashboard/tournaments/${uid}/announcements/new`,
-                    )
-                  }
-                >
-                  Post Announcement
-                </Button>
-              )}
-            </div>
-            {announcements.length > 0 ? (
-              <ul className="space-y-3">
-                {announcements
-                  .sort(
-                    (a, b) =>
-                      new Date(b.postedAt || "").getTime() -
-                      new Date(a.postedAt || "").getTime(),
-                  )
-                  .map((ann) => (
-                    <li
-                      key={ann.id}
-                      className="rounded-lg border bg-gray-50 p-3"
-                    >
-                      <div className="flex items-center justify-between">
-                        <h5 className="font-medium">{ann.title}</h5>
-                        <span className="text-xs text-muted-foreground">
-                          {new Date(ann.postedAt || "").toLocaleDateString()}
-                        </span>
-                      </div>
-                      <p className="mt-1 text-sm text-gray-600">
-                        {ann.content}
-                      </p>
-                    </li>
-                  ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-muted-foreground">
-                No announcements yet.
-              </p>
-            )}
+            <AnnouncementSummary
+              isOrganizer={isOrganizer}
+              tournamentId={tournament.id}
+            />
           </div>
 
           {/* ─── UPCOMING MATCHES ─────────────────────────────────────────────── */}
@@ -425,14 +384,13 @@ export default function TournamentDetailsPage() {
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={() =>
-                    router.push(`/dashboard/tournaments/${uid}/matches/new`)
-                  }
+                  onClick={() => router.push(`/dashboard/tournaments/${uid}`)}
                 >
                   Schedule Match
                 </Button>
               )}
             </div>
+
             {matches.length > 0 ? (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
@@ -502,14 +460,16 @@ export default function TournamentDetailsPage() {
         animate={{ opacity: 1, y: 0 }}
       >
         {isOrganizer && (
-          <Button
-            variant="default"
-            onClick={() => router.push(`/dashboard/tournaments/${uid}/edit`)}
-            className="w-full md:w-auto"
-          >
-            <Pencil className="mr-2 h-4 w-4" />
-            Edit Tournament
-          </Button>
+          <Link href={`/dashboard/schedule?uid=${uid}`}>
+            <Button
+              variant="default"
+              onClick={() => router.push(``)}
+              className="w-full md:w-auto"
+            >
+              <Pencil className="mr-2 h-4 w-4" />
+              Edit Tournament
+            </Button>
+          </Link>
         )}
 
         {registrationOpen ? (

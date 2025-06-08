@@ -4,6 +4,7 @@ import { Delete, Post } from "@/lib/action/_post";
 import {
   FeedbackData,
   PlayerFormValues,
+  TournamentAnnouncementData,
   TournamentFormValues,
   UserFormValues,
 } from "@/lib/placeholder-data";
@@ -168,6 +169,7 @@ export const onSubmitForm = {
       router.push("/player-info");
     } catch (error) {
       console.error("Error saving player:", error);
+      throw new Error(`${error}`);
       toast({
         title: "Submission Failed",
         description: "An error occurred.",
@@ -285,6 +287,27 @@ export const onSubmitForm = {
       toast({
         title: "Submission Failed",
         description: "An error occurred while submitting feedback",
+        variant: "destructive",
+      });
+    } finally {
+      router.refresh();
+    }
+  },
+  Announcement: async (
+    announcementData: TournamentAnnouncementData,
+    router: AppRouterInstance,
+  ) => {
+    try {
+      await Post.AnnouncementData(announcementData);
+      toast({
+        title: "Success!",
+        description: "Announcement submitted successfully",
+      });
+    } catch (error) {
+      console.error("Error submitting announcement:", error);
+      toast({
+        title: "Submission Failed",
+        description: "An error occurred while submitting announcement",
         variant: "destructive",
       });
     } finally {
