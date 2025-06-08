@@ -86,7 +86,7 @@ export default function FeedbackSummary({
             <Skeleton className="h-16 w-full rounded-md" />
             <Skeleton className="h-16 w-full rounded-md" />
           </div>
-        ) : feedback.length > 0 ? (
+        ) : feedback.length >= 0 ? (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <p className="text-sm text-muted-foreground">Latest Feedback</p>
@@ -141,21 +141,23 @@ export function AllFeedback({
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <Button
-          size={"icon"}
-          variant={"ghost"}
-          className={`absolute right-10 top-1 ${loading ? "rotate-360 duration-1500 repeat-infinite" : ""}`}
-          onClick={refreshFeedback}
-        >
-          <RefreshCw />
-        </Button>
         <DialogHeader>
           <DialogTitle>All Feedbacks</DialogTitle>
           <DialogDescription>
             Here you can view all feedback submitted for this tournament.
           </DialogDescription>
         </DialogHeader>
-        <FeedBackForm tournamentId={tournamentDataId} />
+        <div className="flex w-full gap-2">
+          <FeedBackForm tournamentId={tournamentDataId} />
+          <Button
+            size={"icon"}
+            variant={"ghost"}
+            className={`${loading ? "rotate-360 duration-1500 repeat-infinite" : ""}`}
+            onClick={refreshFeedback}
+          >
+            <RefreshCw />
+          </Button>
+        </div>
         <ScrollArea className="flex h-[400px] w-full flex-col gap-3">
           <div className="flex flex-col gap-3 px-2">
             {feedback?.map((feedbackEntry) => (

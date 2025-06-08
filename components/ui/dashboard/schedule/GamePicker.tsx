@@ -38,21 +38,21 @@ const GamePicker = ({
   }, []);
 
   const filteredGames = games
-    .filter((game) =>
-      game.name.toLowerCase().includes(search.toLowerCase())
-    )
+    .filter((game) => game.name.toLowerCase().includes(search.toLowerCase()))
     .filter((game) =>
       platformFilter === "All"
         ? true
         : game.platforms?.some((p) =>
-            p.platform.name.toLowerCase().includes(platformFilter.toLowerCase())
-          )
+            p.platform.name
+              .toLowerCase()
+              .includes(platformFilter.toLowerCase()),
+          ),
     );
 
   const totalPages = Math.ceil(filteredGames.length / GAMES_PER_PAGE);
   const paginatedGames = filteredGames.slice(
     (currentPage - 1) * GAMES_PER_PAGE,
-    currentPage * GAMES_PER_PAGE
+    currentPage * GAMES_PER_PAGE,
   );
 
   const handlePlatformChange = (platform: string) => {
@@ -131,17 +131,19 @@ const GamePicker = ({
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex justify-center gap-2 pt-4">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <Button
-                  key={page}
-                  size="icon"
-                  variant={page === currentPage ? "default" : "ghost"}
-                  onClick={() => setCurrentPage(page)}
-                  className="w-9"
-                >
-                  {page}
-                </Button>
-              ))}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <Button
+                    key={page}
+                    size="icon"
+                    variant={page === currentPage ? "default" : "ghost"}
+                    onClick={() => setCurrentPage(page)}
+                    className="w-9"
+                  >
+                    {page}
+                  </Button>
+                ),
+              )}
             </div>
           )}
         </div>

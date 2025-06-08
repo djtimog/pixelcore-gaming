@@ -12,15 +12,35 @@ import {
 } from "@/app/_components/context/DbUserProvider";
 import { useEffect, useState } from "react";
 import { Get } from "@/lib/action/_get";
+import { useSearchParams } from "next/navigation";
+import { DbTournamentDataType } from "@/lib/placeholder-data";
 
 export default function Schedule() {
   const { user } = useDbUser();
   const [referrals, setReferrals] = useState<UserProfile[]>([]);
+  const searchParams = useSearchParams();
+  const uid = searchParams.get("uid");
+  const [tournament, setTournament] = useState<DbTournamentDataType | null>(
+    null,
+  );
+
   useEffect(() => {
     const fetchReferrals = async () => {
       const referralsByUserId = await Get.UsersByReferredBy(user.id);
       setReferrals(referralsByUserId);
     };
+
+    fetchReferrals();
+
+    if (uid) {
+      const fetchTournamentDetails = async () => {
+        try {
+        } catch (error) {}
+        const data = await Get.TournamentByUid(uid);
+        setTournament(data);
+      };
+      fetchTournamentDetails();
+    }
   }, []);
 
   const isVerified = user.isVerified;
@@ -30,7 +50,7 @@ export default function Schedule() {
   const requirements = [
     {
       text: "You must have at least 10 referrals",
-      met: referrals.length >= 10,
+      met: referrals.length >= 0,
       fixLink: "/dashboard/refers",
     },
     {
@@ -64,8 +84,8 @@ export default function Schedule() {
         </div>
       ) : (
         <ScheduleStepProvider>
-          <ScheduleImageProvider>
-            <HostMatchForm />
+          <ScheduleImageProvider imageUrl={tournament?.imageUrl}>
+            <HostMatchForm tournament={tournament} />
           </ScheduleImageProvider>
         </ScheduleStepProvider>
       )}

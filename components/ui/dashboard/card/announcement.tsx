@@ -30,13 +30,13 @@ export default function AnnouncementCard({
         <AccordionItem value={`item-${index}`} key={index}>
           <AccordionTrigger>
             <div className="">
-              <h4 className="text-md font-bold">
+              <h4 className="text-md mb-2 font-bold">
                 {announcement.title.trim().charAt(0).toUpperCase() +
                   announcement.title.trim().slice(1)}
               </h4>
               {announcement.postedAt && (
                 <p className="text-xs text-muted-foreground">
-                  {format(new Date(announcement.postedAt), "PPP")}
+                  {format(new Date(announcement.postedAt), "hh:mmaaa dd/MM")}
                 </p>
               )}
             </div>

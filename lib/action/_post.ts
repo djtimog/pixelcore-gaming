@@ -62,13 +62,19 @@ export const Update = {
     return db.update(teamsTable).set(teamData).where(eq(teamsTable.id, teamId));
   },
   TournamentRegistrationStatus: (
-    tournamnetId: number,
+    tournamentId: number,
     tournamentData: { registrationStatus: string },
   ) => {
     return db
       .update(tournamentsTable)
       .set(tournamentData)
-      .where(eq(tournamentsTable.id, tournamnetId));
+      .where(eq(tournamentsTable.id, tournamentId));
+  },
+  TournamentData: (tournamentData: TournamentData, tournamentId: number) => {
+    return db
+      .update(tournamentsTable)
+      .set(tournamentData)
+      .where(eq(tournamentsTable.id, tournamentId));
   },
 };
 

@@ -204,7 +204,10 @@ export const Get = {
         .where(eq(teamRegistrationsTable.tournamentId, tournamentId));
       return registrations;
     } catch (error) {
-      console.error("Error fetching team registrations by tournament ID:", error);
+      console.error(
+        "Error fetching team registrations by tournament ID:",
+        error,
+      );
       return [];
     }
   },
@@ -213,9 +216,8 @@ export const Get = {
       const announcements = await db
         .select()
         .from(tournamentAnnouncementsTable)
-        .where(eq(tournamentAnnouncementsTable.tournamentId, tournamentId))
-        .limit(1);
-      return announcements
+        .where(eq(tournamentAnnouncementsTable.tournamentId, tournamentId));
+      return announcements;
     } catch (error) {
       console.error("Error fetching announcements by tournament ID:", error);
       return [];
@@ -232,7 +234,7 @@ export const Get = {
       console.error("Error fetching matches by tournament ID:", error);
       return [];
     }
-  }, 
+  },
   FeedbackByTournamentId: async (tournamentId: number) => {
     try {
       const feedback = await db
@@ -257,5 +259,5 @@ export const Get = {
       console.error("Error fetching room by tournament ID:", error);
       return null;
     }
-  }
+  },
 };

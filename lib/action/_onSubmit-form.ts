@@ -1,7 +1,8 @@
 import { toast } from "@/hooks/use-toast";
 import { Get } from "@/lib/action/_get";
-import { Delete, Post } from "@/lib/action/_post";
+import { Delete, Post, Update } from "@/lib/action/_post";
 import {
+  DbTournamentDataType,
   FeedbackData,
   PlayerFormValues,
   TournamentAnnouncementData,
@@ -185,64 +186,134 @@ export const onSubmitForm = {
     image: File | null,
     organizerId: number,
     router: AppRouterInstance,
+    tournament: DbTournamentDataType | null,
   ) => {
     setIsLoading(true);
+    if (!tournament) {
+      try {
+        const uuid = uuidv4();
+        const imageName = `${uuid}-${data.name}`;
+        let imageUrl: string | null = null;
 
-    try {
-      const uuid = uuidv4();
-      const imageName = `${uuid}-${data.name}`;
-      let imageUrl: string | null = null;
-      if (!image) {
+        if (!image) {
+          toast({
+            title: "Missing Image",
+            description: "Please upload an image before submitting.",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        try {
+          imageUrl = await uploadImageWithFile(image, imageName, "tournaments");
+        } catch (uploadError) {
+          console.error("Image upload failed:", uploadError);
+          toast({
+            title: "Upload Failed",
+            description: "Could not upload the image. Please try again.",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        const tournamentData = {
+          name: data.name.slice(0, 255),
+          uid: uuid,
+          description: data.description?.slice(0, 255) || "",
+          startDate: data.startDate.toDateString(),
+          endDate: data.endDate.toDateString(),
+          imageUrl: imageUrl || "/fallback-tournament.jpg",
+          registrationStartDate: data.registrationStartDate.toDateString(),
+          registrationEndDate: data.registrationEndDate.toDateString(),
+          gameId: data.gameId,
+          organizerId: organizerId,
+          prizePool: data.prizePool?.slice(0, 255) || "",
+          maxTeams: data.maxTeams,
+          maxPlayersPerTeam: data.maxPlayersPerTeam,
+          rules: data.rules || "",
+          time: data.time,
+          timezone: data.timezone,
+        };
+
+        await Post.TournamentData(tournamentData);
+
         toast({
-          title: "Error",
-          description: "Please upload an image",
+          title: "Success",
+          description: "Tournament created successfully.",
+        });
+
+        setIsLoading(false);
+        router.push(`/dashboard/tournaments/${uuid}`);
+      } catch (err) {
+        console.error("Failed to create tournament:", err);
+        toast({
+          title: "Submission Failed",
+          description: "An error occurred while saving tournament data.",
           variant: "destructive",
         });
-        return;
+      } finally {
+        setIsLoading(false);
+        router.refresh();
       }
-
+    } else {
       try {
-        imageUrl = await uploadImageWithFile(image, imageName, "tournaments");
-      } catch (error) {
-        console.error("Error uploading image:", error);
+        let imageUrl: string | null = null;
+        const imageName = `${tournament.uid}-${data.name}`;
+
+        if (image) {
+          try {
+            imageUrl = await uploadImageWithFile(
+              image,
+              imageName,
+              "tournaments",
+            );
+          } catch (uploadError) {
+            console.error("Image upload failed:", uploadError);
+            toast({
+              title: "Upload Failed",
+              description: "Could not upload the image. Please try again.",
+              variant: "destructive",
+            });
+            return;
+          }
+        }
+
+        const tournamentData = {
+          name: data.name.slice(0, 255),
+          uid: tournament.uid,
+          description: data.description?.slice(0, 255) || "",
+          startDate: data.startDate.toDateString(),
+          endDate: data.endDate.toDateString(),
+          imageUrl: imageUrl || tournament.imageUrl,
+          registrationStartDate: data.registrationStartDate.toDateString(),
+          registrationEndDate: data.registrationEndDate.toDateString(),
+          gameId: data.gameId,
+          organizerId: organizerId,
+          prizePool: data.prizePool?.slice(0, 255) || "",
+          maxTeams: data.maxTeams,
+          maxPlayersPerTeam: data.maxPlayersPerTeam,
+          rules: data.rules || "",
+          time: data.time,
+          timezone: data.timezone,
+        };
+
+        await Update.TournamentData(tournamentData, tournament.id);
+        toast({
+          title: "Update Successful",
+          description: "Tournament updated successfully.",
+        });
+        setIsLoading(false);
+      } catch (err) {
+        console.error("Failed to update tournament:", err);
+        toast({
+          title: "Update Failed",
+          description: "An error occurred while updating tournament data.",
+          variant: "destructive",
+        });
+      } finally {
+        router.refresh();
+        setIsLoading(false);
       }
-
-      const tournamentData = {
-        name: data.name.slice(0, 255),
-        uid: uuid,
-        description: data.description?.slice(0, 255) || "",
-        startDate: data.startDate.toDateString(),
-        endDate: data.endDate.toDateString(),
-        imageUrl: imageUrl || "/fallback-tournament.jpg",
-        registrationStartDate: data.registrationStartDate.toDateString(),
-        registrationEndDate: data.registrationEndDate.toDateString(),
-        gameId: data.gameId,
-        organizerId: organizerId,
-        prizePool: data.prizePool?.slice(0, 255) || "",
-        maxTeams: data.maxTeams,
-        maxPlayersPerTeam: data.maxPlayersPerTeam,
-        rules: data.rules || "",
-        time: data.time,
-        timezone: data.timezone,
-      };
-
-      await Post.TournamentData(tournamentData);
-
-      toast({
-        title: "Success!",
-        description: "Tournament created successfully",
-      });
-
-      setIsLoading(false);
-      router.push(`/dashboard/tournaments/${uuid}`);
-    } catch (error) {
-      console.error("Error saving tournament:", error);
-      toast({
-        title: "Submission Failed",
-        description: "An error occurred while saving tournament data",
-        variant: "destructive",
-      });
-      router.refresh();
     }
   },
   StarTourament: async (

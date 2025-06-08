@@ -23,7 +23,7 @@ const MatchSetupIntro2 = ({
 }: {
   form: UseFormReturn<TournamentFormValues>;
 }) => {
-  const { handleNextStep , handlePreviousStep } = useScheduleStep()
+  const { handleNextStep, handlePreviousStep } = useScheduleStep();
   const [errors, setErrors] = useState<string | null>(null);
 
   const registrationStart = form.watch("registrationStartDate");
@@ -32,24 +32,23 @@ const MatchSetupIntro2 = ({
   const tournamentEnd = form.watch("endDate");
   const time = form.watch("time");
 
-const today = useMemo(() => startOfToday(), []);
+  const today = useMemo(() => startOfToday(), []);
 
-useEffect(() => {
-  let errorMessage: string | null = null;
+  useEffect(() => {
+    let errorMessage: string | null = null;
 
-  if (registrationStart && isBefore(registrationStart, today)) {
-    errorMessage = "Registration start date cannot be in the past.";
-  } else if (
-    registrationEnd &&
-    tournamentStart &&
-    isBefore(tournamentStart, registrationEnd)
-  ) {
-    errorMessage = "Tournament start date must be after registration ends.";
-  }
+    if (registrationStart && isBefore(registrationStart, today)) {
+      errorMessage = "Registration start date cannot be in the past.";
+    } else if (
+      registrationEnd &&
+      tournamentStart &&
+      isBefore(tournamentStart, registrationEnd)
+    ) {
+      errorMessage = "Tournament start date must be after registration ends.";
+    }
 
-  setErrors(errorMessage);
-}, [registrationStart, registrationEnd, tournamentStart, today]);
-
+    setErrors(errorMessage);
+  }, [registrationStart, registrationEnd, tournamentStart, today]);
 
   return (
     <div className="mx-auto mt-10 max-w-4xl p-4">
@@ -204,7 +203,11 @@ useEffect(() => {
           className="flex items-center gap-2 rounded-md"
           onClick={handleNextStep}
           disabled={
-            !registrationStart || !registrationEnd || !tournamentStart || !time ||!tournamentEnd
+            !registrationStart ||
+            !registrationEnd ||
+            !tournamentStart ||
+            !time ||
+            !tournamentEnd
           }
         >
           <span>Next</span>

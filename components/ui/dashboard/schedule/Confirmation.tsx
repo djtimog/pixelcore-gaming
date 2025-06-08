@@ -15,7 +15,10 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { useFormContext } from "react-hook-form";
-import { TournamentFormValues } from "@/lib/placeholder-data";
+import {
+  DbTournamentDataType,
+  TournamentFormValues,
+} from "@/lib/placeholder-data";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { Get } from "@/lib/action/_get";
@@ -25,14 +28,25 @@ import { onSubmitForm } from "@/lib/action/_onSubmit-form";
 import { useDbUser } from "@/app/_components/context/DbUserProvider";
 import { useRouter } from "next/navigation";
 
-const TournamentConfirmation = () => {
+const TournamentConfirmation = ({
+  tournament,
+}: {
+  tournament: DbTournamentDataType | null;
+}) => {
   const { handlePreviousStep } = useScheduleStep();
-  const { image } = useScheduleImage();
+  const { previewUrl, image } = useScheduleImage();
   const [loading, isLoading] = useState(false);
   const db = useDbUser();
   const router = useRouter();
+  const now = new Date();
 
   const form = useFormContext<TournamentFormValues>();
+  const startDate = form.getValues("startDate");
+
+  if (startDate < now) {
+    form.setValue("status", "ongoing");
+  }
+
   const values = form.getValues();
 
   const [gameName, setGameName] = useState("");
@@ -61,16 +75,16 @@ const TournamentConfirmation = () => {
     <div className="animate-fade-in mx-auto mt-10 px-4">
       <Card>
         <CardHeader>
-          <CardTitle className="text-center text-2xl">
+          <CardTitle className="outlined-text text-center text-3xl tracking-wide">
             🎉 Review Your Tournament
           </CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-4">
-          {image && (
+          {previewUrl && (
             <div className="relative w-full overflow-hidden">
               <Image
-                src={URL.createObjectURL(image)}
+                src={previewUrl}
                 alt="Uploaded Preview"
                 className="h-48 w-full rounded-md object-cover"
                 width={200}
@@ -193,6 +207,7 @@ const TournamentConfirmation = () => {
                 image,
                 db.user.id,
                 router,
+                tournament
               )
             }
             className="relative w-full sm:w-max"
