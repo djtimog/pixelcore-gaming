@@ -17,11 +17,25 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Rating } from "@mui/material";
 import { Textarea } from "@/components/ui/textarea";
+import { styled } from "@mui/material/styles";
 
 type FeedbackFormData = {
   rating: number;
   comments: string;
 };
+
+export const CustomRating = styled(Rating)({
+  color: "#14C570", // fallback color
+  "& .MuiRating-iconFilled": {
+    color: "#14C570", // active stars
+  },
+  "& .MuiRating-iconHover": {
+    color: "#14C570", // hovered stars
+  },
+  "& .MuiRating-iconEmpty": {
+    color: "#14C570", // gray-300 for outlined/inactive stars
+  },
+});
 
 export function FeedBackForm({ tournamentId }: { tournamentId: number }) {
   const { player } = useDbUser();
@@ -52,7 +66,7 @@ export function FeedBackForm({ tournamentId }: { tournamentId: number }) {
       <DrawerTrigger asChild>
         <Button variant="outline">Give Feedback</Button>
       </DrawerTrigger>
-      <DrawerContent className="px-4 py-6">
+      <DrawerContent className="bg-secondary px-4 py-6">
         <DrawerHeader>
           <DrawerTitle>Give Tournament Feedback</DrawerTitle>
           <DrawerDescription>
@@ -69,7 +83,7 @@ export function FeedBackForm({ tournamentId }: { tournamentId: number }) {
               control={control}
               name="rating"
               render={({ field }) => (
-                <Rating
+                <CustomRating
                   name="rating"
                   value={field.value}
                   onChange={(_, value) => field.onChange(value)}

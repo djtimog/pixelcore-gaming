@@ -3,23 +3,17 @@
 import { useEffect, useState } from "react";
 import { Get } from "@/lib/action/_get";
 import { FeedbackEntry } from "@/lib/placeholder-data";
-import {
-  ArrowRight,
-  RefreshCcw,
-  RefreshCw,
-  RotateCcw,
-  RotateCw,
-  Star,
-} from "lucide-react";
+import { ArrowRight, RefreshCw, Star } from "lucide-react";
 import { Button } from "../../button";
 import { Skeleton } from "../../skeleton";
 import { DbTournamentDataType } from "@/lib/placeholder-data";
 import FeedbackCard from "../card/feedback";
-import { FeedBackForm } from "@/app/_components/form/feedback-form";
-import { Rating } from "@mui/material";
+import {
+  CustomRating,
+  FeedBackForm,
+} from "@/app/_components/form/feedback-form";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -70,7 +64,7 @@ export default function FeedbackSummary({
 
         {avgRating !== null ? (
           <div className="flex items-center gap-3">
-            <Rating
+            <CustomRating
               name="read-only"
               value={avgRating}
               readOnly

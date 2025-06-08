@@ -33,7 +33,7 @@ export default function FeedbackCard({
 
   return (
     <div className="relative rounded-md border p-2 shadow-sm">
-      <div className="mb-2 flex gap-1 text-lg text-yellow-500">
+      <div className="mb-2 flex gap-1 text-lg text-primary">
         {"★".repeat(feedback.rating)}
         {"☆".repeat(5 - feedback.rating)}
       </div>
