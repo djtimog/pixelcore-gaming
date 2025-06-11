@@ -50,7 +50,7 @@ export default function Schedule() {
   const requirements = [
     {
       text: "You must have at least 10 referrals",
-      met: referrals.length >= 0,
+      met: referrals.length >= 10,
       fixLink: "/dashboard/refers",
     },
     {

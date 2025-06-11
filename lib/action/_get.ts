@@ -86,6 +86,19 @@ export const Get = {
     }
   },
 
+  TeamById: async (id: number) => {
+    try {
+      const team = await db
+        .select()
+        .from(teamsTable)
+        .where(eq(teamsTable.id, id));
+      return team[0];
+    } catch (error) {
+      console.error("Error fetching team by id code:", error);
+      return null;
+    }
+  },
+
   Games: async (): Promise<GameType[]> => {
     const API_KEY = process.env.NEXT_PUBLIC_RAWG_API_KEY;
     const url = `https://api.rawg.io/api/games?key=${API_KEY}&page_size=40`;
@@ -196,6 +209,7 @@ export const Get = {
       return [];
     }
   },
+
   TeamRegistrationsByTournamentId: async (tournamentId: number) => {
     try {
       const registrations = await db
@@ -211,6 +225,7 @@ export const Get = {
       return [];
     }
   },
+
   AnnouncementsByTournamentId: async (tournamentId: number) => {
     try {
       const announcements = await db
@@ -223,6 +238,7 @@ export const Get = {
       return [];
     }
   },
+
   MatchesByTournamentId: async (tournamentId: number) => {
     try {
       const matches = await db
@@ -235,6 +251,7 @@ export const Get = {
       return [];
     }
   },
+
   FeedbackByTournamentId: async (tournamentId: number) => {
     try {
       const feedback = await db
@@ -247,6 +264,7 @@ export const Get = {
       return [];
     }
   },
+
   RoomByTournamentId: async (tournamentId: number) => {
     try {
       const room = await db

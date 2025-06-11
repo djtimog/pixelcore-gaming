@@ -12,6 +12,7 @@ import {
   Trophy,
   Bell,
   Clock,
+  Users,
 } from "lucide-react";
 
 import { NavMain } from "@/components/ui/dashboard/nav-main";
@@ -51,6 +52,11 @@ const data = {
       title: "Notifications",
       url: "/dashboard/notifications",
       icon: Bell,
+    },
+    {
+      title: "Team",
+      url: "/dashboard/team",
+      icon: Users,
     },
   ],
   navMain: [
@@ -102,15 +108,11 @@ const data = {
     },
     {
       title: "Settings",
-      url: "#",
+      url: "/dashboard/settings",
       icon: Settings2,
       items: [
         {
           title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
           url: "#",
         },
         {
@@ -146,9 +148,9 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useUser();
   const navUser = {
-    name: user?.fullName||"",
-    email: user?.emailAddresses[0]?.emailAddress||"",
-    avatar: user?.imageUrl||"",
+    name: user?.fullName || "",
+    email: user?.emailAddresses[0]?.emailAddress || "",
+    avatar: user?.imageUrl || "",
   };
 
   return (

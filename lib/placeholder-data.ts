@@ -58,6 +58,17 @@ export type TeamData = {
   secretCode: string;
   gameId: number;
 };
+export type Team = {
+  secretCode: string;
+  id: number;
+  name: string;
+  createdAt: Date | null;
+  logoUrl: string | null;
+  creatorId: number;
+  captainId: number;
+  gameId: number;
+  uid: string;
+};
 
 export type TeamPlayersData = {
   id: number;

@@ -41,6 +41,9 @@ export const teamsTable = pgTable("teams", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   logoUrl: varchar("logo_url", { length: 255 }), // Optional team logo
+  creatorId: integer("creator_id")
+    .notNull()
+    .references(() => usersTable.id),
   captainId: integer("captain_id")
     .notNull()
     .references(() => usersTable.id), // Foreign key to users table
@@ -71,6 +74,17 @@ export const playersTable = pgTable("players", {
   isCaptain: boolean("is_captain").default(false), // Is the player a team captain?
 });
 
+export const teamInvitesTable = pgTable("team_invites", {
+  id: serial("id").primaryKey(),
+  teamId: integer("team_id")
+    .notNull()
+    .references(() => teamsTable.id),
+  playerId: integer("player_id")
+    .notNull()
+    .references(() => playersTable.id),
+  status: varchar("status", { length: 50 }).default("pending"), // pending, accepted, declined
+  sentAt: timestamp("sent_at").defaultNow(),
+});
 // Tournaments Table
 export const tournamentsTable = pgTable("tournaments", {
   id: serial("id").primaryKey(),
@@ -169,18 +183,6 @@ export const starredTournamentsTable = pgTable("starred_tournaments", {
     .notNull()
     .references(() => playersTable.id),
   starredAt: timestamp("starred_at").defaultNow(),
-});
-
-export const teamInvitesTable = pgTable("team_invites", {
-  id: serial("id").primaryKey(),
-  teamId: integer("team_id")
-    .notNull()
-    .references(() => teamsTable.id),
-  playerId: integer("player_id")
-    .notNull()
-    .references(() => playersTable.id),
-  status: varchar("status", { length: 50 }).default("pending"), // pending, accepted, declined
-  sentAt: timestamp("sent_at").defaultNow(),
 });
 
 export const matchResultsTable = pgTable("match_results", {
