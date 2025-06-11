@@ -59,11 +59,7 @@ export const TeamFormSchema = z.object({
     .string()
     .min(5, { message: "Name must be at least 5 characters." })
     .max(255, { message: "Name cannot exceed 255 characters" }),
-  game: z.string().min(3, { message: "Game is required." }),
-  logoUrl: z
-    .string()
-    .max(255, { message: "Image URL cannot exceed 255 characters" })
-    .optional(),
+  gameId: z.number(),
 });
 
 export const TournamentFormSchema = z.object({
@@ -113,5 +109,3 @@ export const TournamentFormSchema = z.object({
   time: z.string().min(1, "Match time is required").max(50),
   timezone: z.string().min(1, "Timezone is required").max(50),
 });
-
-

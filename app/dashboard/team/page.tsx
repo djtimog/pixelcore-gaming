@@ -53,7 +53,7 @@ export default function TeamPage() {
     if (player.teamId) {
       async function fetchTeam(teamId: number) {
         const userTeam = await Get.TeamById(teamId);
-        setTeam(userTeam || null);
+        setTeam(userTeam);
         setLoading(false);
       }
       fetchTeam(player.teamId);
@@ -100,7 +100,9 @@ export default function TeamPage() {
       <div className="container mx-auto px-4 py-10">
         {/* Page Heading */}
         <div className="mb-8 text-center">
-          <h2 className="text-3xl font-bold tracking-tight">Team Setup</h2>
+          <h2 className="outlined-text text-center text-3xl tracking-wide">
+            Team Setup
+          </h2>
           <p className="mx-auto mt-2 max-w-xl text-muted-foreground">
             To participate in tournaments, you must be part of a team. You can
             either join an existing one with a secret code or create your own
@@ -155,7 +157,7 @@ export default function TeamPage() {
               <Button
                 size="lg"
                 className="w-full"
-                onClick={() => router.push("/dashboard/teams/create")}
+                onClick={() => router.push("/dashboard/team/create")}
               >
                 Create Team
               </Button>

@@ -5,6 +5,7 @@ import {
   DbTournamentDataType,
   FeedbackData,
   PlayerFormValues,
+  TeamFormValues,
   TournamentAnnouncementData,
   TournamentFormValues,
   UserFormValues,
@@ -15,7 +16,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { Dispatch, SetStateAction } from "react";
 import { uploadImageWithFile } from "@/lib/action/uploadImage";
 import { uploadedProfileImageUrl } from "./image-upload";
-import { GetIdByReferralCode } from "../referralCodeGenerator";
+import { generateSecretCode, GetIdByReferralCode } from "../codeGenerator";
 
 export const onSubmitForm = {
   User: async (
@@ -379,6 +380,83 @@ export const onSubmitForm = {
       toast({
         title: "Submission Failed",
         description: "An error occurred while submitting announcement",
+        variant: "destructive",
+      });
+    } finally {
+      router.refresh();
+    }
+  },
+  Team: async (
+    teamData: TeamFormValues,
+    router: AppRouterInstance,
+    setTeamCode: Dispatch<SetStateAction<string>>,
+    setOpenDialog: Dispatch<SetStateAction<boolean>>,
+    creatorId: number,
+    image: File | null,
+    playerId: number,
+    prefix?: string,
+  ) => {
+    try {
+      const uuid = uuidv4();
+      const imageName = `${uuid}-${teamData.name}`;
+      let imageUrl: string | null = null;
+
+      if (!image) {
+        toast({
+          title: "Missing Image",
+          description: "Please upload an image before submitting.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      try {
+        imageUrl = await uploadImageWithFile(image, imageName, "teams");
+      } catch (uploadError) {
+        console.error("Image upload failed:", uploadError);
+        toast({
+          title: "Upload Failed",
+          description: "Could not upload the image. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+      const secretCode = generateSecretCode(prefix);
+      setTeamCode(secretCode);
+      const data = {
+        name: teamData.name.slice(0, 255),
+        uid: uuid,
+        logoUrl: imageUrl,
+        secretCode: secretCode,
+        gameId: teamData.gameId,
+        creatorId: creatorId,
+      };
+
+      const dbTeamData = await Post.TeamData(data);
+      try {
+        await Update.PlayerWithTeamId(dbTeamData[0].id, playerId);
+        toast({
+          title: "Success!",
+          description: "Updated Player info successfully",
+        });
+      } catch (error) {
+        console.error("Error Updating Player Info:", error);
+        toast({
+          title: "Submission Failed",
+          description: "An error occurred while Updating Player Info",
+          variant: "destructive",
+        });
+      }
+      setOpenDialog(true);
+      toast({
+        title: "Success!",
+        description: "Team Created successfully",
+      });
+    } catch (error) {
+      console.error("Error submitting Team:", error);
+      toast({
+        title: "Submission Failed",
+        description: "An error occurred while submitting Team",
         variant: "destructive",
       });
     } finally {

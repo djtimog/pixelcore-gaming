@@ -52,12 +52,12 @@ export type UpdateTeamData = {
 export type TeamData = {
   name: string;
   logoUrl: string | null;
-  id: number;
-  createdAt: Date | null;
-  captainId: number;
   secretCode: string;
   gameId: number;
+  uid: string;
+  creatorId: number;
 };
+
 export type Team = {
   secretCode: string;
   id: number;
@@ -65,7 +65,7 @@ export type Team = {
   createdAt: Date | null;
   logoUrl: string | null;
   creatorId: number;
-  captainId: number;
+  captainId: number | null;
   gameId: number;
   uid: string;
 };

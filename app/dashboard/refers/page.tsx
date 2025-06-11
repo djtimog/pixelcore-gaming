@@ -14,7 +14,7 @@ import { RefersCard } from "@/components/ui/dashboard/card/refer";
 import { Button } from "@/components/ui/button";
 import { RefersTable } from "@/components/ui/dashboard/table/refers";
 import { useDbUser } from "@/app/_components/context/DbUserProvider";
-import { GetReferralCodeById } from "@/lib/referralCodeGenerator";
+import { GetReferralCodeById } from "@/lib/codeGenerator";
 import { Get } from "@/lib/action/_get";
 import LogoAnimation from "@/components/ui/loading-logo";
 

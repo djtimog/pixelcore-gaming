@@ -44,12 +44,8 @@ export const teamsTable = pgTable("teams", {
   creatorId: integer("creator_id")
     .notNull()
     .references(() => usersTable.id),
-  captainId: integer("captain_id")
-    .notNull()
-    .references(() => usersTable.id), // Foreign key to users table
-  secretCode: varchar("secret_code", { length: 7 })
-    .notNull()
-    .default(generateSecretCode()), // Auto-generated
+  captainId: integer("captain_id").references(() => usersTable.id), // Foreign key to users table
+  secretCode: varchar("secret_code", { length: 7 }).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   gameId: integer("game_id")
     .notNull()
@@ -149,9 +145,6 @@ export const adminsTable = pgTable("admins", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-function generateSecretCode(): string {
-  return Math.random().toString(36).slice(2, 9).toUpperCase(); // 7-character alphanumeric code
-}
 export const teamRegistrationsTable = pgTable("team_registrations", {
   id: serial("id").primaryKey(),
   tournamentId: integer("tournament_id")

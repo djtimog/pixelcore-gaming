@@ -19,6 +19,7 @@ import {
   MatchData,
   FeedbackData,
   TournamentAnnouncementData,
+  TeamData,
 } from "../placeholder-data";
 
 export const Post = {
@@ -28,9 +29,9 @@ export const Post = {
   PlayerData: (playerData: PlayerData) => {
     return db.insert(playersTable).values(playerData);
   },
-  // TeamData: (teamData: UpdateTeamData) => {
-  //   return db.insert(teamsTable).values(teamData);
-  // },
+  TeamData: (teamData: TeamData) => {
+    return db.insert(teamsTable).values(teamData).returning();
+  },
   TournamentData: (tournamentData: TournamentData) => {
     return db.insert(tournamentsTable).values(tournamentData);
   },
@@ -75,6 +76,12 @@ export const Update = {
       .update(tournamentsTable)
       .set(tournamentData)
       .where(eq(tournamentsTable.id, tournamentId));
+  },
+  PlayerWithTeamId: (teamId: number, playerId: number) => {
+    return db
+      .update(playersTable)
+      .set({ teamId })
+      .where(eq(playersTable.id, playerId));
   },
 };
 

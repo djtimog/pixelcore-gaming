@@ -34,7 +34,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { UserAvatar } from "../../avatar";
-import { GetReferralCodeById } from "@/lib/referralCodeGenerator";
+import { GetReferralCodeById } from "@/lib/codeGenerator";
 import { RefersAccount } from "@/lib/placeholder-data";
 // import { referralData as data } from "@/lib/data";
 
