@@ -37,11 +37,14 @@ import {
 } from "@/lib/placeholder-data";
 import LogoAnimation from "@/components/ui/loading-logo";
 import { KeyRound, PlusCircle } from "lucide-react";
+import TeamProvider, {
+  useTeam,
+} from "@/app/_components/context/DbTeamProvider";
 
-export default function TeamPage() {
+function TeamPageComponent() {
   const router = useRouter();
   const { player, user } = useDbUser();
-  const [team, setTeam] = useState<Team | null>(null);
+  const { dbTeam } = useTeam();
   const [members, setMembers] = useState<PlayerProfile[]>([]);
   const [tournaments, setTournaments] = useState<DbTournamentDataType[]>([]);
   const [matches, setMatches] = useState<MatchWithTeams[]>([]);
@@ -49,41 +52,6 @@ export default function TeamPage() {
   const [secretCode, setSecretCode] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (player.teamId) {
-      async function fetchTeam(teamId: number) {
-        const userTeam = await Get.TeamById(teamId);
-        setTeam(userTeam);
-        setLoading(false);
-      }
-      fetchTeam(player.teamId);
-    }
-  }, [player.teamId]);
-
-  // useEffect(() => {
-  //   if (!team) return;
-  //   async function fetchData(team: Team) {
-  //     const teamMembers = await Get.PlayersByTeamId(team.id);
-  //     const pastTournaments = await Get.TournamentsByTeamId(team.id);
-  //     const upcomingMatches = await Get.MatchesByTeamId(team.id);
-  //     setMembers(teamMembers);
-  //     setTournaments(pastTournaments);
-  //     setMatches(
-  //       upcomingMatches.filter((m) => new Date(m.matchDate) >= new Date()),
-  //     );
-  //   }
-  //   fetchData(team);
-  // }, [team]);
-
-  // async function handleJoin() {
-  //   try {
-  //     await Post.JoinTeam({ playerId: player.id, secretCode });
-  //     setJoinDialogOpen(false);
-  //     router.refresh();
-  //   } catch (error) {
-  //     console.error(error);
-  //     // handle error toast
-  //   }
   // }
 
   if (loading) {
@@ -95,7 +63,7 @@ export default function TeamPage() {
   }
 
   // If user not in team
-  if (!player.teamId) {
+  if (dbTeam) {
     return (
       <div className="container mx-auto px-4 py-10">
         {/* Page Heading */}
@@ -273,4 +241,12 @@ export default function TeamPage() {
   //     </Card>
   //   </motion.div>
   // );
+}
+
+export default function TeamPage() {
+  return (
+    <TeamProvider>
+      <TeamPageComponent />
+    </TeamProvider>
+  );
 }

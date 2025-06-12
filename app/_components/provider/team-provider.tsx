@@ -1,101 +1,50 @@
 "use client";
-import { useUser } from "@clerk/nextjs";
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "@/hooks/use-toast";
-// import PlayerFormSkeleton from "@/components/ui/skeleton/player-form-skeleton";
+import LogoAnimation from "@/components/ui/loading-logo";
 import { Get } from "@/lib/action/_get";
-import { getRolePath } from "@/lib/getRole";
+import { Team } from "@/lib/placeholder-data";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { useDbUser } from "../context/DbUserProvider";
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
-export default function TeamProvider({
+type TeamCreateContext = {
+  openDialog: boolean;
+  setOpenDialog: Dispatch<SetStateAction<boolean>>;
+  teamCode: string;
+  setTeamCode: Dispatch<SetStateAction<string>>;
+};
+
+const TeamCreateContext = createContext<TeamCreateContext | null>(null);
+
+export default function TeamCreateProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = useUser();
-  const router = useRouter();
-  const [pageLoading, setPageLoading] = useState(true);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [teamCode, setTeamCode] = useState("");
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      setPageLoading(true);
-
-      try {
-        const userEmail = user?.emailAddresses[0]?.emailAddress;
-
-        if (!userEmail) {
-          toast({
-            title: "Error",
-            description: "An error occurred while fetching user email",
-            variant: "destructive",
-          });
-          throw new Error("User email is undefined");
-        }
-
-        const existingUser = await Get.UserByEmail(userEmail);
-
-        if (existingUser) {
-          const userRole = existingUser.role;
-          if (userRole === "player") {
-            try {
-              const existingPlayer = await Get.PlayerByUserId(existingUser.id);
-
-              if (existingPlayer) {
-                toast({
-                  title: "Alert",
-                  description: "You have an account already!",
-                });
-                router.push("/");
-              } else {
-                setPageLoading(false);
-              }
-            } catch (error) {
-              console.log(error);
-              toast({
-                title: "Error",
-                description: "An error occurred while fetching player data",
-                variant: "destructive",
-              });
-            }
-          } else {
-            toast({
-              title: "Error",
-              description: "User is not a PlAYER",
-              variant: "destructive",
-            });
-            router.push(getRolePath(userRole));
-          }
-        } else {
-          toast({
-            title: "Error",
-            description: "User is not Found",
-            variant: "destructive",
-          });
-          router.push("/user-sign-up");
-          return;
-        }
-      } catch (error) {
-        console.log(error);
-        toast({
-          title: "Error",
-          description: "An error occurred while fetching user data",
-          variant: "destructive",
-        });
-      }
-    };
-
-    if (user) {
-      fetchUserDetails();
-    } else {
-      setPageLoading(true);
-    }
-  }, [user, router]);
   return (
-    <main className="container mx-auto space-y-10 px-4 py-8">
-      <p className="outlined-text text-center text-lg uppercase sm:text-xl md:text-2xl lg:text-3xl">
-        Team Profile
-      </p>
-      {pageLoading ? <div>loading...</div> :  children }
-    </main>
+    <TeamCreateContext.Provider
+      value={{ openDialog, setOpenDialog, teamCode, setTeamCode }}
+    >
+      {children}
+    </TeamCreateContext.Provider>
   );
 }
+
+export const useTeamCreate = () => {
+  const context = useContext(TeamCreateContext);
+
+  if (!context) {
+    throw new Error("you must useContext inside TeamProvider");
+  }
+  return context;
+};

@@ -135,15 +135,15 @@ export const Get = {
     return filtered;
   },
 
-  TeamByCaptainId: async (captainId: number) => {
+  TeamByCreatorId: async (creatorId: number) => {
     try {
       const team = await db
         .select()
         .from(teamsTable)
-        .where(eq(teamsTable.captainId, captainId));
+        .where(eq(teamsTable.creatorId, creatorId));
       return team[0];
     } catch (error) {
-      console.error("Error fetching team by captain ID:", error);
+      console.error("Error fetching team by creator ID:", error);
       return null;
     }
   },
