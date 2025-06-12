@@ -63,7 +63,7 @@ function TeamPageComponent() {
   }
 
   // If user not in team
-  if (dbTeam) {
+  if (!dbTeam) {
     return (
       <div className="container mx-auto px-4 py-10">
         {/* Page Heading */}

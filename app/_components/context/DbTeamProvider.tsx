@@ -28,7 +28,7 @@ export default function TeamProvider({
 }) {
   const [dbTeam, setDbTeam] = useState<Team | null>(null);
   const [pageLoading, setPageLoading] = useState(true);
-  const { user, player } = useDbUser();
+  const { player } = useDbUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -56,7 +56,8 @@ export default function TeamProvider({
       }
       fetch(player.teamId);
     }
-  }, []);
+    setPageLoading(false);
+  }, [router]);
 
   if (pageLoading) {
     return (

@@ -96,131 +96,135 @@ function TeamForm() {
         <CardTitle>Create Team</CardTitle>
       </CardHeader>
       <CardContent>
-        <Form {...form}></Form>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 rounded-lg p-6 shadow-md"
-        >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Team Name</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Enter your team name"
-                    required
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="gameId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Game Name</FormLabel>
-                <FormControl>
-                  <Select
-                    {...field}
-                    value={String(field.value)}
-                    onValueChange={(value) => field.onChange(Number(value))}
-                    required
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Choose a game" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {games.map((game) => (
-                        <SelectItem key={game.id} value={String(game.id)}>
-                          {game.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div>
-            <Label htmlFor="gameId">Select Game</Label>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="logo">Upload Team Logo</Label>
-            <div
-              className={`flex items-center justify-center rounded-md text-center text-gray-500 ${previewUrl ? "border border-primary" : "border-2 border-dashed"}`}
-            >
-              <FileUploader
-                name="file"
-                types={fileTypes}
-                handleChange={handleFileChange}
-                classes="w-full h-full flex items-center justify-center p-5"
-              >
-                {previewUrl ? (
-                  <div className="relative w-full overflow-hidden">
-                    <Image
-                      src={previewUrl}
-                      alt="Uploaded Preview"
-                      className="h-48 w-full rounded-md object-cover"
-                      width={200}
-                      height={200}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6 rounded-lg p-6 shadow-md"
+          >
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Team Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="Enter your team name"
+                      required
                     />
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      className="absolute right-2 top-2 rounded-full p-1 shadow-md"
-                    >
-                      <Pencil className="size-5 font-extrabold text-primary" />
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="cursor-pointer">
-                    <CloudUpload className="mx-auto h-10 w-10 text-primary" />
-                    <p>Drag & drop your logo here</p>
-                    <p className="text-sm">or</p>
-                    <Button variant="outline" className="mt-2">
-                      Upload Logo
-                    </Button>
-                  </div>
-                )}
-              </FileUploader>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="prefix">Secret Code Prefix</Label>
-            <Input
-              id="prefix"
-              value={prefix}
-              onChange={(e) => setPrefix(e.target.value)}
-              placeholder="e.g., NRG, TSM, FAZE"
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <p className="text-sm text-muted-foreground">
-              (Optional): Add a short prefix to personalize your team code.
-            </p>
-          </div>
 
-          {/* <pre className="text-red-500">
+            <FormField
+              control={form.control}
+              name="gameId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Game Name</FormLabel>
+                  <FormControl>
+                    <Select
+                      {...field}
+                      value={String(field.value)}
+                      onValueChange={(value) => field.onChange(Number(value))}
+                      required
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Choose a game" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {games.map((game) => (
+                          <SelectItem key={game.id} value={String(game.id)}>
+                            {game.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div>
+              <Label htmlFor="gameId">Select Game</Label>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="logo">Upload Team Logo</Label>
+              <div
+                className={`flex items-center justify-center rounded-md text-center text-gray-500 ${previewUrl ? "border border-primary" : "border-2 border-dashed"}`}
+              >
+                <FileUploader
+                  name="file"
+                  types={fileTypes}
+                  handleChange={handleFileChange}
+                  classes="w-full h-full flex items-center justify-center p-5"
+                >
+                  {previewUrl ? (
+                    <div className="relative w-full overflow-hidden">
+                      <Image
+                        src={previewUrl}
+                        alt="Uploaded Preview"
+                        className="h-48 w-full rounded-md object-cover"
+                        width={200}
+                        height={200}
+                      />
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        className="absolute right-2 top-2 rounded-full p-1 shadow-md"
+                      >
+                        <Pencil className="size-5 font-extrabold text-primary" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="cursor-pointer">
+                      <CloudUpload className="mx-auto h-10 w-10 text-primary" />
+                      <p>Drag & drop your logo here</p>
+                      <p className="text-sm">or</p>
+                      <Button variant="outline" className="mt-2">
+                        Upload Logo
+                      </Button>
+                    </div>
+                  )}
+                </FileUploader>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="prefix">Secret Code Prefix</Label>
+              <Input
+                id="prefix"
+                value={prefix}
+                onChange={(e) => setPrefix(e.target.value)}
+                placeholder="e.g., NRG, TSM, FAZE"
+              />
+              <p className="text-sm text-muted-foreground">
+                (Optional): Add a short prefix to personalize your team code.
+              </p>
+            </div>
+
+            {/* <pre className="text-red-500">
               {JSON.stringify(errors, null, 2)}
             </pre> */}
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={
-              loading || !form.watch("name") || !form.watch("gameId") || !image
-            }
-          >
-            {loading ? "Creating..." : "Create Team"}
-          </Button>
-        </form>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={
+                loading ||
+                !form.watch("name") ||
+                !form.watch("gameId") ||
+                !image
+              }
+            >
+              {loading ? "Creating..." : "Create Team"}
+            </Button>
+          </form>
+        </Form>
       </CardContent>
     </Card>
   );

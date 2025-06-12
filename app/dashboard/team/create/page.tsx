@@ -5,14 +5,15 @@ import TeamCreateProvider, {
 } from "@/app/_components/provider/team-provider";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Copy, Share } from "lucide-react";
+import TeamForm from "@/app/_components/form/team-form";
 
 function CreateTeamForm() {
   const { teamCode, openDialog } = useTeamCreate();
@@ -32,14 +33,18 @@ function CreateTeamForm() {
         </p>
       </div>
 
-      <Dialog open={openDialog}>
-        <DialogContent className="text-center">
-          <DialogClose disabled>x</DialogClose>
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-semibold">
+      <TeamForm />
+
+      <AlertDialog open={openDialog}>
+        <AlertDialogContent className="text-center">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-2xl font-semibold">
               🎉 Team Created Successfully!
-            </DialogTitle>
-          </DialogHeader>
+            </AlertDialogTitle>
+          </AlertDialogHeader>
+          <AlertDialogDescription className="text-sm text-muted-foreground">
+            Share this code with your teammates so they can join the team.
+          </AlertDialogDescription>
 
           <div className="relative my-6 w-full rounded-md border border-muted bg-muted p-4 text-left">
             <Label className="mb-1 block text-sm text-muted-foreground">
@@ -59,12 +64,8 @@ function CreateTeamForm() {
               </div>
             </div>
           </div>
-
-          <p className="text-sm text-muted-foreground">
-            Share this code with your teammates so they can join the team.
-          </p>
-        </DialogContent>
-      </Dialog>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
