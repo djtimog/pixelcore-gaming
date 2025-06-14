@@ -52,18 +52,20 @@ const UserAvatar = ({
   alt,
   name,
   className,
+  imageClassName,
 }: {
   url?: string;
   alt?: string;
   name?: string;
   className?: string;
+  imageClassName?: string;
 }) => {
   return (
-    <Avatar className="h-8 w-8 cursor-pointer">
+    <Avatar className={cn("h-8 w-8 cursor-pointer", className)}>
       <AvatarImage
         src={url}
         alt={alt}
-        className={cn("overflow-hidden object-cover", className)}
+        className={cn("overflow-hidden object-cover", imageClassName)}
       />
       <AvatarFallback>{name?.charAt(0).toLocaleUpperCase()}</AvatarFallback>
     </Avatar>

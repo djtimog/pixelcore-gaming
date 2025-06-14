@@ -36,7 +36,6 @@ export type PlayerProfile = {
   gameHandle: string | null;
   rank: string | null;
   level: number | null;
-  isCaptain: boolean | null;
 };
 
 interface DbUserContextValue {

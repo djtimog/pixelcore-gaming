@@ -4,6 +4,7 @@ import {
   matchesTable,
   playersTable,
   starredTournamentsTable,
+  teamInvitesTable,
   teamRegistrationsTable,
   teamsTable,
   tournamentAnnouncementsTable,
@@ -275,6 +276,32 @@ export const Get = {
       return room[0];
     } catch (error) {
       console.error("Error fetching room by tournament ID:", error);
+      return null;
+    }
+  },
+
+  TeamInvitesByPlayerId: async (playerId: number) => {
+    try {
+      const invites = await db
+        .select()
+        .from(teamInvitesTable)
+        .where(eq(teamInvitesTable.playerId, playerId));
+      return invites;
+    } catch (error) {
+      console.error("Error fetching invites by player ID:", error);
+      return null;
+    }
+  },
+
+  TeamInvitesByTeamId: async (teamId: number) => {
+    try {
+      const invites = await db
+        .select()
+        .from(teamInvitesTable)
+        .where(eq(teamInvitesTable.teamId, teamId));
+      return invites;
+    } catch (error) {
+      console.error("Error fetching invites by team ID:", error);
       return null;
     }
   },

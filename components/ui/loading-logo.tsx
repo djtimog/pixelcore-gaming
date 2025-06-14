@@ -19,14 +19,14 @@ export default function LogoAnimation() {
   }, [controls]);
 
   return (
-    <div className="size-20 overflow-hidden rounded-lg shadow-lg">
+    <div className="size-20 overflow-hidden rounded-lg">
       <motion.div animate={controls} className="relative w-full">
         <Image
           src="/logo.png"
           alt="logo"
           width={200}
           height={200}
-          className="object-cover w-full h-full"
+          className="h-full w-full object-cover"
         />
       </motion.div>
     </div>

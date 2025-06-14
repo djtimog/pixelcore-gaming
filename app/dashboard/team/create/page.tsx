@@ -19,6 +19,7 @@ import TeamForm from "@/app/_components/form/team-form";
 import { useRouter } from "next/navigation";
 import { handleShare } from "@/lib/share";
 import { useState } from "react";
+import { ActionIconButton } from "@/components/ui/action-icon";
 
 function CreateTeamForm() {
   const { teamCode, openDialog } = useTeamCreate();
@@ -35,11 +36,8 @@ function CreateTeamForm() {
   };
   const ActionIcon = getCurrentIcon();
 
-  const handleCopy = () => {
-    setIconState("loading");
-    navigator.clipboard.writeText(teamCode);
-    setIconState("done");
-    setTimeout(() => setIconState("default"), 2000);
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(teamCode);
   };
 
   const shareData = {
@@ -82,9 +80,7 @@ function CreateTeamForm() {
                 {teamCode}
               </span>
               <div className="flex gap-2">
-                <Button size="icon" variant="ghost" onClick={handleCopy}>
-                  <ActionIcon className="h-5 w-5" />
-                </Button>
+                <ActionIconButton action={handleCopy} initialIcon={Copy} />
                 <Button
                   size="icon"
                   variant="ghost"

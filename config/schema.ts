@@ -49,6 +49,7 @@ export const teamsTable = pgTable("teams", {
   createdAt: timestamp("created_at").defaultNow(),
   gameId: integer("game_id").notNull(), // Foreign key to games table
   uid: varchar("uid", { length: 255 }).notNull(), // Unique identifier for the player
+  asstCaptainId: integer("captain_id").references(() => usersTable.id),
 });
 
 // Players Table
@@ -65,7 +66,6 @@ export const playersTable = pgTable("players", {
   rank: varchar("rank", { length: 100 }), // Optional in-game rank
   uid: varchar("uid", { length: 255 }).notNull(), // Unique identifier for the player
   level: integer("level").default(1), // Optional player level
-  isCaptain: boolean("is_captain").default(false), // Is the player a team captain?
 });
 
 export const teamInvitesTable = pgTable("team_invites", {
@@ -77,8 +77,9 @@ export const teamInvitesTable = pgTable("team_invites", {
     .notNull()
     .references(() => playersTable.id),
   status: varchar("status", { length: 50 }).default("pending"), // pending, accepted, declined
-  sentAt: timestamp("sent_at").defaultNow(),
+  updatedAt: timestamp("sent_at").defaultNow(),
 });
+
 // Tournaments Table
 export const tournamentsTable = pgTable("tournaments", {
   id: serial("id").primaryKey(),

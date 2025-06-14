@@ -68,6 +68,7 @@ export type Team = {
   captainId: number | null;
   gameId: number;
   uid: string;
+  asstCaptainId: number | null;
 };
 
 export type TeamPlayersData = {
@@ -248,4 +249,12 @@ export type TournamentAnnouncementData = {
   tournamentId: number;
   title: string;
   content: string;
+};
+
+export type InviteData = {
+  id: number;
+  teamId: number;
+  playerId: number;
+  status: string | null;
+  updatedAt: Date | null;
 };
