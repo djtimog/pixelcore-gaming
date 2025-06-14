@@ -1,12 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { motion } from "framer-motion";
-
-import { Get } from "@/lib/action/_get";
-import { Post } from "@/lib/action/_post";
 import {
   PlayerProfile,
   useDbUser,
@@ -20,39 +15,17 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  DbTournamentDataType,
-  MatchWithTeams,
-  Team,
-} from "@/lib/placeholder-data";
+import { DbTournamentDataType, MatchWithTeams } from "@/lib/placeholder-data";
 import LogoAnimation from "@/components/ui/loading-logo";
 import { KeyRound, PlusCircle } from "lucide-react";
-import TeamProvider, {
-  useTeam,
-} from "@/app/_components/context/DbTeamProvider";
+import { useTeam } from "@/app/_components/context/DbTeamProvider";
 
-function TeamPageComponent() {
+export default function TeamPage() {
   const router = useRouter();
-  const { player, user } = useDbUser();
   const { dbTeam } = useTeam();
-  const [members, setMembers] = useState<PlayerProfile[]>([]);
-  const [tournaments, setTournaments] = useState<DbTournamentDataType[]>([]);
-  const [matches, setMatches] = useState<MatchWithTeams[]>([]);
   const [joinDialogOpen, setJoinDialogOpen] = useState(false);
   const [secretCode, setSecretCode] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // }
 
   if (loading) {
     return (
@@ -241,12 +214,4 @@ function TeamPageComponent() {
   //     </Card>
   //   </motion.div>
   // );
-}
-
-export default function TeamPage() {
-  return (
-    <TeamProvider>
-      <TeamPageComponent />
-    </TeamProvider>
-  );
 }

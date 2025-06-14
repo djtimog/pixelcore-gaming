@@ -1,7 +1,4 @@
 "use client";
-import LogoAnimation from "@/components/ui/loading-logo";
-import { Get } from "@/lib/action/_get";
-import { Team } from "@/lib/placeholder-data";
 import {
   createContext,
   Dispatch,
@@ -10,9 +7,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useDbUser } from "../context/DbUserProvider";
-import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { useTeam } from "../context/DbTeamProvider";
 
 type TeamCreateContext = {
   openDialog: boolean;
@@ -30,6 +26,16 @@ export default function TeamCreateProvider({
 }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [teamCode, setTeamCode] = useState("");
+  const router = useRouter();
+  const { dbTeam } = useTeam();
+
+  useEffect(() => {
+    console.log(dbTeam);
+    if (dbTeam) {
+      setTeamCode(dbTeam.secretCode);
+      setOpenDialog(true);
+    }
+  }, [router]);
 
   return (
     <TeamCreateContext.Provider

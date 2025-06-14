@@ -72,6 +72,7 @@ export function GetIdByReferralCode(code: string): number {
 
 export function generateSecretCode(prefix = "TEAM") {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const length = 7;
   let code = "";
   for (let i = 0; i < length; i++) {
     code += chars.charAt(Math.floor(Math.random() * chars.length));

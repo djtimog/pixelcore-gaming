@@ -421,8 +421,10 @@ export const onSubmitForm = {
         });
         return;
       }
+
       const secretCode = generateSecretCode(prefix);
       setTeamCode(secretCode);
+
       const data = {
         name: teamData.name.slice(0, 255),
         uid: uuid,
@@ -433,6 +435,7 @@ export const onSubmitForm = {
       };
 
       const dbTeamData = await Post.TeamData(data);
+
       try {
         await Update.PlayerWithTeamId(dbTeamData[0].id, playerId);
         toast({

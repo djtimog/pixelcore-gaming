@@ -6,20 +6,46 @@ import TeamCreateProvider, {
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
+  AlertDialogAction,
   AlertDialogContent,
   AlertDialogDescription,
+  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
-import { Copy, Share } from "lucide-react";
+import { ArrowLeft, Check, Copy, LoaderCircle, Share } from "lucide-react";
 import TeamForm from "@/app/_components/form/team-form";
+import { useRouter } from "next/navigation";
+import { handleShare } from "@/lib/share";
+import { useState } from "react";
 
 function CreateTeamForm() {
   const { teamCode, openDialog } = useTeamCreate();
+  const router = useRouter();
+
+  const [iconState, setIconState] = useState<"default" | "loading" | "done">(
+    "default",
+  );
+
+  const getCurrentIcon = () => {
+    if (iconState === "loading") return LoaderCircle;
+    else if (iconState === "done") return Check;
+    else return Copy;
+  };
+  const ActionIcon = getCurrentIcon();
 
   const handleCopy = () => {
+    setIconState("loading");
     navigator.clipboard.writeText(teamCode);
+    setIconState("done");
+    setTimeout(() => setIconState("default"), 2000);
+  };
+
+  const shareData = {
+    title: "Join Our Esports Team!",
+    text: `Use this secret code to join our team: ${teamCode}`,
+    url: `https://pixelcore-gaming.vercel.app/dashboard/team?secretCode=${teamCode}`,
   };
 
   return (
@@ -38,10 +64,11 @@ function CreateTeamForm() {
       <AlertDialog open={openDialog}>
         <AlertDialogContent className="text-center">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-2xl font-semibold">
-              🎉 Team Created Successfully!
+            <AlertDialogTitle className="text-center text-2xl font-semibold">
+              🎉 Successfully Joined a TEAM
             </AlertDialogTitle>
           </AlertDialogHeader>
+
           <AlertDialogDescription className="text-sm text-muted-foreground">
             Share this code with your teammates so they can join the team.
           </AlertDialogDescription>
@@ -56,14 +83,28 @@ function CreateTeamForm() {
               </span>
               <div className="flex gap-2">
                 <Button size="icon" variant="ghost" onClick={handleCopy}>
-                  <Copy className="h-5 w-5" />
+                  <ActionIcon className="h-5 w-5" />
                 </Button>
-                <Button size="icon" variant="ghost">
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={() => handleShare(shareData)}
+                >
                   <Share className="h-5 w-5" />
                 </Button>
               </div>
             </div>
           </div>
+
+          <AlertDialogFooter>
+            <AlertDialogAction
+              onClick={() => router.push("/dashboard/team")}
+              className="flex w-full gap-2"
+            >
+              <ArrowLeft />
+              <span>Go Back To Team</span>
+            </AlertDialogAction>
+          </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
     </div>

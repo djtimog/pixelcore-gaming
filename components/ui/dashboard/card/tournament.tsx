@@ -2,13 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Gamepad2,
-  Info,
-  LoaderCircle,
-  Share,
-  UsersRound,
-} from "lucide-react";
+import { Gamepad2, Info, LoaderCircle, Share, UsersRound } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -66,7 +60,7 @@ export const TournamentCard = ({
   const shareData = {
     title: `${title} - PixelCore Esport`,
     text: `🎮 Compete in ${title} playing ${game}! 🏆 Prize pool: $${prize.toLocaleString()}.\nJoin now and show your skills! 🔥`,
-    url: `https://pixelcore-gaming.vercel.app/tournaments/${uid}`,
+    url: `https://pixelcore-gaming.vercel.app/dashboard/tournaments/${uid}`,
   };
   return (
     <div>
@@ -104,9 +98,7 @@ export const TournamentCard = ({
       <div className="mb-3 space-y-1">
         <div className="flex items-center justify-between gap-2">
           <h3 className="text-md truncate font-bold text-primary">{title}</h3>
-          <span className="text-xs text-primary">
-            {prize.toLocaleString()}
-          </span>
+          <span className="text-xs text-primary">{prize.toLocaleString()}</span>
         </div>
 
         <div className="flex items-center justify-between gap-2 text-sm">

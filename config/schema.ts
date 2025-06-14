@@ -45,11 +45,9 @@ export const teamsTable = pgTable("teams", {
     .notNull()
     .references(() => usersTable.id),
   captainId: integer("captain_id").references(() => usersTable.id), // Foreign key to users table
-  secretCode: varchar("secret_code", { length: 7 }).notNull(),
+  secretCode: varchar("secret_code").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
-  gameId: integer("game_id")
-    .notNull()
-    .references(() => gamesTable.id), // Foreign key to games table
+  gameId: integer("game_id").notNull(), // Foreign key to games table
   uid: varchar("uid", { length: 255 }).notNull(), // Unique identifier for the player
 });
 

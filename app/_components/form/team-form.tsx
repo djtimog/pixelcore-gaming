@@ -1,13 +1,13 @@
 "use client";
 
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { CloudUpload, Pencil, Copy, Share } from "lucide-react";
+import { CloudUpload, Pencil } from "lucide-react";
 import { FileUploader } from "react-drag-drop-files";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -24,12 +24,7 @@ import { TeamFormValues } from "@/lib/placeholder-data";
 import { useDbUser } from "@/app/_components/context/DbUserProvider";
 import { onSubmitForm } from "@/lib/action/_onSubmit-form";
 import { useRouter } from "next/navigation";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Form } from "@/components/ui/form"; // ✅ Proper Form import
 import {
   FormControl,
   FormField,
@@ -55,13 +50,17 @@ function TeamForm() {
   const [image, setImage] = useState<File | null>(null);
   const router = useRouter();
   const { setOpenDialog, setTeamCode } = useTeamCreate();
+
   const form = useForm<TeamFormValues>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+    },
   });
 
-  if (player.teamId) {
-    router.push("/dashboard/team");
-  }
+  const name = form.watch("name");
+  const gameId = form.watch("gameId");
+
   useEffect(() => {
     const fetchGames = async () => {
       const data = await Get.Games();
@@ -101,6 +100,7 @@ function TeamForm() {
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6 rounded-lg p-6 shadow-md"
           >
+            {/* Team Name */}
             <FormField
               control={form.control}
               name="name"
@@ -108,17 +108,14 @@ function TeamForm() {
                 <FormItem>
                   <FormLabel>Team Name</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Enter your team name"
-                      required
-                    />
+                    <Input {...field} placeholder="Enter your team name" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
+            {/* Game Select */}
             <FormField
               control={form.control}
               name="gameId"
@@ -127,10 +124,8 @@ function TeamForm() {
                   <FormLabel>Game Name</FormLabel>
                   <FormControl>
                     <Select
-                      {...field}
                       value={String(field.value)}
-                      onValueChange={(value) => field.onChange(Number(value))}
-                      required
+                      onValueChange={field.onChange}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Choose a game" />
@@ -148,10 +143,8 @@ function TeamForm() {
                 </FormItem>
               )}
             />
-            <div>
-              <Label htmlFor="gameId">Select Game</Label>
-            </div>
 
+            {/* Logo Upload */}
             <div className="space-y-2">
               <Label htmlFor="logo">Upload Team Logo</Label>
               <div
@@ -194,6 +187,7 @@ function TeamForm() {
               </div>
             </div>
 
+            {/* Prefix */}
             <div className="space-y-2">
               <Label htmlFor="prefix">Secret Code Prefix</Label>
               <Input
@@ -207,19 +201,11 @@ function TeamForm() {
               </p>
             </div>
 
-            {/* <pre className="text-red-500">
-              {JSON.stringify(errors, null, 2)}
-            </pre> */}
-
+            {/* Submit */}
             <Button
               type="submit"
               className="w-full"
-              disabled={
-                loading ||
-                !form.watch("name") ||
-                !form.watch("gameId") ||
-                !image
-              }
+              disabled={loading || !name || !gameId || !image}
             >
               {loading ? "Creating..." : "Create Team"}
             </Button>
