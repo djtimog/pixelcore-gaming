@@ -63,7 +63,7 @@ function UidTournamentProvider({ children }: { children: React.ReactNode }) {
       }
     };
     fetchUidTournamentData();
-  }, [router]);
+  }, [router, uid]);
 
   if (loading || !uidHost || !uidTournament) {
     return (

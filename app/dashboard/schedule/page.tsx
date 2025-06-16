@@ -34,14 +34,12 @@ export default function Schedule() {
 
     if (uid) {
       const fetchTournamentDetails = async () => {
-        try {
-        } catch (error) {}
         const data = await Get.TournamentByUid(uid);
         setTournament(data);
       };
       fetchTournamentDetails();
     }
-  }, []);
+  }, [uid, user.id]);
 
   const isVerified = user.isVerified;
   const hasNoBans = true;

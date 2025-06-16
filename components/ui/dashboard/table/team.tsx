@@ -85,7 +85,9 @@ export const getColumns = (
       : {
           id: "sn",
           header: () => <span>S/N</span>,
-          cell: ({ row }) => <span>{row.index + 1}</span>,
+          cell: ({ row }) => (
+            <span className="text-center">{row.index + 1}</span>
+          ),
         },
     {
       id: "imageUrl",
@@ -168,7 +170,7 @@ export const getColumns = (
         const canDemote = currentUserRole === "owner";
         const canLeave = currentUserRole !== "owner" && isSelf;
 
-        if (currentUserRole) return;
+        if (isSelf) return;
 
         return (
           <DropdownMenu>
@@ -217,7 +219,8 @@ export const getColumns = (
                   </DropdownMenuItem>
                 </>
               )}
-              {!member.isCurrentUser && (
+
+              {!isSelf && (
                 <>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => {}}>Chat</DropdownMenuItem>
@@ -302,7 +305,7 @@ export function TeamMembersTable({
           }
           className="max-w-sm"
         />
-        <div className="flex gap-3 self-end">
+        <div className="ml-auto flex gap-3">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">

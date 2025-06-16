@@ -1,19 +1,25 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Ban,
   CheckCheck,
+  CheckCircle,
   Clock,
+  EllipsisVertical,
   KeyRound,
-  LucideIcon,
   PlusCircle,
   Trash2,
+  type LucideIcon,
 } from "lucide-react";
 
 import { useDbUser } from "@/app/_components/context/DbUserProvider";
 import { Get } from "@/lib/action/_get";
+import { Post, Delete, Update } from "@/lib/action/_post";
+import { handleTeamLookup } from "@/lib/team-look-up";
+import { toast } from "@/hooks/use-toast";
+
 import { InviteData } from "@/lib/placeholder-data";
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -33,8 +39,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import LogoAnimation from "../../loading-logo";
-import { Delete } from "@/lib/action/_post";
 import { ActionIconButton } from "../../action-icon";
 
 const statusStyles: Record<string, string> = {
@@ -57,42 +71,89 @@ const statusIcon = (status: string): LucideIcon => {
   }
 };
 
-function NoTeamPage() {
+export default function NoTeamPage() {
   const router = useRouter();
   const { player } = useDbUser();
+  const searchParams = useSearchParams();
+
   const [joinDialogOpen, setJoinDialogOpen] = useState(false);
   const [secretCode, setSecretCode] = useState("");
   const [invites, setInvites] = useState<InviteData[] | null>(null);
   const [teamNames, setTeamNames] = useState<Record<string, string>>({});
+  const [teamId, setTeamId] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  async function fetchInvites() {
+  const paramsSecretCode = searchParams.get("secret_code");
+
+  const fetchInvites = async () => {
+    if (!player?.id) return;
     const data = await Get.TeamInvitesByPlayerId(player.id);
     if (!data) return;
+
     setInvites(data);
 
-    // Fetch team names
     const names: Record<string, string> = {};
-    for (const invite of data) {
-      const team = await Get.TeamById(invite.teamId);
-      if (team) names[invite.teamId] = team.name;
-    }
+    await Promise.all(
+      data.map(async (invite) => {
+        const team = await Get.TeamById(invite.teamId);
+        if (team) names[invite.teamId] = team.name;
+      }),
+    );
     setTeamNames(names);
-  }
+  };
 
   useEffect(() => {
+    if (paramsSecretCode) {
+      setJoinDialogOpen(true);
+      setSecretCode(paramsSecretCode);
+    }
+
     if (player?.id) fetchInvites();
   }, [player]);
+
+  const handleSecretSubmit = async () => {
+    setLoading(true);
+
+    await handleTeamLookup(secretCode, setTeamId);
+
+    if (teamId) {
+      const hasPending = invites?.some(
+        (invite) => invite.teamId === teamId && invite.status === "pending",
+      );
+
+      if (hasPending) {
+        toast({
+          title: "Duplicate Submission",
+          description: "You already have a pending invite.",
+        });
+        return setLoading(false);
+      }
+
+      await Post.TeamInviteData({ playerId: player.id, teamId });
+      await fetchInvites();
+    }
+
+    setLoading(false);
+  };
+
+  const handleDelete = async (inviteId: number) => {
+    await Delete.TeamInvites(inviteId);
+    await fetchInvites();
+  };
+
+  const handleConfirm = async (teamId: number) => {
+    await Update.PlayerWithTeamId(teamId, player.id);
+    await fetchInvites();
+    router.refresh();
+  };
 
   return (
     <div className="container mx-auto px-4 py-10">
       <div className="mb-8 text-center">
-        <h2 className="outlined-text text-center text-3xl tracking-wide">
-          Team Setup
-        </h2>
+        <h2 className="outlined-text text-3xl tracking-wide">Team Setup</h2>
         <p className="mx-auto mt-2 max-w-xl text-muted-foreground">
-          To participate in tournaments, you must be part of a team. You can
-          either join an existing one with a secret code or create your own and
-          invite others.
+          To participate in tournaments, you must be part of a team. Join one
+          with a secret code or create your own.
         </p>
       </div>
 
@@ -102,8 +163,7 @@ function NoTeamPage() {
             <KeyRound className="h-10 w-10 text-blue-600" />
             <CardTitle className="text-2xl">Join a Team</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Have a team code? Enter it below to join an existing team and
-              start competing.
+              Have a team code? Enter it to join an existing team.
             </p>
           </CardHeader>
           <CardContent>
@@ -122,7 +182,13 @@ function NoTeamPage() {
                   value={secretCode}
                   onChange={(e) => setSecretCode(e.target.value)}
                 />
-                <Button className="mt-4 w-full">Submit</Button>
+                <Button
+                  className="mt-4 w-full"
+                  disabled={secretCode.length < 7 || loading}
+                  onClick={handleSecretSubmit}
+                >
+                  {loading ? "Submitting..." : "Submit"}
+                </Button>
               </DialogContent>
             </Dialog>
           </CardContent>
@@ -133,8 +199,7 @@ function NoTeamPage() {
             <PlusCircle className="h-10 w-10 text-green-600" />
             <CardTitle className="text-2xl">Create a Team</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Be the team leader! Create a new team and invite others to join
-              using a secret code.
+              Be a leader! Create a team and invite others with a secret code.
             </p>
           </CardHeader>
           <CardContent>
@@ -160,7 +225,7 @@ function NoTeamPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Team</TableHead>
-                <TableHead>Status</TableHead>
+                <TableHead className="text-center">Status</TableHead>
                 <TableHead>Updated At</TableHead>
                 <TableHead className="text-center"></TableHead>
               </TableRow>
@@ -168,18 +233,21 @@ function NoTeamPage() {
             <TableBody>
               {invites.map((invite) => {
                 const Icon = statusIcon(invite.status ?? "default");
+
                 return (
                   <TableRow key={invite.id}>
                     <TableCell className="truncate">
                       {teamNames[invite.teamId] ?? invite.teamId}
                     </TableCell>
                     <TableCell
-                      className={`${statusStyles[invite.status ?? "default"]} flex items-center gap-2 pt-1`}
+                      className={`${statusStyles[invite.status ?? "default"]} text-center`}
                     >
-                      <Icon className="h-4 w-4" />
-                      <span className="capitalize">
-                        {invite.status ?? "pending"}
-                      </span>
+                      <p className="flex items-center justify-center gap-2">
+                        <Icon className="h-4 w-4" />
+                        <span className="capitalize">
+                          {invite.status ?? "pending"}
+                        </span>
+                      </p>
                     </TableCell>
                     <TableCell>
                       {invite.updatedAt
@@ -187,14 +255,38 @@ function NoTeamPage() {
                         : "-"}
                     </TableCell>
                     <TableCell className="text-center">
-                      <ActionIconButton
-                        initialIcon={Trash2}
-                        action={async () => {
-                          await Delete.TeamInvites(invite.id);
-                          await fetchInvites();
-                        }}
-                        className="size-4 text-red-500 hover:bg-red-100"
-                      />
+                      {invite.status === "accepted" ? (
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                              <EllipsisVertical className="size-4" />
+                              <span className="sr-only">Open actions</span>
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem
+                              onClick={() => handleDelete(invite.id)}
+                            >
+                              <Trash2 className="mr-2 h-4 w-4" />
+                              Delete Invite
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              onClick={() => handleConfirm(invite.teamId)}
+                            >
+                              <CheckCircle className="mr-2 h-4 w-4" />
+                              Confirm Invitation
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      ) : (
+                        <ActionIconButton
+                          initialIcon={Trash2}
+                          action={() => handleDelete(invite.id)}
+                          className="size-4 text-red-500 hover:text-red-800"
+                        />
+                      )}
                     </TableCell>
                   </TableRow>
                 );
@@ -206,5 +298,3 @@ function NoTeamPage() {
     </div>
   );
 }
-
-export default NoTeamPage;

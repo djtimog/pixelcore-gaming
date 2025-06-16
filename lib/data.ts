@@ -1,5 +1,4 @@
 import { Copy, Link2, LinkIcon, Share, TicketSlash } from "lucide-react";
-import { RefersAccount } from "./placeholder-data";
 import { GetReferralCodeById } from "./codeGenerator";
 
 export const teams = [

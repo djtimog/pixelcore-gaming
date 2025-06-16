@@ -35,7 +35,7 @@ export default function TeamCreateProvider({
       setTeamCode(dbTeam.secretCode);
       setOpenDialog(true);
     }
-  }, [router]);
+  }, [router, dbTeam]);
 
   return (
     <TeamCreateContext.Provider

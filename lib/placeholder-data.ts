@@ -79,7 +79,6 @@ export type TeamPlayersData = {
   rank: string | null;
   uid: string;
   level: number | null;
-  isCaptain: boolean | null;
 };
 
 export type TournamentData = {

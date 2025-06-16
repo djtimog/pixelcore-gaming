@@ -14,27 +14,15 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Check, Copy, LoaderCircle, Share } from "lucide-react";
+import { ArrowLeft, Copy, Share } from "lucide-react";
 import TeamForm from "@/app/_components/form/team-form";
 import { useRouter } from "next/navigation";
 import { handleShare } from "@/lib/share";
-import { useState } from "react";
 import { ActionIconButton } from "@/components/ui/action-icon";
 
 function CreateTeamForm() {
   const { teamCode, openDialog } = useTeamCreate();
   const router = useRouter();
-
-  const [iconState, setIconState] = useState<"default" | "loading" | "done">(
-    "default",
-  );
-
-  const getCurrentIcon = () => {
-    if (iconState === "loading") return LoaderCircle;
-    else if (iconState === "done") return Check;
-    else return Copy;
-  };
-  const ActionIcon = getCurrentIcon();
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(teamCode);
@@ -43,7 +31,7 @@ function CreateTeamForm() {
   const shareData = {
     title: "Join Our Esports Team!",
     text: `Use this secret code to join our team: ${teamCode}`,
-    url: `https://pixelcore-gaming.vercel.app/dashboard/team?secretCode=${teamCode}`,
+    url: `https://pixelcore-gaming.vercel.app/dashboard/team?secret_code=${teamCode}`,
   };
 
   return (

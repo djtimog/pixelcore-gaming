@@ -88,6 +88,12 @@ export const Update = {
       .set({ teamId })
       .where(eq(playersTable.id, playerId));
   },
+  TeamInviteWithStatus: (status: string, inviteId: number) => {
+    return db
+      .update(teamInvitesTable)
+      .set({ status })
+      .where(eq(teamInvitesTable.id, inviteId));
+  },
 };
 
 export const Delete = {

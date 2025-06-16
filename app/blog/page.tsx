@@ -6,7 +6,7 @@ import { blogs } from "@/lib/data";
 
 import { useState } from "react";
 
-export default function page() {
+export default function BlogPage() {
   const [search, setSearch] = useState("");
   const [filteredBlogs, setFilteredBlogs] = useState<typeof blogs>(blogs);
 

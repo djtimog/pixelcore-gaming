@@ -84,7 +84,7 @@ export default function Refers() {
     };
 
     fetchReferrals();
-  }, []);
+  }, [db.user.id]);
 
   return (
     <Card className="min-h-screen border-0 bg-inherit">

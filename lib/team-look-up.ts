@@ -13,10 +13,6 @@ export const handleTeamLookup = async (
 
     if (team) {
       setTeamId(team.id);
-      toast({
-        title: "Team found!",
-        description: `You just applied to join ${team.name}.`,
-      });
     } else {
       setTeamId(null);
       toast({

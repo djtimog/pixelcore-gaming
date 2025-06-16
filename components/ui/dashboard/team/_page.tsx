@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import {
-  PlayerProfile,
   useDbUser,
   UserProfile,
 } from "@/app/_components/context/DbUserProvider";
@@ -21,7 +20,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import PlayersInviteCard from "../table/player-invite";
 
 function DbTeamPage({ team }: { team: Team }) {
   const [loading, setLoading] = useState(true);
@@ -106,7 +105,7 @@ function DbTeamPage({ team }: { team: Team }) {
     };
 
     fetchAllData();
-  }, [team, player]);
+  }, [team, player, user.id]);
 
   const createdAt = team.createdAt
     ? format(new Date(team.createdAt), "PPP")
@@ -136,7 +135,7 @@ function DbTeamPage({ team }: { team: Team }) {
         </p>
       </div>
 
-      <Card className="mx-auto w-full max-w-4xl">
+      <Card className="mx-auto w-full max-w-6xl">
         <CardContent className="flex flex-col gap-6 p-6 sm:flex-row sm:items-center">
           <Avatar className="h-24 w-24 rounded-md">
             <AvatarImage src={team.logoUrl || ""} alt={team.name} />
@@ -193,7 +192,7 @@ function DbTeamPage({ team }: { team: Team }) {
         </CardContent>
       </Card>
 
-      <Card className="mx-auto w-full max-w-4xl">
+      <Card className="mx-auto w-full max-w-6xl">
         <CardHeader>
           <CardTitle>Team Members</CardTitle>
         </CardHeader>
@@ -205,7 +204,11 @@ function DbTeamPage({ team }: { team: Team }) {
         </CardContent>
       </Card>
 
-      <Card className="mx-auto w-full max-w-4xl">
+      {currentUserRole === "owner" && (
+        <PlayersInviteCard currentUserRole={currentUserRole} team={team} />
+      )}
+
+      <Card className="mx-auto w-full max-w-6xl">
         <CardHeader>
           <CardTitle>Past Tournaments</CardTitle>
         </CardHeader>
@@ -216,7 +219,7 @@ function DbTeamPage({ team }: { team: Team }) {
         </CardContent>
       </Card>
 
-      <Card className="mx-auto w-full max-w-4xl">
+      <Card className="mx-auto w-full max-w-6xl">
         <CardHeader>
           <CardTitle>Upcoming Matches</CardTitle>
         </CardHeader>
