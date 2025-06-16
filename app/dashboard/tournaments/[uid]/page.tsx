@@ -26,7 +26,6 @@ import { toast } from "@/hooks/use-toast";
 import { Get } from "@/lib/action/_get";
 import { useDbUser } from "@/app/_components/context/DbUserProvider";
 import {
-  Announcement,
   MatchWithTeams,
   RegistrationEntry,
   RoomInfo,
@@ -81,7 +80,7 @@ export default function TournamentDetailsPage() {
         // 4. Team registrations
         const regs = await Get.TeamRegistrationsByTournamentId(tournament.id);
         // 5. Announcements
-        const ann = await Get.AnnouncementsByTournamentId(tournament.id);
+        // const ann = await Get.AnnouncementsByTournamentId(tournament.id);
         // 6. Matches + teams
         const ms = await Get.MatchesByTournamentId(tournament.id);
         // 8. Room link
