@@ -12,9 +12,6 @@ import {
   Users,
   Pencil,
   Trophy,
-  Info as InfoIcon,
-  Megaphone,
-  Star,
   MessageSquare,
   LoaderCircle,
   LucideIcon,
@@ -27,13 +24,9 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "@/hooks/use-toast";
 import { Get } from "@/lib/action/_get";
-import {
-  useDbUser,
-  UserProfile,
-} from "@/app/_components/context/DbUserProvider";
+import { useDbUser } from "@/app/_components/context/DbUserProvider";
 import {
   Announcement,
-  DbTournamentDataType,
   MatchWithTeams,
   RegistrationEntry,
   RoomInfo,
@@ -43,7 +36,7 @@ import {
   AccordionGameCard,
   GameType,
 } from "@/components/ui/dashboard/card/game";
-import { Post, Update } from "@/lib/action/_post";
+import { Update } from "@/lib/action/_post";
 import LogoAnimation from "@/components/ui/loading-logo";
 import { onSubmitForm } from "@/lib/action/_onSubmit-form";
 import Link from "next/link";
@@ -59,7 +52,6 @@ export default function TournamentDetailsPage() {
   const [game, setGame] = useState<GameType | null>(null);
 
   const [registrations, setRegistrations] = useState<RegistrationEntry[]>([]);
-  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [matches, setMatches] = useState<MatchWithTeams[]>([]);
   const [room, setRoom] = useState<RoomInfo | null>(null);
 
@@ -97,7 +89,6 @@ export default function TournamentDetailsPage() {
 
         setGame(foundGame);
         setRegistrations(regs);
-        setAnnouncements(ann);
         setMatches(ms);
         setRoom(rm);
       } catch (err) {
