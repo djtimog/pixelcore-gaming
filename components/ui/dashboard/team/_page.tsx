@@ -32,7 +32,10 @@ function DbTeamPage({ team }: { team: Team }) {
   );
   const [game, setGame] = useState<GameType | null>(null);
   const [teamTableMembers, setTeamTableMembers] = useState<TeamMember[]>([]);
-  const { player } = useDbUser();
+  const { user, player } = useDbUser();
+  const [currentUserRole, setCurrentUserRole] = useState<
+    "owner" | "captain" | "assistant" | "player"
+  >("player");
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -63,22 +66,25 @@ function DbTeamPage({ team }: { team: Team }) {
           return "player";
         };
 
+        setCurrentUserRole(getRole(user.id));
+
         const tableData = await Promise.all(
           members.map(async (member) => {
-            const [user, invites] = await Promise.all([
+            const [data, invites] = await Promise.all([
               Get.UserById(member.userId),
               Get.TeamInvitesByPlayerId(member.id),
             ]);
-            if (!user || !invites) return undefined;
+            if (!data || !invites) return undefined;
 
             const invite = invites.find((i) => i.teamId === team.id);
 
             return {
               id: member.id,
-              name: user.name,
-              username: user.username,
-              role: getRole(user.id),
-              email: user.email,
+              handle: member.gameHandle || "Unknown",
+              username: data.username,
+              role: getRole(data.id),
+              email: data.email,
+              imageUrl: data.imageUrl,
               joinedAt: invite?.updatedAt || team.createdAt,
               isCurrentUser: player?.id === member.id,
             };
@@ -192,7 +198,10 @@ function DbTeamPage({ team }: { team: Team }) {
           <CardTitle>Team Members</CardTitle>
         </CardHeader>
         <CardContent>
-          <TeamMembersTable teamData={teamTableMembers} />
+          <TeamMembersTable
+            teamData={teamTableMembers}
+            currentUserRole={currentUserRole}
+          />
         </CardContent>
       </Card>
 

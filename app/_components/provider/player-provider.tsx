@@ -34,16 +34,14 @@ const PlayerProvider = ({ children }: { children: React.ReactNode }) => {
           const userRole = existingUser.role;
           if (userRole === "player") {
             try {
-              const existingPlayer = await Get.PlayerByUserId(
-                existingUser.id
-              );
+              const existingPlayer = await Get.PlayerByUserId(existingUser.id);
 
               if (existingPlayer) {
                 toast({
                   title: "Alert",
                   description: "You have an account already!",
                 });
-                router.push("/team-sign-up");
+                router.push("/dashboard");
               } else {
                 setPageLoading(false);
               }
@@ -84,14 +82,14 @@ const PlayerProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (user) {
       fetchUserDetails();
-    }else{
+    } else {
       setPageLoading(true);
     }
   }, [user, router]);
 
   return (
-    <main className="container mx-auto px-4 py-8 space-y-10">
-      <p className="uppercase outlined-text text-lg sm:text-xl md:text-2xl lg:text-3xl text-center">
+    <main className="container mx-auto space-y-10 px-4 py-8">
+      <p className="outlined-text text-center text-lg uppercase sm:text-xl md:text-2xl lg:text-3xl">
         Player Sign Up
       </p>
       {!pageLoading ? children : <PlayerFormSkeleton />}

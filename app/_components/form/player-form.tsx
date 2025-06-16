@@ -54,13 +54,15 @@ export default function PlayerSignUpForm() {
 
   return (
     <section>
-      <div className="max-w-5xl m-auto w-full">
+      <div className="m-auto w-full max-w-5xl">
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit((data)=>onSubmitForm.Player(data, user, teamId, setIsLoading, router))}
+            onSubmit={form.handleSubmit((data) =>
+              onSubmitForm.Player(data, user, teamId, setIsLoading, router),
+            )}
             className="space-y-6 p-5 md:p-11"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {/* Game */}
               <FormField
                 control={form.control}
@@ -183,7 +185,9 @@ export default function PlayerSignUpForm() {
                       <Input
                         {...field}
                         placeholder="Enter team secret code (optional)"
-                        onBlur={(e) => handleTeamLookup(e.target.value, setTeamId)}
+                        onBlur={(e) =>
+                          handleTeamLookup(e.target.value, setTeamId)
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -193,11 +197,7 @@ export default function PlayerSignUpForm() {
             </div>
 
             {/* Submit Button */}
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isLoading}
-            >
+            <Button type="submit" className="w-full" disabled={isLoading}>
               <CheckCheck />
               {isLoading ? "Submitting..." : "Submit"}
             </Button>

@@ -3,6 +3,7 @@ import {
   matchesTable,
   playersTable,
   starredTournamentsTable,
+  teamInvitesTable,
   teamsTable,
   tournamentAnnouncementsTable,
   tournamentFeedbackTable,
@@ -20,6 +21,7 @@ import {
   FeedbackData,
   TournamentAnnouncementData,
   TeamData,
+  TeamInviteData,
 } from "../placeholder-data";
 
 export const Post = {
@@ -27,7 +29,7 @@ export const Post = {
     return db.insert(usersTable).values(userData);
   },
   PlayerData: (playerData: PlayerData) => {
-    return db.insert(playersTable).values(playerData);
+    return db.insert(playersTable).values(playerData).returning();
   },
   TeamData: (teamData: TeamData) => {
     return db.insert(teamsTable).values(teamData).returning();
@@ -49,6 +51,9 @@ export const Post = {
   },
   AnnouncementData: (announcementData: TournamentAnnouncementData) => {
     return db.insert(tournamentAnnouncementsTable).values(announcementData);
+  },
+  TeamInviteData: (inviteData: TeamInviteData) => {
+    return db.insert(teamInvitesTable).values(inviteData);
   },
 };
 
@@ -93,5 +98,10 @@ export const Delete = {
     return db
       .delete(starredTournamentsTable)
       .where(eq(starredTournamentsTable.id, starTournamentId));
+  },
+  TeamInvites: (teamInviteId: number) => {
+    return db
+      .delete(teamInvitesTable)
+      .where(eq(teamInvitesTable.id, teamInviteId));
   },
 };

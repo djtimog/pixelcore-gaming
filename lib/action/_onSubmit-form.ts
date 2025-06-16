@@ -112,8 +112,6 @@ export const onSubmitForm = {
       if (!user) return;
 
       const userEmail = user.emailAddresses[0]?.emailAddress || "";
-      // const userName = user.username || "";
-
       const existingUser = await Get.UserByEmail(userEmail);
 
       if (existingUser?.email !== userEmail || !existingUser) {
@@ -150,10 +148,8 @@ export const onSubmitForm = {
 
       const games = await Get.Games();
 
-      //player data
       const playerData = {
         userId: userId,
-        teamId: teamId,
         gameId: games.find((game) => game.name === data.game)?.id || 0,
         gameHandle: data.game_handle.slice(0, 255) || null,
         rank: data.rank?.slice(0, 100) || null,
@@ -161,22 +157,27 @@ export const onSubmitForm = {
         level: data.level,
       };
 
-      // Insert player into the database
-      await Post.PlayerData(playerData);
+      const player = await Post.PlayerData(playerData);
 
+      if (teamId) {
+        await Post.TeamInviteData({
+          teamId: teamId,
+          playerId: player[0].id,
+        });
+      }
       toast({
         title: "Success!",
         description: "Player registered successfully.",
       });
-      router.push("/player-info");
+      router.push("/dashboard");
     } catch (error) {
       console.error("Error saving player:", error);
-      throw new Error(`${error}`);
       toast({
         title: "Submission Failed",
         description: "An error occurred.",
         variant: "destructive",
       });
+      throw new Error(`${error}`);
     } finally {
       setIsLoading(false);
     }

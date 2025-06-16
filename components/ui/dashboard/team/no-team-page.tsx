@@ -1,21 +1,87 @@
 "use client";
-import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../card";
-import { KeyRound, PlusCircle } from "lucide-react";
+
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  Ban,
+  CheckCheck,
+  Clock,
+  KeyRound,
+  LucideIcon,
+  PlusCircle,
+  Trash2,
+} from "lucide-react";
+
+import { useDbUser } from "@/app/_components/context/DbUserProvider";
+import { Get } from "@/lib/action/_get";
+import { InviteData } from "@/lib/placeholder-data";
+
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Dialog,
+  DialogTrigger,
   DialogContent,
   DialogTitle,
-  DialogTrigger,
-} from "../../dialog";
-import { Button } from "../../button";
-import { Input } from "../../input";
-import { useRouter } from "next/navigation";
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import LogoAnimation from "../../loading-logo";
+import { Delete } from "@/lib/action/_post";
+import { ActionIconButton } from "../../action-icon";
+
+const statusStyles: Record<string, string> = {
+  pending: "text-yellow-600 font-medium",
+  accepted: "text-green-600 font-medium",
+  rejected: "text-red-600 font-medium",
+  default: "text-gray-500 italic",
+};
+
+const statusIcon = (status: string): LucideIcon => {
+  switch (status) {
+    case "pending":
+      return Clock;
+    case "rejected":
+      return Ban;
+    case "accepted":
+      return CheckCheck;
+    default:
+      return Clock;
+  }
+};
 
 function NoTeamPage() {
   const router = useRouter();
+  const { player } = useDbUser();
   const [joinDialogOpen, setJoinDialogOpen] = useState(false);
   const [secretCode, setSecretCode] = useState("");
+  const [invites, setInvites] = useState<InviteData[] | null>(null);
+  const [teamNames, setTeamNames] = useState<Record<string, string>>({});
+
+  async function fetchInvites() {
+    const data = await Get.TeamInvitesByPlayerId(player.id);
+    if (!data) return;
+    setInvites(data);
+
+    // Fetch team names
+    const names: Record<string, string> = {};
+    for (const invite of data) {
+      const team = await Get.TeamById(invite.teamId);
+      if (team) names[invite.teamId] = team.name;
+    }
+    setTeamNames(names);
+  }
+
+  useEffect(() => {
+    if (player?.id) fetchInvites();
+  }, [player]);
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -82,6 +148,61 @@ function NoTeamPage() {
           </CardContent>
         </Card>
       </div>
+
+      {invites === null ? (
+        <div className="my-14 flex items-center justify-center">
+          <LogoAnimation />
+        </div>
+      ) : invites.length > 0 ? (
+        <div className="mt-10">
+          <h3 className="mb-4 text-xl font-semibold">Your Team Invites</h3>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Team</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Updated At</TableHead>
+                <TableHead className="text-center"></TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {invites.map((invite) => {
+                const Icon = statusIcon(invite.status ?? "default");
+                return (
+                  <TableRow key={invite.id}>
+                    <TableCell className="truncate">
+                      {teamNames[invite.teamId] ?? invite.teamId}
+                    </TableCell>
+                    <TableCell
+                      className={`${statusStyles[invite.status ?? "default"]} flex items-center gap-2 pt-1`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      <span className="capitalize">
+                        {invite.status ?? "pending"}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      {invite.updatedAt
+                        ? new Date(invite.updatedAt).toLocaleString()
+                        : "-"}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <ActionIconButton
+                        initialIcon={Trash2}
+                        action={async () => {
+                          await Delete.TeamInvites(invite.id);
+                          await fetchInvites();
+                        }}
+                        className="size-4 text-red-500 hover:bg-red-100"
+                      />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </div>
+      ) : null}
     </div>
   );
 }

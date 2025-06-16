@@ -59,9 +59,7 @@ export const playersTable = pgTable("players", {
     .notNull()
     .references(() => usersTable.id), // Foreign key to users table
   teamId: integer("team_id").references(() => teamsTable.id), // Foreign key to teams table
-  gameId: integer("game_id")
-    .notNull()
-    .references(() => gamesTable.id), // Game name
+  gameId: integer("game_id").notNull(),
   gameHandle: varchar("game_handle", { length: 255 }), // In-game username
   rank: varchar("rank", { length: 100 }), // Optional in-game rank
   uid: varchar("uid", { length: 255 }).notNull(), // Unique identifier for the player
