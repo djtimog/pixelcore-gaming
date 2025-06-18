@@ -17,7 +17,13 @@ import {
   ArrowUpDown,
   ChevronDown,
   EllipsisVertical,
+  LogOut,
+  UserMinus,
+  UserPlus,
+  Crown,
+  ShieldQuestion,
   MoreHorizontal,
+  MessageCircle,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -43,9 +49,12 @@ import {
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { UserAvatar } from "../../avatar";
+import { Update } from "@/lib/action/_post";
+import { ConfirmationButton } from "../../confirmation-dialog";
 
 export type TeamMember = {
   id: number;
+  userId: number;
   handle: string;
   username: string;
   role: "owner" | "captain" | "assistant" | "player";
@@ -53,6 +62,7 @@ export type TeamMember = {
   joinedAt: Date;
   isCurrentUser: boolean;
   imageUrl: string;
+  teamId: number;
 };
 
 export const getColumns = (
@@ -160,7 +170,7 @@ export const getColumns = (
     },
     {
       id: "actions",
-      header: "Actions",
+      header: "",
       cell: ({ row }) => {
         const member = row.original;
         const isSelf = member.isCurrentUser;
@@ -170,7 +180,7 @@ export const getColumns = (
         const canDemote = currentUserRole === "owner";
         const canLeave = currentUserRole !== "owner" && isSelf;
 
-        if (isSelf) return;
+        if (currentUserRole === "owner" && isSelf) return;
 
         return (
           <DropdownMenu>
@@ -185,8 +195,18 @@ export const getColumns = (
 
               {canLeave && (
                 <>
-                  <DropdownMenuItem onClick={() => {}}>
-                    Leave Team
+                  <DropdownMenuItem asChild>
+                    <ConfirmationButton
+                      triggerText="Leave Team"
+                      triggerIcon={<LogOut className="mr-2 h-4 w-4" />}
+                      title="Are you sure you want to leave the team?"
+                      description="This action cannot be undone. You will be removed from the team."
+                      variant="ghost"
+                      className="w-full justify-start"
+                      onConfirm={async () => {
+                        await Update.PlayerWithTeamId(null, member.userId);
+                      }}
+                    />
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                 </>
@@ -194,36 +214,90 @@ export const getColumns = (
 
               {canPromote && member.role === "player" && (
                 <>
-                  <DropdownMenuItem onClick={() => {}}>
-                    Make Assistant
+                  <DropdownMenuItem asChild>
+                    <ConfirmationButton
+                      triggerText="Make Assistant"
+                      triggerIcon={<UserPlus className="mr-2 h-4 w-4" />}
+                      title="Promote to Assistant?"
+                      description="This player will gain assistant privileges."
+                      variant="ghost"
+                      className="w-full justify-start"
+                      onConfirm={async () => {
+                        await Update.TeamWithAsstCaptainId(
+                          member.teamId,
+                          member.userId,
+                        );
+                      }}
+                    />
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => {}}>
-                    Make Captain
+                  <DropdownMenuItem asChild>
+                    <ConfirmationButton
+                      triggerText="Make Captain"
+                      triggerIcon={<ShieldQuestion className="mr-2 h-4 w-4" />}
+                      title="Promote to Captain?"
+                      description="This player will become the team captain."
+                      variant="ghost"
+                      className="w-full justify-start"
+                      onConfirm={async () => {
+                        await Update.TeamWithCaptianId(
+                          member.teamId,
+                          member.userId,
+                        );
+                      }}
+                    />
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                 </>
               )}
 
               {canDemote && ["assistant", "captain"].includes(member.role) && (
-                <>
-                  <DropdownMenuItem onClick={() => {}}>
-                    Demote to Player
-                  </DropdownMenuItem>
-                </>
+                <DropdownMenuItem asChild>
+                  <ConfirmationButton
+                    triggerText="Demote to Player"
+                    triggerIcon={<UserMinus className="mr-2 h-4 w-4" />}
+                    title="Demote Member?"
+                    description={`This will demote the ${member.role} to a regular player.`}
+                    variant="ghost"
+                    className="w-full justify-start"
+                    onConfirm={async () => {
+                      if (member.role === "captain") {
+                        await Update.TeamWithCaptianId(member.teamId, null);
+                      } else if (member.role === "assistant") {
+                        await Update.TeamWithAsstCaptainId(member.teamId, null);
+                      }
+                    }}
+                  />
+                </DropdownMenuItem>
               )}
 
               {canTransferOwnership && member.role !== "owner" && (
-                <>
-                  <DropdownMenuItem onClick={() => {}}>
-                    Transfer Ownership
-                  </DropdownMenuItem>
-                </>
+                <DropdownMenuItem asChild>
+                  <ConfirmationButton
+                    triggerText="Transfer Ownership"
+                    triggerIcon={
+                      <Crown className="mr-2 h-4 w-4 text-yellow-500" />
+                    }
+                    title="Transfer Ownership?"
+                    description="You will lose ownership of this team. This action cannot be undone."
+                    variant="ghost"
+                    className="w-full justify-start"
+                    onConfirm={async () => {
+                      await Update.TeamWithCreatorId(
+                        member.teamId,
+                        member.userId,
+                      );
+                    }}
+                  />
+                </DropdownMenuItem>
               )}
 
               {!isSelf && (
                 <>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => {}}>Chat</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => {}}>
+                    <MessageCircle className="mr-2 h-4 w-4" />
+                    Chat
+                  </DropdownMenuItem>
                 </>
               )}
             </DropdownMenuContent>
@@ -426,11 +500,13 @@ export function TeamMembersTable({
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
+        {currentUserRole === "owner" && (
+          <div className="flex-1 text-sm text-muted-foreground">
+            {table.getFilteredSelectedRowModel().rows.length} of{" "}
+            {table.getFilteredRowModel().rows.length} row(s) selected.
+          </div>
+        )}
+        <div className="ml-auto space-x-2">
           <Button
             variant="outline"
             size="sm"

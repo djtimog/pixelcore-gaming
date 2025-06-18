@@ -95,7 +95,7 @@ export default function PlayersInviteCard({
                   <TableHead>Rank</TableHead>
                   <TableHead>Level</TableHead>
                   <TableHead className="text-center">Sent</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead className="text-right"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

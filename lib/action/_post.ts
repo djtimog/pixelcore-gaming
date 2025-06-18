@@ -82,7 +82,7 @@ export const Update = {
       .set(tournamentData)
       .where(eq(tournamentsTable.id, tournamentId));
   },
-  PlayerWithTeamId: (teamId: number, playerId: number) => {
+  PlayerWithTeamId: (teamId: number | null, playerId: number) => {
     return db
       .update(playersTable)
       .set({ teamId })
@@ -93,6 +93,24 @@ export const Update = {
       .update(teamInvitesTable)
       .set({ status })
       .where(eq(teamInvitesTable.id, inviteId));
+  },
+  TeamWithCaptianId: (teamId: number, captainId: number | null) => {
+    return db
+      .update(teamsTable)
+      .set({ captainId })
+      .where(eq(teamsTable.id, teamId));
+  },
+  TeamWithAsstCaptainId: (teamId: number, asstCaptainId: number | null) => {
+    return db
+      .update(teamsTable)
+      .set({ asstCaptainId })
+      .where(eq(teamsTable.id, teamId));
+  },
+  TeamWithCreatorId: (teamId: number, creatorId: number) => {
+    return db
+      .update(teamsTable)
+      .set({ creatorId })
+      .where(eq(teamsTable.id, teamId));
   },
 };
 

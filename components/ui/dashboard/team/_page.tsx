@@ -79,6 +79,7 @@ function DbTeamPage({ team }: { team: Team }) {
 
             return {
               id: member.id,
+              userId: data.id,
               handle: member.gameHandle || "Unknown",
               username: data.username,
               role: getRole(data.id),
@@ -86,6 +87,7 @@ function DbTeamPage({ team }: { team: Team }) {
               imageUrl: data.imageUrl,
               joinedAt: invite?.updatedAt || team.createdAt,
               isCurrentUser: player?.id === member.id,
+              teamId: team.id,
             };
           }),
         );

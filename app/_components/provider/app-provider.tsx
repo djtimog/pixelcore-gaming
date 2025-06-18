@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -9,20 +9,11 @@ import { usePathname } from "next/navigation";
 
 export default function Provider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [showHeader, setShowHeader] = useState<boolean>();
-const validPaths = useMemo(() => ["/", "/about", "/team", "/contact", '/blog'], []);
 
-  useEffect(() => {
-    const checkPath = () => {
-      const result = validPaths.find((path) => path === pathname);
-      if (result) {
-        setShowHeader(true);
-      } else {
-        setShowHeader(false);
-      }
-    };
-    checkPath();
-  }, [pathname, validPaths]);
+  const showHeaderFooter = useMemo(() => {
+    const validPaths = ["/", "/about", "/team", "/contact", "/blog"];
+    return validPaths.includes(pathname);
+  }, [pathname]);
 
   return (
     <ThemeProvider
@@ -32,10 +23,10 @@ const validPaths = useMemo(() => ["/", "/about", "/team", "/contact", '/blog'], 
       disableTransitionOnChange
     >
       <TranslationProvider>
-        {showHeader && <Header />}
+        {showHeaderFooter && <Header />}
         {children}
         <Toaster />
-        {showHeader && <Footer />}
+        {showHeaderFooter && <Footer />}
       </TranslationProvider>
     </ThemeProvider>
   );
