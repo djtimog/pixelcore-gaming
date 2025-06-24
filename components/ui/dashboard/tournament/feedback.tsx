@@ -159,7 +159,7 @@ export function AllFeedback({
           </Button>
         </div>
         <ScrollArea className="flex h-[400px] w-full flex-col gap-3">
-          <div className="flex flex-col gap-3 px-2">
+          <div className="flex flex-col gap-3">
             {feedback?.map((feedbackEntry) => (
               <FeedbackCard key={feedbackEntry.id} feedback={feedbackEntry} />
             ))}

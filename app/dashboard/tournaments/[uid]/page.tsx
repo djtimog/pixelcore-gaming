@@ -463,10 +463,7 @@ export default function TournamentDetailsPage() {
         )}
 
         {registrationOpen ? (
-          <Button
-            className="w-full md:w-auto"
-            onClick={() => router.push(`/dashboard/tournaments/${uid}/apply`)}
-          >
+          <Button className="w-full md:w-auto" onClick={() => {}}>
             Apply Now
           </Button>
         ) : (

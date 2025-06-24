@@ -29,8 +29,7 @@ export const TournamentCard = ({
   date,
   host,
   rules,
-  detailsLink,
-  applyLink,
+  link,
 }: TournamentCardProps) => {
   const { player } = useDbUser();
 
@@ -119,7 +118,7 @@ export const TournamentCard = ({
         <div className="flex items-center justify-between gap-2">
           <p className="truncate text-xs text-gray-500">Hosted by: {host}</p>
           <Link
-            href={detailsLink}
+            href={link}
             className="flex items-center gap-1 text-xs text-primary"
           >
             <TooltipProvider>
@@ -147,7 +146,7 @@ export const TournamentCard = ({
 
       {/* Actions */}
       <div className="flex gap-2">
-        <Link href={applyLink} className="flex-1">
+        <Link href={link} className="flex-1">
           <Button className="w-full rounded-lg">Apply Now</Button>
         </Link>
         <Button

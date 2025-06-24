@@ -154,8 +154,7 @@ export interface TournamentCardProps {
   date: string;
   host: string;
   rules: string[];
-  detailsLink: string;
-  applyLink: string;
+  link: string;
 }
 
 export interface EventCardProps {

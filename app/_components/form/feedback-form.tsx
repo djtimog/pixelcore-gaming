@@ -64,7 +64,9 @@ export function FeedBackForm({ tournamentId }: { tournamentId: number }) {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button variant="outline">Give Feedback</Button>
+        <Button variant="outline" className="w-full">
+          Give Feedback
+        </Button>
       </DrawerTrigger>
       <DrawerContent className="bg-secondary px-4 py-6">
         <DrawerHeader>

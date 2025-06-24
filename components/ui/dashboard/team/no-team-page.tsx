@@ -20,7 +20,7 @@ import { Post, Delete, Update } from "@/lib/action/_post";
 import { handleTeamLookup } from "@/lib/team-look-up";
 import { toast } from "@/hooks/use-toast";
 
-import { InviteData } from "@/lib/placeholder-data";
+import { InviteData, Team } from "@/lib/placeholder-data";
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
@@ -50,6 +50,7 @@ import {
 
 import LogoAnimation from "../../loading-logo";
 import { ActionIconButton } from "../../action-icon";
+import { useTeam } from "@/app/_components/context/DbTeamProvider";
 
 const statusStyles: Record<string, string> = {
   pending: "text-yellow-600 font-medium",
@@ -74,6 +75,7 @@ const statusIcon = (status: string): LucideIcon => {
 export default function NoTeamPage() {
   const router = useRouter();
   const { player } = useDbUser();
+  const { setDbTeam } = useTeam();
   const searchParams = useSearchParams();
 
   const [joinDialogOpen, setJoinDialogOpen] = useState(false);
@@ -142,7 +144,27 @@ export default function NoTeamPage() {
   };
 
   const handleConfirm = async (teamId: number) => {
-    await Update.PlayerWithTeamId(teamId, player.id);
+    const [team, result] = await Promise.all([
+      Get.TeamById(teamId),
+      Update.PlayerWithTeamId(teamId, player.id),
+    ]);
+    if (!result) {
+      toast({
+        title: "Error",
+        description: "Failed to update player with team.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!team) {
+      toast({
+        title: "Team Not Found",
+        description: "The team you are trying to join does not exist.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setDbTeam(team);
     await fetchInvites();
     router.refresh();
   };

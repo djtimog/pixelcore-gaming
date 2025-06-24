@@ -50,7 +50,9 @@ const AllTournaments = () => {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h1 className="text-3xl outlined-text text-center tracking-wide">All Tournaments</h1>
+        <h1 className="outlined-text text-center text-3xl tracking-wide">
+          All Tournaments
+        </h1>
         <p className="text-gray-500">
           Browse and discover exciting competitions
         </p>
@@ -115,9 +117,8 @@ const AllTournaments = () => {
               rules={
                 tournament.rules?.split(",").map((rule) => rule.trim()) || []
               }
-              detailsLink={`/dashboard/tournaments/${tournament.uid}`}
+              link={`/dashboard/tournaments/${tournament.uid}`}
               players={0}
-              applyLink={`/dashboard/tournaments/${tournament.uid}/apply`}
             />
           ))}
         </div>

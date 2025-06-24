@@ -43,9 +43,8 @@ export default async function Dashboard() {
               rules={
                 tournament.rules?.split(",").map((rule) => rule.trim()) || []
               }
-              detailsLink={`/dashboard/tournaments/${tournament.uid}`}
+              link={`/dashboard/tournaments/${tournament.uid}`}
               players={0}
-              applyLink={`/dashboard/tournaments/${tournament.uid}`}
             />
           ))}
         </div>

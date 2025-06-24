@@ -140,7 +140,11 @@ function DbTeamPage({ team }: { team: Team }) {
       <Card className="mx-auto w-full max-w-6xl">
         <CardContent className="flex flex-col gap-6 p-6 sm:flex-row sm:items-center">
           <Avatar className="h-24 w-24 rounded-md">
-            <AvatarImage src={team.logoUrl || ""} alt={team.name} />
+            <AvatarImage
+              src={team.logoUrl || ""}
+              alt={team.name}
+              className="rounded-full"
+            />
             <AvatarFallback className="text-2xl">
               {team.name.slice(0, 2)}
             </AvatarFallback>
@@ -212,12 +216,12 @@ function DbTeamPage({ team }: { team: Team }) {
 
       <Card className="mx-auto w-full max-w-6xl">
         <CardHeader>
-          <CardTitle>Past Tournaments</CardTitle>
+          <CardTitle>Team Details</CardTitle>
         </CardHeader>
         <CardContent>
-          <ScrollArea className="h-48">
-            <div className="text-sm text-muted-foreground">Coming soon...</div>
-          </ScrollArea>
+          <div className="text-sm text-muted-foreground">
+            This section is under construction. More details will be added soon.
+          </div>
         </CardContent>
       </Card>
 
@@ -229,6 +233,17 @@ function DbTeamPage({ team }: { team: Team }) {
           <div className="text-sm text-muted-foreground">
             No upcoming matches.
           </div>
+        </CardContent>
+      </Card>
+
+      <Card className="mx-auto w-full max-w-6xl">
+        <CardHeader>
+          <CardTitle>Past Tournaments</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ScrollArea className="h-48">
+            <div className="text-sm text-muted-foreground">Coming soon...</div>
+          </ScrollArea>
         </CardContent>
       </Card>
     </div>

@@ -60,7 +60,7 @@ export function TeamProvider({ children }: { children: React.ReactNode }) {
     if (player?.teamId) {
       fetchTeam(player.teamId);
     } else {
-      setIsLoading(false); // No teamId, just stop loading
+      setIsLoading(false);
     }
   }, [player?.teamId, router, pathname]);
 

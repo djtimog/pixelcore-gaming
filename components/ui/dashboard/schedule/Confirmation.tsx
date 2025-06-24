@@ -207,12 +207,18 @@ const TournamentConfirmation = ({
                 image,
                 db.user.id,
                 router,
-                tournament
+                tournament,
               )
             }
             className="relative w-full sm:w-max"
           >
-            {loading ? "Submitting..." : "Submit"}
+            {loading
+              ? tournament?.uid
+                ? "Updating"
+                : "Submitting..."
+              : tournament?.uid
+                ? "Update"
+                : "Submit"}
           </Button>
         </CardFooter>
       </Card>
