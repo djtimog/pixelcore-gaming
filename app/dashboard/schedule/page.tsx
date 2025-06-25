@@ -9,7 +9,7 @@ import { HostMatchForm } from "@/app/_components/form/host-match-form";
 import {
   useDbUser,
   UserProfile,
-} from "@/app/_components/context/DbUserProvider";
+} from "@/app/_components/context/DashboardContextProvider";
 import { useEffect, useState } from "react";
 import { Get } from "@/lib/action/_get";
 import { useSearchParams } from "next/navigation";

@@ -20,7 +20,9 @@ export async function uploadImageWithFile(
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
   const contentType = file.type;
-  const destinationPath = `${imageType}/${desiredFileName}`;
+  let encodedFileName = encodeURIComponent(desiredFileName);
+
+  const destinationPath = `${imageType}/${encodedFileName}`;
 
   const blob = bucket.file(destinationPath);
   const stream = blob.createWriteStream({

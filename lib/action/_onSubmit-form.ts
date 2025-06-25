@@ -305,6 +305,8 @@ export const onSubmitForm = {
           description: "Tournament updated successfully.",
         });
         setIsLoading(false);
+        router.push(`/dashboard/tournaments/${tournament.uid}`);
+        router.refresh();
       } catch (err) {
         console.error("Failed to update tournament:", err);
         toast({
@@ -313,7 +315,6 @@ export const onSubmitForm = {
           variant: "destructive",
         });
       } finally {
-        router.refresh();
         setIsLoading(false);
       }
     }

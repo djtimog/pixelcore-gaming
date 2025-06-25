@@ -227,6 +227,19 @@ export const Get = {
     }
   },
 
+  TeamRegistrationsByTeamId: async (teamId: number) => {
+    try {
+      const registrations = await db
+        .select()
+        .from(teamRegistrationsTable)
+        .where(eq(teamRegistrationsTable.teamId, teamId));
+      return registrations;
+    } catch (error) {
+      console.error("Error fetching team registrations by team ID:", error);
+      return [];
+    }
+  },
+
   AnnouncementsByTournamentId: async (tournamentId: number) => {
     try {
       const announcements = await db

@@ -150,7 +150,7 @@ export const teamRegistrationsTable = pgTable("team_registrations", {
   teamId: integer("team_id")
     .notNull()
     .references(() => teamsTable.id),
-  isAccepted: boolean("is_accepted").default(false), // Set true when accepted by organizer
+  isAccepted: boolean("is_accepted").default(false),
   registeredAt: timestamp("registered_at").defaultNow(),
 });
 

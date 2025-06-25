@@ -24,7 +24,10 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "@/hooks/use-toast";
 import { Get } from "@/lib/action/_get";
-import { useDbUser } from "@/app/_components/context/DbUserProvider";
+import {
+  useDbUser,
+  useTeam,
+} from "@/app/_components/context/DashboardContextProvider";
 import {
   MatchWithTeams,
   RegistrationEntry,
@@ -35,18 +38,30 @@ import {
   AccordionGameCard,
   GameType,
 } from "@/components/ui/dashboard/card/game";
-import { Update } from "@/lib/action/_post";
+import { Post, Update } from "@/lib/action/_post";
 import LogoAnimation from "@/components/ui/loading-logo";
 import { onSubmitForm } from "@/lib/action/_onSubmit-form";
 import Link from "next/link";
 import FeedbackSummary from "@/components/ui/dashboard/tournament/feedback";
 import { useUidData } from "@/app/_components/context/UidTournamentProvider";
 import AnnouncementSummary from "@/components/ui/dashboard/tournament/announcement";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function TournamentDetailsPage() {
   const { uid } = useParams();
   const router = useRouter();
   const { player, user } = useDbUser();
+  const { dbTeam } = useTeam();
   const { tournament, host } = useUidData();
   const [game, setGame] = useState<GameType | null>(null);
 
@@ -137,12 +152,12 @@ export default function TournamentDetailsPage() {
 
   if (!tournament) return null;
 
+  const isTeamApplied = registrations.find((reg) => reg.teamId === dbTeam?.id);
   const isOrganizer = tournament.organizerId === user.id;
   const now = new Date();
   const regEnd = new Date(tournament.registrationEndDate);
   const regStart = new Date(tournament.registrationStartDate);
 
-  // 1. Registration logic: close if date passed OR maxTeams reached
   const registrationClosedByDate = now > regEnd;
   if (registrationClosedByDate && tournament.registrationStatus === "open") {
     try {
@@ -195,20 +210,44 @@ export default function TournamentDetailsPage() {
     100,
   );
 
+  const registerTeam = async () => {
+    if (!dbTeam) {
+      toast({
+        title: "No Team Found",
+        description:
+          "You must create a team before registering for tournaments.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      await Post.TeamRegistration(dbTeam.id, tournament.id);
+      toast({
+        title: "Registration Successful",
+        description: "Your team has been registered for the tournament.",
+      });
+    } catch (error) {
+      console.error("Error registering team:", error);
+      toast({
+        title: "Registration Failed",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <motion.div
       className="container mx-auto px-4 py-10 md:px-0"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      {/* ─── MAIN CARD ─────────────────────────────────────────────────────────── */}
       <Card className="overflow-hidden rounded-2xl shadow-lg">
         <div className="relative m-4 overflow-hidden rounded-lg bg-gray-300">
-          <Image
+          <img
             src={tournament.imageUrl || "/fallback-tournament.jpg"}
             alt={tournament.name}
-            width={1200}
-            height={600}
             className="h-64 w-full object-cover"
           />
 
@@ -255,7 +294,6 @@ export default function TournamentDetailsPage() {
             {tournament.description || "No description provided."}
           </p>
 
-          {/* ─── HOST CARD ─────────────────────────────────────────────────────── */}
           {host && (
             <div className="py-4">
               <HostCard host={host} />
@@ -264,7 +302,6 @@ export default function TournamentDetailsPage() {
         </CardHeader>
 
         <CardContent className="space-y-8">
-          {/* ─── GAME ACCORDION ─────────────────────────────────────────────── */}
           <div className="my-5">
             <div className="mb-2 flex items-center gap-2 text-lg font-semibold">
               <Gamepad2 size={20} /> <span>Game Registered:</span>
@@ -272,9 +309,7 @@ export default function TournamentDetailsPage() {
             {game && <AccordionGameCard game={game} />}
           </div>
 
-          {/* ─── QUICK STATS GRID ─────────────────────────────────────────────── */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-            {/* Prize / Dates */}
             <div className="space-y-3">
               <InfoItem
                 Icon={Trophy}
@@ -298,7 +333,6 @@ export default function TournamentDetailsPage() {
               />
             </div>
 
-            {/* Registration & Capacity */}
             <div className="space-y-3">
               <InfoItem
                 Icon={CalendarDays}
@@ -336,15 +370,14 @@ export default function TournamentDetailsPage() {
             <FeedbackSummary tournamentData={tournament} />
           </div>
 
-          {/* ─── RULES ────────────────────────────────────────────────────────── */}
           <div>
             <h4 className="mb-2 text-lg font-semibold">Tournament Rules</h4>
-            <motion.ul
+            <motion.ol
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               className="list-inside list-disc space-y-1 text-muted-foreground"
             >
-              <ul>
+              <ol>
                 {tournament.rules
                   ?.split(",")
                   .map((rule, i) => (
@@ -353,8 +386,8 @@ export default function TournamentDetailsPage() {
                         rule.trim().slice(1).toLowerCase()}
                     </li>
                   )) || <li>No rules specified.</li>}
-              </ul>
-            </motion.ul>
+              </ol>
+            </motion.ol>
           </div>
 
           <div>
@@ -364,7 +397,6 @@ export default function TournamentDetailsPage() {
             />
           </div>
 
-          {/* ─── UPCOMING MATCHES ─────────────────────────────────────────────── */}
           <div>
             <div className="mb-2 flex items-center justify-between">
               <h4 className="flex items-center gap-2 text-lg font-semibold">
@@ -424,7 +456,6 @@ export default function TournamentDetailsPage() {
             )}
           </div>
 
-          {/* ─── ROOM LINK (IF ANY) ─────────────────────────────────────────────── */}
           {room && (
             <div>
               <h4 className="mb-2 flex items-center gap-2 text-lg font-semibold">
@@ -443,7 +474,6 @@ export default function TournamentDetailsPage() {
         </CardContent>
       </Card>
 
-      {/* ─── CALL TO ACTION AREA ─────────────────────────────────────────────── */}
       <motion.div
         className="mt-6 flex flex-col gap-3 md:flex-row md:justify-end"
         initial={{ opacity: 0, y: 10 }}
@@ -461,20 +491,47 @@ export default function TournamentDetailsPage() {
             </Button>
           </Link>
         )}
-
-        {registrationOpen ? (
-          <Button className="w-full md:w-auto" onClick={() => {}}>
-            Apply Now
-          </Button>
-        ) : (
-          <Button variant="outline" disabled className="w-full md:w-auto">
-            {registrationClosedByDate
-              ? "Registration Closed"
-              : registrationClosedByCapacity
-                ? "Full (No Spots Left)"
-                : "Registration Not Yet Open"}
-          </Button>
-        )}
+        {isTeamApplied &&
+          (dbTeam?.creatorId === user.id ? (
+            registrationOpen ? (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button className="w-full md:w-auto">Apply Now</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Confirm Team Registration
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      You&apos;re about to register your entire team for this
+                      tournament. Please make sure all team members are
+                      available and eligible before continuing. This action
+                      cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={registerTeam}>
+                      Confirm Registration
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            ) : (
+              <Button variant="outline" disabled className="w-full md:w-auto">
+                {registrationClosedByDate
+                  ? "Registration Closed"
+                  : registrationClosedByCapacity
+                    ? "Full (No Spots Left)"
+                    : "Registration Not Yet Open"}
+              </Button>
+            )
+          ) : (
+            <Button className="w-full md:w-auto">
+              Share to your Team Owner
+            </Button>
+          ))}
       </motion.div>
     </motion.div>
   );

@@ -55,12 +55,10 @@ const MatchSetupIntro1 = ({
               >
                 {previewUrl ? (
                   <div className="relative w-full overflow-hidden">
-                    <Image
+                    <img
                       src={previewUrl}
                       alt="Uploaded Preview"
                       className="h-48 w-full rounded-md object-cover"
-                      width={200}
-                      height={200}
                     />
                     <Button
                       size={"icon"}

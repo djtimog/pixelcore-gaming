@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useDbUser } from "@/app/_components/context/DbUserProvider";
+import { useDbUser } from "@/app/_components/context/DashboardContextProvider";
 import { Get } from "@/lib/action/_get";
 import { TournamentCard } from "@/components/ui/dashboard/card/tournament";
 import { LoaderCircle } from "lucide-react";
@@ -65,7 +65,7 @@ function Starred() {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h1 className="text-3xl font-bold outlined-text tracking-wide">
+        <h1 className="outlined-text text-3xl font-bold tracking-wide">
           Your Starred Tournaments
         </h1>
         <p className="text-sm text-muted-foreground">
@@ -88,9 +88,8 @@ function Starred() {
             rules={
               tournament.rules?.split(",").map((rule) => rule.trim()) || []
             }
-            detailsLink={`/dashboard/tournaments/${tournament.uid}`}
+            link={`/dashboard/tournaments/${tournament.uid}`}
             players={0}
-            applyLink={`/dashboard/tournaments/${tournament.uid}`}
           />
         ))}
       </div>

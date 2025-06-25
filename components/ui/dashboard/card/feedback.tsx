@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import {
   PlayerProfile,
   UserProfile,
-} from "@/app/_components/context/DbUserProvider";
+} from "@/app/_components/context/DashboardContextProvider";
 import { format } from "date-fns";
 
 export default function FeedbackCard({

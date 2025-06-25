@@ -25,7 +25,7 @@ import { Get } from "@/lib/action/_get";
 import { GameType } from "../card/game";
 import Image from "next/image";
 import { onSubmitForm } from "@/lib/action/_onSubmit-form";
-import { useDbUser } from "@/app/_components/context/DbUserProvider";
+import { useDbUser } from "@/app/_components/context/DashboardContextProvider";
 import { useRouter } from "next/navigation";
 
 const TournamentConfirmation = ({
@@ -83,12 +83,10 @@ const TournamentConfirmation = ({
         <CardContent className="space-y-4">
           {previewUrl && (
             <div className="relative w-full overflow-hidden">
-              <Image
+              <img
                 src={previewUrl}
                 alt="Uploaded Preview"
                 className="h-48 w-full rounded-md object-cover"
-                width={200}
-                height={200}
               />
             </div>
           )}
@@ -214,7 +212,7 @@ const TournamentConfirmation = ({
           >
             {loading
               ? tournament?.uid
-                ? "Updating"
+                ? "Updating..."
                 : "Submitting..."
               : tournament?.uid
                 ? "Update"

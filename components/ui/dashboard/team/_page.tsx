@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import {
   useDbUser,
   UserProfile,
-} from "@/app/_components/context/DbUserProvider";
+} from "@/app/_components/context/DashboardContextProvider";
 import { toast } from "@/hooks/use-toast";
 import { Get } from "@/lib/action/_get";
 import { Team } from "@/lib/placeholder-data";

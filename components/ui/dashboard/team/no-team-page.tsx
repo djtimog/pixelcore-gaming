@@ -14,7 +14,10 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { useDbUser } from "@/app/_components/context/DbUserProvider";
+import {
+  useDbUser,
+  useTeam,
+} from "@/app/_components/context/DashboardContextProvider";
 import { Get } from "@/lib/action/_get";
 import { Post, Delete, Update } from "@/lib/action/_post";
 import { handleTeamLookup } from "@/lib/team-look-up";
@@ -50,7 +53,6 @@ import {
 
 import LogoAnimation from "../../loading-logo";
 import { ActionIconButton } from "../../action-icon";
-import { useTeam } from "@/app/_components/context/DbTeamProvider";
 
 const statusStyles: Record<string, string> = {
   pending: "text-yellow-600 font-medium",

@@ -1,7 +1,7 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/ui/dashboard/app-sidebar";
 import DashboardHeader from "@/components/ui/dashboard/header";
-import { DbUserProvider } from "../_components/context/DbUserProvider";
+import { DashboardContextProvider } from "../_components/context/DashboardContextProvider";
 
 export default function DashboardLayout({
   children,
@@ -9,7 +9,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <DbUserProvider>
+    <DashboardContextProvider>
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
@@ -18,6 +18,6 @@ export default function DashboardLayout({
           <div className="px-5 py-3">{children}</div>
         </SidebarInset>
       </SidebarProvider>
-    </DbUserProvider>
+    </DashboardContextProvider>
   );
 }

@@ -4,6 +4,7 @@ import {
   playersTable,
   starredTournamentsTable,
   teamInvitesTable,
+  teamRegistrationsTable,
   teamsTable,
   tournamentAnnouncementsTable,
   tournamentFeedbackTable,
@@ -54,6 +55,12 @@ export const Post = {
   },
   TeamInviteData: (inviteData: TeamInviteData) => {
     return db.insert(teamInvitesTable).values(inviteData);
+  },
+  TeamRegistration: (teamId: number, tournamentId: number) => {
+    return db.insert(teamRegistrationsTable).values({
+      teamId,
+      tournamentId,
+    });
   },
 };
 

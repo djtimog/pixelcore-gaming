@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { TournamentCardProps } from "@/lib/placeholder-data";
 import { useState, useEffect } from "react";
 import { onSubmitForm } from "@/lib/action/_onSubmit-form";
-import { useDbUser } from "@/app/_components/context/DbUserProvider";
+import { useDbUser } from "@/app/_components/context/DashboardContextProvider";
 import { Get } from "@/lib/action/_get";
 import { handleShare } from "@/lib/share";
 
