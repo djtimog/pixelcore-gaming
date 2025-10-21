@@ -8,8 +8,7 @@ import {
   useState,
 } from "react";
 import { useRouter } from "next/navigation";
-import { useTeam } from "../context/DbTeamProvider";
-
+import { useTeam } from "../context/DashboardContextProvider";
 type TeamCreateContext = {
   openDialog: boolean;
   setOpenDialog: Dispatch<SetStateAction<boolean>>;
