@@ -26,6 +26,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useClerk } from "@clerk/nextjs";
+import Link from "next/link";
 
 export function NavUser({
   user,
@@ -71,8 +72,8 @@ export function NavUser({
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
                   <AvatarFallback className="rounded-lg">
-                  {user.name?.charAt(0).toLocaleUpperCase()}
-                </AvatarFallback>
+                    {user.name?.charAt(0).toLocaleUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">{user.name}</span>
@@ -83,29 +84,39 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
+                <Link
+                  href="/profile"
+                  className="flex w-full items-center gap-2"
+                >
+                  <BadgeCheck size={18} />
+                  Account
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
+                  href="/dashboard/notifications"
+                  className="flex w-full items-center gap-2"
+                >
+                  <Bell size={18} />
+                  Notifications
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
+              <DropdownMenuItem disabled>
+                <Sparkles />
+                Upgrade to Pro
               </DropdownMenuItem>
             </DropdownMenuGroup>
+            <DropdownMenuItem disabled>
+              <CreditCard />
+              Billing
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => signOut({ redirectUrl: "/" })}
-              className="space-x-3 flex"
+              className="flex space-x-3"
             >
               <LogOut size={20} />
               <span>Log out</span>

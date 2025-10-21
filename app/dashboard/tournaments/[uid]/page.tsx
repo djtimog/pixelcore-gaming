@@ -16,6 +16,7 @@ import {
   LoaderCircle,
   LucideIcon,
   Move3dIcon,
+  Mail,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -159,6 +160,7 @@ export default function TournamentDetailsPage() {
   const regStart = new Date(tournament.registrationStartDate);
 
   const registrationClosedByDate = now > regEnd;
+
   if (registrationClosedByDate && tournament.registrationStatus === "open") {
     try {
       const updateTournament = async () => {
@@ -178,6 +180,7 @@ export default function TournamentDetailsPage() {
       router.push("/dashboard/tournaments");
     }
   }
+
   const acceptedCount = registrations.filter((r) => r.isAccepted).length;
   const registrationClosedByCapacity = acceptedCount >= tournament.maxTeams;
   const registrationOpen =
@@ -309,6 +312,20 @@ export default function TournamentDetailsPage() {
             {game && <AccordionGameCard game={game} />}
           </div>
 
+          <div className="relative">
+            <h2 className="text-center text-lg">Tournament details</h2>
+            <div className="absolute left-10">
+              <div className="relative">
+                <span className="absolute -right-1 -top-1 z-10 rounded-full bg-red-500 p-0.5 text-xs font-thin leading-none text-white">
+                  2+
+                </span>
+                <Button variant="outline" size="icon">
+                  <Mail size={16} className="text-muted-foreground" />
+                </Button>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <div className="space-y-3">
               <InfoItem
@@ -344,20 +361,24 @@ export default function TournamentDetailsPage() {
                 ).toLocaleDateString()}`}
               />
 
-              <div className="flex items-center gap-2">
-                <Users size={16} className="text-muted-foreground" />
-                <div>
-                  <p className="text-xs text-muted-foreground">
-                    Teams Registered
-                  </p>
-                  <p className="font-medium">
-                    {acceptedCount} / {tournament.maxTeams}
-                  </p>
-                  <Progress
-                    value={progressPct}
-                    className="h-2 w-full rounded-full"
-                  />
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Users size={16} className="text-muted-foreground" />
+                    <div>
+                      <p className="text-xs text-muted-foreground">
+                        Teams Registered
+                      </p>
+                      <p className="font-medium">
+                        {acceptedCount} / {tournament.maxTeams}
+                      </p>
+                    </div>
+                  </div>
                 </div>
+                <Progress
+                  value={progressPct}
+                  className="h-2 w-full rounded-full"
+                />
               </div>
 
               <InfoItem
@@ -527,9 +548,13 @@ export default function TournamentDetailsPage() {
                     : "Registration Not Yet Open"}
               </Button>
             )
-          ) : (
+          ) : !isTeamApplied ? (
             <Button className="w-full md:w-auto">
               Share to your Team Owner
+            </Button>
+          ) : (
+            <Button disabled variant={"ghost"}>
+              Team Registered!
             </Button>
           ))}
       </motion.div>

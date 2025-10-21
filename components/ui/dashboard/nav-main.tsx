@@ -27,6 +27,7 @@ export function NavMain({
     url: string;
     icon?: LucideIcon;
     isActive?: boolean;
+    disable: boolean;
     items?: {
       title: string;
       url: string;
@@ -43,6 +44,7 @@ export function NavMain({
             asChild
             defaultOpen={item.isActive}
             className="group/collapsible"
+            disabled={item.disable}
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>

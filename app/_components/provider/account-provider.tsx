@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import PlayerInfoProvider from "./playerInfo-provider";
 import ProfileProvider from "./profile-provider";
 import UserProvider from "./user-provider";
 import TeamProvider from "./team-provider";
@@ -12,9 +11,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     <UserProvider>
       <ProfileProvider>
         <PlayerProvider>
-          <PlayerInfoProvider>
-            <TeamProvider>{children}</TeamProvider>
-          </PlayerInfoProvider>
+          <TeamProvider>{children}</TeamProvider>
         </PlayerProvider>
       </ProfileProvider>
     </UserProvider>
