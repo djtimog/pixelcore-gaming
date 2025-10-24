@@ -51,6 +51,27 @@ export default function FeedbackSummary({
   };
 
   useEffect(() => {
+    const fetchFeedback = async () => {
+      setLoading(true);
+      try {
+        const data = await Get.FeedbackByTournamentId(tournamentData.id);
+
+        if (data && data.length > 0) {
+          const avgRating = parseFloat(
+            (data.reduce((sum, f) => sum + f.rating, 0) / data.length).toFixed(
+              1,
+            ),
+          );
+          setAvgRating(avgRating);
+
+          setFeedback([...data].reverse());
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching feedback:", error);
+      }
+    };
+
     fetchFeedback();
   }, [tournamentData.id]);
 

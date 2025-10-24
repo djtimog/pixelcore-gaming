@@ -28,7 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
+import { ConfirmationButton } from "@/components/ui/confirmation-dialog";
 import { cn } from "@/lib/utils";
 import { Update } from "@/lib/action/_post";
 import { DatabaseUser, ProfileFormValues } from "@/lib/placeholder-data";
@@ -361,7 +361,7 @@ export default function UserProfilePage() {
                   <Pencil size={18} />
                   Edit Profile
                 </Button>
-                <ConfirmationDialog
+                <ConfirmationButton
                   title="Confirm Sign Out"
                   description="Are you sure you want to sign out?"
                   onConfirm={() => signOut({ redirectUrl: "/" })}
@@ -372,7 +372,7 @@ export default function UserProfilePage() {
               </>
             ) : (
               <>
-                <ConfirmationDialog
+                <ConfirmationButton
                   title="Cancel Edit"
                   description={"Are you sure you want to cancel Edit"}
                   onConfirm={resetForm}

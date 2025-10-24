@@ -23,7 +23,7 @@ import { Post, Delete, Update } from "@/lib/action/_post";
 import { handleTeamLookup } from "@/lib/team-look-up";
 import { toast } from "@/hooks/use-toast";
 
-import { InviteData, Team } from "@/lib/placeholder-data";
+import { InviteData } from "@/lib/placeholder-data";
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
@@ -88,7 +88,6 @@ export default function NoTeamPage() {
   const [loading, setLoading] = useState(false);
 
   const paramsSecretCode = searchParams.get("secret_code");
-
   const fetchInvites = async () => {
     if (!player?.id) return;
     const data = await Get.TeamInvitesByPlayerId(player.id);
@@ -105,15 +104,31 @@ export default function NoTeamPage() {
     );
     setTeamNames(names);
   };
-
   useEffect(() => {
     if (paramsSecretCode) {
       setJoinDialogOpen(true);
       setSecretCode(paramsSecretCode);
     }
 
+    const fetchInvites = async () => {
+      if (!player?.id) return;
+      const data = await Get.TeamInvitesByPlayerId(player.id);
+      if (!data) return;
+
+      setInvites(data);
+
+      const names: Record<string, string> = {};
+      await Promise.all(
+        data.map(async (invite) => {
+          const team = await Get.TeamById(invite.teamId);
+          if (team) names[invite.teamId] = team.name;
+        }),
+      );
+      setTeamNames(names);
+    };
+
     if (player?.id) fetchInvites();
-  }, [player]);
+  }, [player, paramsSecretCode]);
 
   const handleSecretSubmit = async () => {
     setLoading(true);

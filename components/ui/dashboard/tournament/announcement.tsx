@@ -18,13 +18,17 @@ export default function AnnouncementSummary({
   const [announcements, setAnnouncements] = useState<Announcement[] | null>(
     null,
   );
-
   const fetchAnnouncements = async () => {
     const data = await Get.AnnouncementsByTournamentId(tournamentId);
     setAnnouncements(data.reverse());
   };
 
   useEffect(() => {
+    const fetchAnnouncements = async () => {
+      const data = await Get.AnnouncementsByTournamentId(tournamentId);
+      setAnnouncements(data.reverse());
+    };
+
     fetchAnnouncements();
   }, [tournamentId]);
 

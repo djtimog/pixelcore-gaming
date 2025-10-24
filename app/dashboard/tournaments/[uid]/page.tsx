@@ -120,7 +120,7 @@ export default function TournamentDetailsPage() {
     };
 
     fetchAll();
-  }, [uid, router]);
+  }, [uid, tournament.id, tournament.gameId, router]);
 
   useEffect(() => {
     const fetchStarredStatus = async () => {
@@ -248,10 +248,12 @@ export default function TournamentDetailsPage() {
     >
       <Card className="overflow-hidden rounded-2xl shadow-lg">
         <div className="relative m-4 overflow-hidden rounded-lg bg-gray-300">
-          <img
+          <Image
             src={tournament.imageUrl || "/fallback-tournament.jpg"}
             alt={tournament.name}
             className="h-64 w-full object-cover"
+            width={800}
+            height={256}
           />
 
           <div className="absolute right-0 top-0 m-1 mr-2 cursor-pointer text-sm">

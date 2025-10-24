@@ -20,7 +20,7 @@ export async function uploadImageWithFile(
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
   const contentType = file.type;
-  let encodedFileName = encodeURIComponent(desiredFileName);
+  const encodedFileName = encodeURIComponent(desiredFileName);
 
   const destinationPath = `${imageType}/${encodedFileName}`;
 

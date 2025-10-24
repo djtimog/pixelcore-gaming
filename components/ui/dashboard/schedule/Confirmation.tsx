@@ -83,9 +83,11 @@ const TournamentConfirmation = ({
         <CardContent className="space-y-4">
           {previewUrl && (
             <div className="relative w-full overflow-hidden">
-              <img
+              <Image
                 src={previewUrl}
                 alt="Uploaded Preview"
+                width={500}
+                height={192}
                 className="h-48 w-full rounded-md object-cover"
               />
             </div>

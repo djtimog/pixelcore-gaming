@@ -57,6 +57,30 @@ export default function PlayersInviteCard({
   useEffect(() => {
     if (currentUserRole !== "owner") return;
 
+    const fetchData = async () => {
+      try {
+        const invitesFromServer = await Get.TeamInvitesByTeamId(team.id);
+        const playerData: Record<number, TeamPlayersData> = {};
+
+        if (!invitesFromServer) return;
+
+        for (const invite of invitesFromServer) {
+          const player = await Get.PlayerById(invite.playerId);
+
+          if (player) {
+            playerData[invite.playerId] = player;
+          }
+        }
+        const InvitesData = invitesFromServer.reverse();
+        setInvites(InvitesData);
+        setPlayers(playerData);
+      } catch (err) {
+        console.error("Failed to fetch invites or players", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchData();
   }, [currentUserRole]);
 
