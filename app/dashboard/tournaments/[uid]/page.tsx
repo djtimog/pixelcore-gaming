@@ -57,6 +57,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { InfoItem } from "@/components/ui/dashboard/tournament/infoItem";
+import RegistrationMail from "@/components/ui/dashboard/tournament/registrationMail";
 
 export default function TournamentDetailsPage() {
   const { uid } = useParams();
@@ -314,18 +315,12 @@ export default function TournamentDetailsPage() {
             {game && <AccordionGameCard game={game} />}
           </div>
 
-          <div className="relative">
-            <h2 className="text-center text-lg">Tournament details</h2>
-            <div className="absolute left-10">
-              <div className="relative">
-                <span className="absolute -right-1 -top-1 z-10 rounded-full bg-red-500 p-0.5 text-xs font-thin leading-none text-white">
-                  2+
-                </span>
-                <Button variant="outline" size="icon">
-                  <Mail size={16} className="text-muted-foreground" />
-                </Button>
-              </div>
-            </div>
+          <div className="flex flex-wrap items-center justify-center gap-4 border-b pb-3">
+            <h2 className="flex-1 text-center text-2xl font-bold">
+              Tournament details
+            </h2>
+
+            {isOrganizer && <RegistrationMail registrations={registrations} />}
           </div>
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -514,6 +509,7 @@ export default function TournamentDetailsPage() {
             </Button>
           </Link>
         )}
+
         {isTeamApplied &&
           (dbTeam?.creatorId === user.id ? (
             registrationOpen ? (
