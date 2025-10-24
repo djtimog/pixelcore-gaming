@@ -5,7 +5,7 @@ import { Get } from "@/lib/action/_get";
 import { DbTournamentDataType } from "@/lib/placeholder-data";
 import { useParams, useRouter } from "next/navigation";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { UserProfile } from "./DbUserProvider";
+import { UserProfile } from "./DashboardContextProvider";
 import LogoAnimation from "@/components/ui/loading-logo";
 
 interface UidTournamentContextValue {
