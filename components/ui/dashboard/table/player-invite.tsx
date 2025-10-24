@@ -82,7 +82,7 @@ export default function PlayersInviteCard({
     };
 
     fetchData();
-  }, [currentUserRole]);
+  }, [currentUserRole, team.id]);
 
   const handleAccept = async (inviteId: number) => {
     const status = "accepted";
