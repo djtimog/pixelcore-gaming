@@ -14,7 +14,6 @@ import {
   Trophy,
   MessageSquare,
   LoaderCircle,
-  LucideIcon,
   Move3dIcon,
   Mail,
 } from "lucide-react";
