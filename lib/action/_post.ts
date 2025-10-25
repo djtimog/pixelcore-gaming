@@ -24,6 +24,7 @@ import {
   TeamData,
   TeamInviteData,
 } from "../placeholder-data";
+import Team from "@/app/team/page";
 
 export const Post = {
   UserData: (userData: UserData) => {
@@ -119,6 +120,12 @@ export const Update = {
       .set({ creatorId })
       .where(eq(teamsTable.id, teamId));
   },
+  TeamRegistrationWithStatus: (regId: number, isAccepted: boolean) => {
+    return db
+      .update(teamRegistrationsTable)
+      .set({ isAccepted })
+      .where(eq(teamRegistrationsTable.id, regId));
+  },
 };
 
 export const Delete = {
@@ -134,5 +141,10 @@ export const Delete = {
     return db
       .delete(teamInvitesTable)
       .where(eq(teamInvitesTable.id, teamInviteId));
+  },
+  TeamRegistration: (teamRegistrationId: number) => {
+    return db
+      .delete(teamRegistrationsTable)
+      .where(eq(teamRegistrationsTable.id, teamRegistrationId));
   },
 };

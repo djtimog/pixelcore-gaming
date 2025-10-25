@@ -15,7 +15,6 @@ import {
   MessageSquare,
   LoaderCircle,
   Move3dIcon,
-  Mail,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
